@@ -17,7 +17,7 @@ public class WeaponUpgrades : MonoBehaviour
     }
     [ProButton] public void SetPistol()
     {
-        playerWeapon.Upgrade(weaponDataList[0], new SingleShotMode());
+        playerWeapon.Upgrade(weaponDataList[0], new SingleShotSpreadMode());
     }
     [ProButton] public void SetHandCannon()
     {
@@ -25,11 +25,11 @@ public class WeaponUpgrades : MonoBehaviour
     }
     [ProButton] public void SetMachinePistol()
     {
-        playerWeapon.Upgrade(weaponDataList[2], new SingleShotMode());
+        playerWeapon.Upgrade(weaponDataList[2], new SingleShotSpreadMode());
     }
     [ProButton] public void SetSmg()
     {
-        playerWeapon.Upgrade(weaponDataList[3], new SingleShotMode());
+        playerWeapon.Upgrade(weaponDataList[3], new SingleShotSpreadMode());
     }
     [ProButton] public void SetShotgun()
     {

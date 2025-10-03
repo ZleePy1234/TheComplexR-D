@@ -21,4 +21,4 @@ MonoBehaviour:
   projectileLifetime: 1
   projectileSpeed: 25
   projectilesPerShot: 1
-  projectileSpread: 5
+  projectileSpread: 3

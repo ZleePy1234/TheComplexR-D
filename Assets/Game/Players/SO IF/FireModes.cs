@@ -52,3 +52,19 @@ public class ShotgunSpreadMode : IFireMode
         }
     }
 }
+
+public class SingleShotSpreadMode : IFireMode
+{
+    public void Fire(Transform firePoint, WeaponData data)
+    {
+        // Calculate horizontal spread direction
+        float spreadAmount = Random.Range(-data.projectileSpread, data.projectileSpread);
+        Vector3 direction = firePoint.forward + firePoint.right * Mathf.Tan(spreadAmount * Mathf.Deg2Rad);
+        direction.Normalize();
+
+        GameObject projectile = Object.Instantiate(data.projectilePrefab, firePoint.position, Quaternion.LookRotation(direction));
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        rb.linearVelocity = direction * data.projectileSpeed;
+        Object.Destroy(projectile, data.projectileLifetime);
+    }
+}
