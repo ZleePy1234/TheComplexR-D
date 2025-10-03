@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02c6dcd72a69e544aed1432ff930c1f, type: 3}
+  m_Name: SmgData
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  weaponName: SMG-09
+  damage: 0
+  fireRate: 10
+  magSize: 0
+  reloadTime: 0
+  projectilePrefab: {fileID: 408857043240106589, guid: c9c7bd28b4202fe48932be64133c82c9, type: 3}
+  projectileLifetime: 1
+  projectileSpeed: 25
+  projectilesPerShot: 1
+  projectileSpread: 5
