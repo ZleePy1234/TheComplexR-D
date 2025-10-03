@@ -7,7 +7,7 @@ public class WeaponData : ScriptableObject
     public string weaponName;
     public float damage;
     public float fireRate;
-    public float magSize;
+    public int magSize;
     public float reloadTime;
     
     [Header("Projectile Settings")]

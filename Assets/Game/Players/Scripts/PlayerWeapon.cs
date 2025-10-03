@@ -7,6 +7,8 @@ public class PlayerWeapon : MonoBehaviour
     public WeaponData weaponData;
     public Transform firePoint;
 
+    public int currentAmmo;
+
     private IFireMode fireMode;
     public float nextTimeToFire;
 
@@ -58,6 +60,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         weaponData = newWeaponData;
         SetFireMode(newFireMode);
+        currentAmmo = weaponData.magSize;
         Debug.Log("Upgraded to weapon: " + weaponData.weaponName);
     }
 }
