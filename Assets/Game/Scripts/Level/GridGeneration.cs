@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using com.cyborgAssets.inspectorButtonPro;
 [ExecuteAlways]
 public class GridGeneration : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class GridGeneration : MonoBehaviour
         oldGridX = gridX;
         oldGridY = gridY;
         tilePrefab = Resources.Load<GameObject>("Placeholders/EmptyTile");
-        
+
     }
 
     // Update is called once per frame
@@ -32,6 +32,7 @@ public class GridGeneration : MonoBehaviour
         }
     }
 
+    [ProButton]
     void GenerateGrid()
     {
         // quitar viejo grid
