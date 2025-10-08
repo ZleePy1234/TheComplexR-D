@@ -5,6 +5,15 @@ TagManager:
   serializedVersion: 3
   tags:
   - Level
+  - PostCam_HUD
+  - PostCam_Shop
+  - PostCam_Pause
+  - Vol_Game
+  - Vol_HUD
+  - Vol_Shop
+  - Vol_Pause
+  - PostCam_Screen
+  - Vol_Screen
   layers:
   - Default
   - TransparentFX
@@ -26,17 +35,17 @@ TagManager:
   - 
   - 
   - 
+  - UI_PostProcessed
+  - Post_Game
+  - Post_HUD
+  - Post_Shop
+  - Post_Pause
+  - Post_Screen
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - Vol_Game
-  - Vol_Shop
   - 
   m_SortingLayers:
   - name: Default
