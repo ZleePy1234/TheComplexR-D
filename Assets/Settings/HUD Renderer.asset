@@ -15,8 +15,7 @@ MonoBehaviour:
   m_Active: 1
   push: 300
   pop: 600
-  blendMaterial: {fileID: 2100000, guid: 623900bd9e10d7c4e967b79a9c215117, type: 2}
-  useFBF: 0
+  blendMaterial: {fileID: 2100000, guid: 8d60f05c0015e1748a254196654521e4, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,9 +41,8 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 0}
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
-  - {fileID: 156562500335287401}
   - {fileID: -7005178542867302709}
-  m_RendererFeatureMap: 69bca1b9c3382c02cbb634f43a9bc89e
+  m_RendererFeatureMap: cbb634f43a9bc89e
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -73,20 +71,3 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
---- !u!114 &156562500335287401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b22f8287ea51640892390e93f5e9a9, type: 3}
-  m_Name: LayerRenderFeature
-  m_EditorClassIdentifier: Assembly-CSharp::LayerRenderFeature
-  m_Active: 0
-  push: 0
-  pop: 600
-  blendMaterial: {fileID: 2100000, guid: 623900bd9e10d7c4e967b79a9c215117, type: 2}
-  useFBF: 0
