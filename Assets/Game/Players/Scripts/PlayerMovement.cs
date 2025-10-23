@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    [SerializeField] private float baseSpeed;
     [SerializeField] private float gamepadDeadzone = 0.1f;
     [SerializeField] private float gamepadRotSmoothing = 1000f;
 
@@ -18,12 +18,14 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerControls playerControls;
     private PlayerInput playerInput;
+    private PlayerStats playerStats;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
         playerControls = new PlayerControls();
         playerInput = GetComponent<PlayerInput>();
+        playerStats = GetComponent<PlayerStats>();
     }
 
     private void OnEnable()
@@ -49,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void MovementHandler()
     {
+        float speed = baseSpeed * playerStats.speedMultiplier;
         Vector3 move = new(moveInput.x, 0, moveInput.y);
         controller.Move(speed * Time.deltaTime * move);
 
