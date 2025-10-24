@@ -14,6 +14,7 @@ TagManager:
   - Vol_Pause
   - PostCam_Screen
   - Vol_Screen
+  - Enemy
   layers:
   - Default
   - TransparentFX
