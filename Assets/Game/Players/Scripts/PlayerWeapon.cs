@@ -8,6 +8,7 @@ public class PlayerWeapon : MonoBehaviour
     public Transform firePoint;
 
     public int currentAmmo;
+    public int maxAmmo;
 
     private IFireMode fireMode;
     public float nextTimeToFire;
@@ -15,6 +16,8 @@ public class PlayerWeapon : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerControls playerControls;
     InputAction fireAction;
+    InputAction reloadAction;
+    InputAction switchWeaponAction;
 
     void Awake()
     {
@@ -22,6 +25,9 @@ public class PlayerWeapon : MonoBehaviour
         playerControls = new PlayerControls();
         playerInput = GetComponent<PlayerInput>();
         fireAction = playerControls.Controls.Fire;
+        reloadAction = playerControls.Controls.Reload;
+        switchWeaponAction = playerControls.Controls.SwitchGun;
+        
     }
     private void OnEnable()
     {
@@ -38,9 +44,23 @@ public class PlayerWeapon : MonoBehaviour
 
     void Update()
     {
-        if (fireAction.IsPressed() && Time.time >= nextTimeToFire)
+        if (fireAction.IsPressed() && Time.time >= nextTimeToFire && currentAmmo > 0)
         {
             Fire();
+        }
+        if (reloadAction.WasPressedThisFrame())
+        {
+            Reload();
+        }
+
+        // Use the new Input System switch action to cycle weapons
+        if (switchWeaponAction.WasPressedThisFrame())
+        {
+            var upgrades = GetComponent<WeaponUpgrades>();
+            if (upgrades != null)
+            {
+                upgrades.CycleWeapon();
+            }
         }
     }
 
@@ -49,6 +69,12 @@ public class PlayerWeapon : MonoBehaviour
         nextTimeToFire = Time.time + 1f / weaponData.fireRate;
         fireMode.Fire(firePoint, weaponData);
         Debug.Log("Fired weapon: " + weaponData.weaponName);
+        currentAmmo--;
+    }
+    public void Reload()
+    {
+        currentAmmo = maxAmmo;
+        Debug.Log("Reloaded weapon: " + weaponData.weaponName);
     }
 
     public void SetFireMode(IFireMode newMode)
@@ -61,6 +87,7 @@ public class PlayerWeapon : MonoBehaviour
         weaponData = newWeaponData;
         SetFireMode(newFireMode);
         currentAmmo = weaponData.magSize;
+        maxAmmo = weaponData.magSize;
         Debug.Log("Upgraded to weapon: " + weaponData.weaponName);
     }
 }

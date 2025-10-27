@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponName: P-09
   damage: 0
   fireRate: 2
-  magSize: 0
+  magSize: 12
   reloadTime: 0
   projectilePrefab: {fileID: 408857043240106589, guid: c9c7bd28b4202fe48932be64133c82c9, type: 3}
   projectileLifetime: 1
