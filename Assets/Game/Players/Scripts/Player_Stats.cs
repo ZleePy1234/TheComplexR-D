@@ -7,6 +7,7 @@ public class PlayerStats : MonoBehaviour
     public int currentHealth;
     public int plating;
     public int platingMax = 3;
+    public int playerResin;
 
     public float speedMultiplier = 1.0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
