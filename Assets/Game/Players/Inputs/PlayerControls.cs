@@ -136,6 +136,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause Game"",
+                    ""type"": ""Button"",
+                    ""id"": ""82acfea4-ad11-4562-890a-b3ed2878276b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -281,6 +290,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchGun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2a061a3-cbdf-42f8-a75b-a5b40b341b86"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";KBM"",
+                    ""action"": ""Pause Game"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af088709-9fb2-4600-b9f5-0bab986cc865"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Pause Game"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -322,6 +353,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_Fire = m_Controls.FindAction("Fire", throwIfNotFound: true);
         m_Controls_Reload = m_Controls.FindAction("Reload", throwIfNotFound: true);
         m_Controls_SwitchGun = m_Controls.FindAction("SwitchGun", throwIfNotFound: true);
+        m_Controls_PauseGame = m_Controls.FindAction("Pause Game", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -407,6 +439,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Fire;
     private readonly InputAction m_Controls_Reload;
     private readonly InputAction m_Controls_SwitchGun;
+    private readonly InputAction m_Controls_PauseGame;
     /// <summary>
     /// Provides access to input actions defined in input action map "Controls".
     /// </summary>
@@ -438,6 +471,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Controls/SwitchGun".
         /// </summary>
         public InputAction @SwitchGun => m_Wrapper.m_Controls_SwitchGun;
+        /// <summary>
+        /// Provides access to the underlying input action "Controls/PauseGame".
+        /// </summary>
+        public InputAction @PauseGame => m_Wrapper.m_Controls_PauseGame;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -479,6 +516,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwitchGun.started += instance.OnSwitchGun;
             @SwitchGun.performed += instance.OnSwitchGun;
             @SwitchGun.canceled += instance.OnSwitchGun;
+            @PauseGame.started += instance.OnPauseGame;
+            @PauseGame.performed += instance.OnPauseGame;
+            @PauseGame.canceled += instance.OnPauseGame;
         }
 
         /// <summary>
@@ -505,6 +545,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwitchGun.started -= instance.OnSwitchGun;
             @SwitchGun.performed -= instance.OnSwitchGun;
             @SwitchGun.canceled -= instance.OnSwitchGun;
+            @PauseGame.started -= instance.OnPauseGame;
+            @PauseGame.performed -= instance.OnPauseGame;
+            @PauseGame.canceled -= instance.OnPauseGame;
         }
 
         /// <summary>
@@ -606,5 +649,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwitchGun(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pause Game" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPauseGame(InputAction.CallbackContext context);
     }
 }

@@ -46,6 +46,7 @@ public class UI_PostProcesser : MonoBehaviour
         pauseCamera.gameObject.SetActive(!pauseCamera.gameObject.activeSelf);
         pauseVol.SetActive(!pauseVol.activeSelf);
         pauseCanvas.SetActive(!pauseCanvas.activeSelf);
+        ScreenOverlayToggle();
     }
 
     [ProButton] public void ScreenOverlayToggle()
@@ -54,8 +55,20 @@ public class UI_PostProcesser : MonoBehaviour
         screenOverlayVol.SetActive(!screenOverlayVol.activeSelf);
         screenOverlayCanvas.SetActive(!screenOverlayCanvas.activeSelf);
     }
-    [ProButton] public void GameToggle()
+    [ProButton]
+    public void GameToggle()
     {
         gameVol.SetActive(!gameVol.activeSelf);
     }
+
+
+    [ProButton]
+    public void PauseMenu()
+    {
+        int i = 1;
+        PauseToggle();
+        HudToggle();
+        Time.timeScale = Time.timeScale == 1 ? 0 : 1;
+    }
+    
 }
