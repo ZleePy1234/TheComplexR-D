@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class Drones : MonoBehaviour
@@ -19,6 +21,7 @@ public class Drones : MonoBehaviour
         Defensor
     }
 
+    private HashSet<Transform> dronesTeletransportados = new HashSet<Transform>();
     public Transform centroDeRotacion;
     public List<Transform> dronesLista1 = new List<Transform>();
     public List<Transform> dronesLista2 = new List<Transform>();
@@ -35,6 +38,7 @@ public class Drones : MonoBehaviour
     public Key teclaModoOrbita = Key.E;
     public Key teclaBuscarObjetivo = Key.R;
     public Key teclaMovimientoLibre = Key.F;
+    public Key teclaHabilidadEspecial = Key.Q;
     public string tagObjetivoBusqueda = "Objetivo";
     public float velocidadBusqueda = 5f;
     public float radioBusqueda = 3f;
@@ -49,20 +53,29 @@ public class Drones : MonoBehaviour
     public float tiempoEsperaRevivir = 5f;
     public float velocidadRetornoOrbita = 8f;
 
-    [Header("Sistema de Evasión de Colisiones")]
-    public bool evasionActiva = true;
-    public LayerMask capasObstaculos;
-    public float distanciaDeteccion = 2f;
-    public float distanciaMinima = 1f;
-    public int numeroRayos = 8;
-    public float fuerzaEvasion = 3f;
-    public bool evitarJugador = true;
-    public string tagJugador = "Player";
-    public float distanciaMinimaJugador = 1.5f;
-    public bool evitarEnemigos = false;
-    public float distanciaMinimaEnemigos = 1f;
-    public bool evitarOtrosDrones = true;
-    public float distanciaMinimaDrones = 0.8f;
+    [Header("Configuración NavMesh")]
+    public float distanciaParaActualizarDestino = 0.5f;
+    public float distanciaParaLlegarADestino = 0.3f;
+
+    [Header("Habilidades Especiales")]
+    [Header("Buscador - Recolección de Monedas")]
+    public float tiempoDesaparicionBuscador = 3f;
+    public int monedasMinimas = 50;
+    public int monedasMaximas = 150;
+    public float cooldownHabilidadBuscador = 10f;
+
+    [Header("Atacante - Habilidad Pendiente")]
+    public float cooldownHabilidadAtacante = 15f;
+
+    [Header("Defensor - Escudo Protector")]
+    public GameObject prefabEscudo;
+    public Transform jugador;
+    public float duracionEscudo = 5f;
+    public float cooldownHabilidadDefensor = 20f;
+
+    [Header("Efectos Visuales")]
+    public GameObject prefabEfectoTeletransporte;
+    public GameObject prefabEfectoDesaparicion;
 
     private List<float> angulosIniciales = new List<float>();
     private List<Transform> dronesActivos = new List<Transform>();
@@ -74,12 +87,19 @@ public class Drones : MonoBehaviour
     private List<Transform> objetivosActualesDrones = new List<Transform>();
     private GameObject objetivoBusqueda;
 
-    // Nuevo: Sistema para rastrear drones en proceso de revivirlos
+    // Sistema para rastrear drones en proceso de revivirlos
     private Dictionary<Transform, float> dronesEnRevivir = new Dictionary<Transform, float>();
     private Dictionary<Transform, HealthSystem> dronesHealthSystems = new Dictionary<Transform, HealthSystem>();
     private Dictionary<Transform, Vector3> posicionesObjetivoOrbita = new Dictionary<Transform, Vector3>();
     private Dictionary<Transform, bool> dronesRegresandoOrbita = new Dictionary<Transform, bool>();
-    private GameObject jugadorCache;
+
+    // NavMesh
+    private Dictionary<Transform, NavMeshAgent> dronesNavMeshAgents = new Dictionary<Transform, NavMeshAgent>();
+
+    // Habilidades especiales
+    private Dictionary<TipoDron, float> tiemposUltimaHabilidad = new Dictionary<TipoDron, float>();
+    private Dictionary<TipoDron, bool> habilidadesEnCooldown = new Dictionary<TipoDron, bool>();
+    private GameObject escudoActual;
 
     void Start()
     {
@@ -87,17 +107,53 @@ public class Drones : MonoBehaviour
         todasLasListas.Add(dronesLista2);
         todasLasListas.Add(dronesLista3);
 
+        tiemposUltimaHabilidad[TipoDron.Buscador] = 0f;
+        tiemposUltimaHabilidad[TipoDron.Atacante] = 0f;
+        tiemposUltimaHabilidad[TipoDron.Defensor] = 0f;
+
+        habilidadesEnCooldown[TipoDron.Buscador] = false;
+        habilidadesEnCooldown[TipoDron.Atacante] = false;
+        habilidadesEnCooldown[TipoDron.Defensor] = false;
+
         CambiarListaActiva(listaActiva);
         InicializarHealthSystems();
+        InicializarNavMeshAgents();
+    }
 
-        // Cachear referencia al jugador
-        if (evitarJugador)
+    /// <summary>
+    /// Inicializa los NavMeshAgents de todos los drones
+    /// </summary>
+    void InicializarNavMeshAgents()
+    {
+        foreach (var lista in todasLasListas)
         {
-            jugadorCache = GameObject.FindGameObjectWithTag(tagJugador);
+            foreach (var drone in lista)
+            {
+                if (drone != null)
+                {
+                    NavMeshAgent agent = drone.GetComponent<NavMeshAgent>();
+                    if (agent == null)
+                    {
+                        agent = drone.gameObject.AddComponent<NavMeshAgent>();
+                        Debug.LogWarning($"Se agregó NavMeshAgent a {drone.name}. Configura el radio y altura en el Inspector.");
+                    }
+
+                    // Configuración inicial del agente
+                    agent.speed = velocidadBusqueda;
+                    agent.angularSpeed = 120f;
+                    agent.acceleration = 5f;
+                    agent.stoppingDistance = distanciaParaLlegarADestino;
+                    agent.autoBraking = false;
+
+                    dronesNavMeshAgents[drone] = agent;
+                }
+            }
         }
     }
 
-    // Inicializa los health systems de todos los drones y suscribe al evento de muerte
+    /// <summary>
+    /// Inicializa los health systems de todos los drones y suscribe al evento de muerte
+    /// </summary>
     void InicializarHealthSystems()
     {
         foreach (var lista in todasLasListas)
@@ -117,7 +173,9 @@ public class Drones : MonoBehaviour
         }
     }
 
-    // Maneja el evento de muerte de un drone
+    /// <summary>
+    /// Maneja el evento de muerte de un drone
+    /// </summary>
     void OnDroneMuerto(Transform drone)
     {
         if (!regresarOrbitaAlMorir) return;
@@ -127,21 +185,29 @@ public class Drones : MonoBehaviour
         if (!dronesEnRevivir.ContainsKey(drone))
         {
             dronesEnRevivir.Add(drone, tiempoEsperaRevivir);
-            dronesRegresandoOrbita[drone] = true;
+            //dronesRegresandoOrbita[drone] = true;
+
+            // Desactivar el NavMeshAgent mientras está muerto
+            if (dronesNavMeshAgents.ContainsKey(drone))
+            {
+                dronesNavMeshAgents[drone].enabled = false;
+            }
 
             // Calcular posición de órbita para este drone
-            int indiceDrone = dronesActivos.IndexOf(drone);
-            if (indiceDrone >= 0)
-            {
-                CalcularPosicionOrbitaParaDrone(drone, indiceDrone);
-            }
+            //int indiceDrone = dronesActivos.IndexOf(drone);
+            //if (indiceDrone >= 0)
+            //{
+            //    CalcularPosicionOrbitaParaDrone(drone, indiceDrone);
+            //}
         }
 
         // Verificar si todos los drones están muertos
         VerificarTodosDronesMuertos();
     }
 
-    // Verifica si todos los drones activos están muertos y cambia a modo órbita
+    /// <summary>
+    /// Verifica si todos los drones activos están muertos y cambia a modo órbita
+    /// </summary>
     void VerificarTodosDronesMuertos()
     {
         bool todosMuertos = true;
@@ -166,7 +232,9 @@ public class Drones : MonoBehaviour
         }
     }
 
-    // Calcula la posición objetivo en la órbita para un drone específico
+    /// <summary>
+    /// Calcula la posición objetivo en la órbita para un drone específico
+    /// </summary>
     void CalcularPosicionOrbitaParaDrone(Transform drone, int indice)
     {
         float anguloInicial = (360f / dronesActivos.Count) * indice;
@@ -221,11 +289,11 @@ public class Drones : MonoBehaviour
         ControlTeclado();
 
         // Actualizar drones que están regresando a órbita
-        ActualizarDronesRegresandoOrbita();
+        //ActualizarDronesRegresandoOrbita();
 
         switch (modoActual)
         {
-            case ModoDrone.OrbitaFija:
+            case ModoDrone.OrbitaFija:                
                 ActualizarPosicionesDrones();
                 break;
             case ModoDrone.BuscarObjetivo:
@@ -237,9 +305,12 @@ public class Drones : MonoBehaviour
         }
 
         ActualizarDronesEnRevivir();
+        ActualizarCooldownHabilidad();
     }
 
-    // Mueve gradualmente los drones muertos hacia su posición en la órbita
+    /// <summary>
+    /// Mueve gradualmente los drones muertos hacia su posición en la órbita
+    /// </summary>
     void ActualizarDronesRegresandoOrbita()
     {
         List<Transform> dronesParaRemover = new List<Transform>();
@@ -254,19 +325,11 @@ public class Drones : MonoBehaviour
                 continue;
             }
 
+            // Movimiento manual mientras está muerto (sin NavMesh)
             Vector3 posicionObjetivo = posicionesObjetivoOrbita[drone];
-            Vector3 direccion = (posicionObjetivo - drone.position).normalized;
-
-            // Aplicar evasión si está activa
-            if (evasionActiva)
-            {
-                Vector3 evasion = CalcularVectorEvasion(drone);
-                direccion = (direccion + evasion).normalized;
-            }
-
             drone.position = Vector3.MoveTowards(
                 drone.position,
-                drone.position + direccion * velocidadRetornoOrbita * Time.deltaTime,
+                posicionObjetivo,
                 velocidadRetornoOrbita * Time.deltaTime
             );
 
@@ -284,7 +347,9 @@ public class Drones : MonoBehaviour
         }
     }
 
-    // Actualiza el temporizador de drones que deben revivir y regresar a órbita
+    /// <summary>
+    /// Actualiza el temporizador de drones que deben revivir y regresar a órbita
+    /// </summary>
     void ActualizarDronesEnRevivir()
     {
         if (dronesEnRevivir.Count == 0) return;
@@ -313,7 +378,9 @@ public class Drones : MonoBehaviour
         }
     }
 
-    // Revive el drone y lo mantiene en órbita
+    /// <summary>
+    /// Revive el drone y lo mantiene en órbita
+    /// </summary>
     void RevivirDroneYRegresarOrbita(Transform drone)
     {
         if (dronesHealthSystems.ContainsKey(drone))
@@ -321,13 +388,47 @@ public class Drones : MonoBehaviour
             HealthSystem health = dronesHealthSystems[drone];
             health.Revive();
 
-            Debug.Log($"{drone.name} ha sido revivido y permanece en órbita");
+            // Calcular posición de órbita
+            int indiceDrone = dronesActivos.IndexOf(drone);
+            if (indiceDrone >= 0)
+            {
+                float anguloInicial = (360f / dronesActivos.Count) * indiceDrone;
+                float anguloRad = anguloInicial * Mathf.Deg2Rad;
 
-            // Limpiar referencias
-            posicionesObjetivoOrbita.Remove(drone);
-            dronesRegresandoOrbita.Remove(drone);
+                Vector3 posicionOrbita = new Vector3(
+                    Mathf.Cos(anguloRad) * radioOrbita,
+                    alturaOrbita,
+                    Mathf.Sin(anguloRad) * radioOrbita
+                );
+
+                Vector3 posicionFinal = centroDeRotacion.position + posicionOrbita;
+
+                // TELETRANSPORTE INSTANTÁNEO - Desactivar NavMesh temporalmente
+                if (dronesNavMeshAgents.ContainsKey(drone))
+                {
+                    NavMeshAgent agent = dronesNavMeshAgents[drone];
+                    agent.enabled = false;
+                    drone.position = posicionFinal; // Teletransporte directo
+                    agent.enabled = true;
+
+                    dronesTeletransportados.Add(drone);
+                }
+                else
+                {
+                    drone.position = posicionFinal;
+                }
+
+                // Efecto de teletransporte
+                if (prefabEfectoDesaparicion != null)
+                {
+                    Instantiate(prefabEfectoDesaparicion, posicionFinal, Quaternion.identity);
+                }
+            }
+
+            Debug.Log($"{drone.name} ha sido revivido y teletransportado a órbita");
         }
     }
+    
 
     void ControlTeclado()
     {
@@ -343,11 +444,273 @@ public class Drones : MonoBehaviour
             CambiarModo(ModoDrone.MovimientoLibre);
         else if (keyboard[teclaMovimientoLibre].wasPressedThisFrame && tipoActual == TipoDron.Defensor)
             CambiarModo(ModoDrone.MovimientoLibre);
+
+        // Habilidad especial
+        if (keyboard[teclaHabilidadEspecial].wasPressedThisFrame)
+            ActivarHabilidadEspecial();
     }
+
+    #region Habilidades Especiales
+
+    /// <summary>
+    /// Activa la habilidad especial según el tipo de dron activo
+    /// </summary>
+    public void ActivarHabilidadEspecial()
+    {
+        if (habilidadesEnCooldown[tipoActual])
+        {
+            Debug.Log("Habilidad en cooldown. Espera un momento.");
+            return;
+        }
+
+        switch (tipoActual)
+        {
+            case TipoDron.Buscador:
+                HabilidadBuscador();
+                break;
+            case TipoDron.Atacante:
+                HabilidadAtacante();
+                break;
+            case TipoDron.Defensor:
+                HabilidadDefensor();
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Habilidad del Buscador: Desaparece y regresa con monedas
+    /// </summary>
+    void HabilidadBuscador()
+    {
+        if (dronesActivos.Count == 0)
+        {
+            Debug.LogWarning("No hay drones activos para usar la habilidad.");
+            return;
+        }
+
+        // Seleccionar un dron aleatorio que esté vivo
+        List<Transform> dronesVivos = new List<Transform>();
+        foreach (Transform drone in dronesActivos)
+        {
+            if (drone != null)
+            {
+                dronesVivos.Add(drone);
+            }
+        }
+
+        if (dronesVivos.Count == 0)
+        {
+            Debug.LogWarning("No hay drones vivos para usar la habilidad.");
+            return;
+        }
+
+        Transform dronSeleccionado = dronesVivos[Random.Range(0, dronesVivos.Count)];
+        StartCoroutine(RecoleccionMonedas(dronSeleccionado));
+
+        habilidadesEnCooldown[TipoDron.Buscador] = true;
+        tiemposUltimaHabilidad[TipoDron.Buscador] = Time.time;
+
+        Debug.Log($"Habilidad Buscador activada. Cooldown: {cooldownHabilidadBuscador}s");
+    }
+
+    /// <summary>
+    /// Corrutina que hace desaparecer el drone y lo regresa con monedas
+    /// </summary>
+    IEnumerator RecoleccionMonedas(Transform drone)
+    {
+        Vector3 posicionOriginal = drone.position;
+
+        // Desactivar visualmente el drone (puedes usar un renderer o toda la mesh)
+        Renderer[] renderers = drone.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = false;
+        }
+
+        // Desactivar NavMeshAgent temporalmente
+        if (dronesNavMeshAgents.ContainsKey(drone))
+        {
+            dronesNavMeshAgents[drone].enabled = false;
+
+        }
+
+        if (prefabEfectoDesaparicion != null)
+        {
+            Instantiate(prefabEfectoDesaparicion, drone.position, Quaternion.identity);
+        }
+
+        Debug.Log($"{drone.name} ha desaparecido para recolectar monedas...");
+
+        yield return new WaitForSeconds(tiempoDesaparicionBuscador);
+
+        // Reactivar el drone
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = true;
+        }
+
+        if (dronesNavMeshAgents.ContainsKey(drone))
+        {
+            dronesNavMeshAgents[drone].enabled = true;
+        }
+
+        if (prefabEfectoTeletransporte != null)
+        {
+            Instantiate(prefabEfectoTeletransporte, drone.position, Quaternion.identity);
+        }
+
+        // Generar monedas aleatorias
+        int monedasRecolectadas = Random.Range(monedasMinimas, monedasMaximas + 1);
+
+        // Aquí debes llamar a tu sistema de monedas del juego
+        // Ejemplo: GameManager.Instance.AgregarMonedas(monedasRecolectadas);
+        Debug.Log($"{drone.name} ha regresado con {monedasRecolectadas} monedas!");
+
+        // Si tienes un GameManager con sistema de monedas, descomenta esto:
+        // GameManager gameManager = FindFirstObjectByType<GameManager>();
+        // if (gameManager != null)
+        // {
+        //     gameManager.AgregarMonedas(monedasRecolectadas);
+        // }
+    }
+
+    /// <summary>
+    /// Habilidad del Atacante: Por implementar
+    /// </summary>
+    void HabilidadAtacante()
+    {
+        Debug.Log("Habilidad de Atacante aún no implementada.");
+
+        // Aquí irá la lógica de la habilidad de ataque
+        // Por ahora solo activamos el cooldown para probar
+        habilidadesEnCooldown[TipoDron.Atacante] = true;
+        tiemposUltimaHabilidad[TipoDron.Atacante] = Time.time;
+    }
+
+    /// <summary>
+    /// Habilidad del Defensor: Invoca un escudo protector
+    /// </summary>
+    void HabilidadDefensor()
+    {
+        if (jugador == null)
+        {
+            Debug.LogWarning("No se ha asignado el Transform del jugador.");
+            return;
+        }
+
+        if (prefabEscudo == null)
+        {
+            Debug.LogWarning("No se ha asignado el prefab del escudo.");
+            return;
+        }
+
+        // Si ya hay un escudo activo, no crear otro
+        if (escudoActual != null)
+        {
+            Debug.Log("Ya hay un escudo activo.");
+            return;
+        }
+
+        // Instanciar el escudo como hijo del jugador
+        escudoActual = Instantiate(prefabEscudo, jugador.position, Quaternion.identity, jugador);
+
+        StartCoroutine(DestruirEscudoDespuesDeTiempo());
+
+        habilidadesEnCooldown[TipoDron.Defensor] = true;
+        tiemposUltimaHabilidad[TipoDron.Defensor] = Time.time;
+
+        Debug.Log($"Escudo protector activado. Duración: {duracionEscudo}s, Cooldown: {cooldownHabilidadDefensor}s");
+    }
+
+    /// <summary>
+    /// Destruye el escudo después del tiempo especificado
+    /// </summary>
+    IEnumerator DestruirEscudoDespuesDeTiempo()
+    {
+        yield return new WaitForSeconds(duracionEscudo);
+
+        if (escudoActual != null)
+        {
+            Destroy(escudoActual);
+            Debug.Log("El escudo ha desaparecido.");
+        }
+    }
+
+    /// <summary>
+    /// Actualiza el cooldown de las habilidades
+    /// </summary>
+    void ActualizarCooldownHabilidad()
+    {
+        foreach (TipoDron tipo in System.Enum.GetValues(typeof(TipoDron)))
+        {
+            if (!habilidadesEnCooldown[tipo]) continue;
+
+            float cooldownActual = 0f;
+            switch (tipo)
+            {
+                case TipoDron.Buscador:
+                    cooldownActual = cooldownHabilidadBuscador;
+                    break;
+                case TipoDron.Atacante:
+                    cooldownActual = cooldownHabilidadAtacante;
+                    break;
+                case TipoDron.Defensor:
+                    cooldownActual = cooldownHabilidadDefensor;
+                    break;
+            }
+
+            if (Time.time - tiemposUltimaHabilidad[tipo] >= cooldownActual)
+            {
+                habilidadesEnCooldown[tipo] = false;
+                if (tipo == tipoActual)
+                {
+                    Debug.Log($"Habilidad {tipo} lista para usar.");
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Obtiene el tiempo restante de cooldown
+    /// </summary>
+    public float ObtenerTiempoRestanteCooldown()
+    {
+        if (!habilidadesEnCooldown[tipoActual]) return 0f;
+
+        float cooldownActual = 0f;
+        switch (tipoActual)
+        {
+            case TipoDron.Buscador:
+                cooldownActual = cooldownHabilidadBuscador;
+                break;
+            case TipoDron.Atacante:
+                cooldownActual = cooldownHabilidadAtacante;
+                break;
+            case TipoDron.Defensor:
+                cooldownActual = cooldownHabilidadDefensor;
+                break;
+        }
+
+        float tiempoRestante = cooldownActual - (Time.time - tiemposUltimaHabilidad[tipoActual]);
+        return Mathf.Max(0f, tiempoRestante);
+    }
+
+    #endregion
 
     public void CambiarModo(ModoDrone nuevoModo)
     {
         if (modoActual == nuevoModo) return;
+
+        if (nuevoModo == ModoDrone.OrbitaFija && modoActual != ModoDrone.OrbitaFija)
+        {
+            foreach (var drone in dronesActivos)
+            {
+                if (drone != null && prefabEfectoDesaparicion != null)
+                {
+                    Instantiate(prefabEfectoDesaparicion, drone.position, Quaternion.identity);
+                }
+            }
+        }
 
         modoActual = nuevoModo;
 
@@ -357,6 +720,28 @@ public class Drones : MonoBehaviour
             dronesEnRevivir.Clear();
             dronesRegresandoOrbita.Clear();
             posicionesObjetivoOrbita.Clear();
+        }
+
+        // Configurar velocidad de NavMeshAgents según el modo
+        foreach (var drone in dronesActivos)
+        {
+            if (drone != null && dronesNavMeshAgents.ContainsKey(drone))
+            {
+                NavMeshAgent agent = dronesNavMeshAgents[drone];
+
+                switch (nuevoModo)
+                {
+                    case ModoDrone.OrbitaFija:
+                        agent.speed = 3f;
+                        break;
+                    case ModoDrone.BuscarObjetivo:
+                        agent.speed = velocidadBusqueda;
+                        break;
+                    case ModoDrone.MovimientoLibre:
+                        agent.speed = velocidadMovimientoLibre;
+                        break;
+                }
+            }
         }
 
         switch (nuevoModo)
@@ -407,6 +792,12 @@ public class Drones : MonoBehaviour
         {
             if (dronesActivos[i] != null && i < angulosIniciales.Count)
             {
+                if (dronesTeletransportados.Contains(dronesActivos[i]))
+                {
+                    dronesTeletransportados.Remove(dronesActivos[i]);
+                    continue;
+                }
+
                 // Si el drone está regresando a órbita, no actualizar su posición aquí
                 if (dronesRegresandoOrbita.ContainsKey(dronesActivos[i]))
                     continue;
@@ -460,7 +851,15 @@ public class Drones : MonoBehaviour
             foreach (var drone in lista)
             {
                 if (drone != null)
+                {
                     drone.gameObject.SetActive(false);
+
+                    // Desactivar NavMeshAgent
+                    if (dronesNavMeshAgents.ContainsKey(drone))
+                    {
+                        dronesNavMeshAgents[drone].enabled = false;
+                    }
+                }
             }
         }
     }
@@ -472,7 +871,15 @@ public class Drones : MonoBehaviour
         foreach (var drone in dronesActivos)
         {
             if (drone != null)
+            {
                 drone.gameObject.SetActive(true);
+
+                // Activar NavMeshAgent
+                if (dronesNavMeshAgents.ContainsKey(drone))
+                {
+                    dronesNavMeshAgents[drone].enabled = true;
+                }
+            }
         }
 
         // Aplicar límite de drones comprados si existe el sistema de mejoras
@@ -502,7 +909,28 @@ public class Drones : MonoBehaviour
             }
             angulosIniciales.Add(anguloInicial);
 
-            PosicionarObjeto(i, anguloInicial);
+            float anguloRad = anguloInicial * Mathf.Deg2Rad;
+            Vector3 posicionOrbita = new Vector3(
+                Mathf.Cos(anguloRad) * radioOrbita,
+                alturaOrbita,
+                Mathf.Sin(anguloRad) * radioOrbita
+            );
+            Vector3 posicionFinal = centroDeRotacion.position + posicionOrbita;
+
+            if (dronesNavMeshAgents.ContainsKey(dronesActivos[i]))
+            {
+                NavMeshAgent agent = dronesNavMeshAgents[dronesActivos[i]];
+                agent.enabled = false;
+                dronesActivos[i].position = posicionFinal;
+                agent.enabled = true;
+
+                if (prefabEfectoTeletransporte != null)
+                {
+                    Instantiate(prefabEfectoTeletransporte, posicionFinal, Quaternion.identity);
+                }
+            }
+
+            //PosicionarObjeto(i, anguloInicial);
         }
     }
 
@@ -553,7 +981,17 @@ public class Drones : MonoBehaviour
                            ejeRotacion * alturaOrbita;
         }
 
-        dronesActivos[indice].position = centroDeRotacion.position + nuevaPosicion;
+        Vector3 posicionFinal = centroDeRotacion.position + nuevaPosicion;
+
+        // Usar NavMesh para mover el drone
+        if (dronesNavMeshAgents.ContainsKey(dronesActivos[indice]))
+        {
+            NavMeshAgent agent = dronesNavMeshAgents[dronesActivos[indice]];
+            if (agent.enabled && Vector3.Distance(agent.destination, posicionFinal) > distanciaParaActualizarDestino)
+            {
+                agent.SetDestination(posicionFinal);
+            }
+        }
     }
 
     void InicializarBusquedaObjetivo()
@@ -594,20 +1032,16 @@ public class Drones : MonoBehaviour
             );
 
             Vector3 posicionFinal = objetivoBusqueda.transform.position + posicionObjetivo;
-            Vector3 direccion = (posicionFinal - dronesActivos[i].position).normalized;
 
-            // Aplicar evasión si está activa
-            if (evasionActiva)
+            // Usar NavMesh para mover el drone
+            if (dronesNavMeshAgents.ContainsKey(dronesActivos[i]))
             {
-                Vector3 evasion = CalcularVectorEvasion(dronesActivos[i]);
-                direccion = (direccion + evasion).normalized;
+                NavMeshAgent agent = dronesNavMeshAgents[dronesActivos[i]];
+                if (agent.enabled && Vector3.Distance(agent.destination, posicionFinal) > distanciaParaActualizarDestino)
+                {
+                    agent.SetDestination(posicionFinal);
+                }
             }
-
-            dronesActivos[i].position = Vector3.MoveTowards(
-                dronesActivos[i].position,
-                dronesActivos[i].position + direccion * velocidadBusqueda * Time.deltaTime,
-                velocidadBusqueda * Time.deltaTime
-            );
         }
     }
 
@@ -675,131 +1109,48 @@ public class Drones : MonoBehaviour
             {
                 objetivosActualesDrones[i] = null;
 
-                if (Vector3.Distance(dronesActivos[i].position, posicionesLibresObjetivo[i]) < 0.5f)
+                if (dronesNavMeshAgents.ContainsKey(dronesActivos[i]))
                 {
-                    posicionesLibresObjetivo[i] = GenerarPosicionAleatoria();
+                    NavMeshAgent agent = dronesNavMeshAgents[dronesActivos[i]];
+
+                    // Si llegó a su destino aleatorio, generar uno nuevo
+                    if (agent.enabled && !agent.pathPending && agent.remainingDistance <= distanciaParaLlegarADestino)
+                    {
+                        posicionesLibresObjetivo[i] = GenerarPosicionAleatoria();
+                    }
                 }
 
                 posicionObjetivo = posicionesLibresObjetivo[i];
             }
 
-            Vector3 posicionActual = dronesActivos[i].position;
-            Vector3 nuevaPosicion = Vector3.Lerp(posicionActual, posicionObjetivo, suavizadoMovimiento * Time.deltaTime);
-
-            // Aplicar evasión si está activa
-            if (evasionActiva)
+            // Usar NavMesh para mover el drone
+            if (dronesNavMeshAgents.ContainsKey(dronesActivos[i]))
             {
-                Vector3 direccion = (nuevaPosicion - posicionActual).normalized;
-                Vector3 evasion = CalcularVectorEvasion(dronesActivos[i]);
-                direccion = (direccion + evasion).normalized;
-
-                float distanciaMovimiento = Vector3.Distance(posicionActual, nuevaPosicion);
-                nuevaPosicion = posicionActual + direccion * distanciaMovimiento;
+                NavMeshAgent agent = dronesNavMeshAgents[dronesActivos[i]];
+                if (agent.enabled && Vector3.Distance(agent.destination, posicionObjetivo) > distanciaParaActualizarDestino)
+                {
+                    agent.SetDestination(posicionObjetivo);
+                }
             }
-
-            dronesActivos[i].position = nuevaPosicion;
         }
     }
 
     Vector3 GenerarPosicionAleatoria()
     {
         Vector2 posicionAleatoria2D = Random.insideUnitCircle * radioMovimientoLibre;
-        return centroDeRotacion.position + new Vector3(
+        Vector3 posicionAleatoria = centroDeRotacion.position + new Vector3(
             posicionAleatoria2D.x,
             Random.Range(-alturaOrbita, alturaOrbita),
             posicionAleatoria2D.y
         );
-    }
 
-    // Calcula el vector de evasión para evitar colisiones
-    Vector3 CalcularVectorEvasion(Transform drone)
-    {
-        Vector3 evasionTotal = Vector3.zero;
-
-        // 1. Evasión de obstáculos con raycasts en múltiples direcciones
-        evasionTotal += DetectarObstaculosRadiales(drone);
-
-        // 2. Evasión del jugador
-        if (evitarJugador && jugadorCache != null)
+        // Asegurar que la posición esté en el NavMesh
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(posicionAleatoria, out hit, radioMovimientoLibre, NavMesh.AllAreas))
         {
-            evasionTotal += EvitarObjetoEspecifico(drone, jugadorCache.transform, distanciaMinimaJugador);
+            return hit.position;
         }
 
-        // 3. Evasión de enemigos
-        if (evitarEnemigos)
-        {
-            GameObject[] enemigos = GameObject.FindGameObjectsWithTag(tagObjetivoDeteccion);
-            foreach (GameObject enemigo in enemigos)
-            {
-                evasionTotal += EvitarObjetoEspecifico(drone, enemigo.transform, distanciaMinimaEnemigos);
-            }
-        }
-
-        // 4. Evasión de otros drones
-        if (evitarOtrosDrones)
-        {
-            foreach (Transform otroDrone in dronesActivos)
-            {
-                if (otroDrone != drone && otroDrone != null)
-                {
-                    evasionTotal += EvitarObjetoEspecifico(drone, otroDrone, distanciaMinimaDrones);
-                }
-            }
-        }
-
-        return evasionTotal.normalized * fuerzaEvasion;
-    }
-
-    // Detecta obstáculos usando raycasts radiales
-    Vector3 DetectarObstaculosRadiales(Transform drone)
-    {
-        Vector3 evasion = Vector3.zero;
-
-        for (int i = 0; i < numeroRayos; i++)
-        {
-            float angulo = (360f / numeroRayos) * i;
-            float anguloRad = angulo * Mathf.Deg2Rad;
-
-            Vector3 direccion = new Vector3(
-                Mathf.Cos(anguloRad),
-                0,
-                Mathf.Sin(anguloRad)
-            );
-
-            RaycastHit hit;
-            if (Physics.Raycast(drone.position, direccion, out hit, distanciaDeteccion, capasObstaculos))
-            {
-                // Calcular fuerza de repulsión basada en la distancia
-                float fuerzaRepulsion = 1f - (hit.distance / distanciaDeteccion);
-                Vector3 direccionEvasion = drone.position - hit.point;
-                evasion += direccionEvasion.normalized * fuerzaRepulsion;
-
-                // Debug visual (opcional, comentar si no se necesita)
-                Debug.DrawRay(drone.position, direccion * hit.distance, Color.red);
-            }
-            else
-            {
-                // Debug visual (opcional, comentar si no se necesita)
-                Debug.DrawRay(drone.position, direccion * distanciaDeteccion, Color.green);
-            }
-        }
-
-        return evasion;
-    }
-
-    // Evita un objeto específico manteniéndose a cierta distancia
-    Vector3 EvitarObjetoEspecifico(Transform drone, Transform objetivo, float distanciaMinima)
-    {
-        Vector3 direccion = drone.position - objetivo.position;
-        float distancia = direccion.magnitude;
-
-        if (distancia < distanciaMinima && distancia > 0.01f)
-        {
-            // Calcular fuerza de repulsión inversamente proporcional a la distancia
-            float fuerzaRepulsion = 1f - (distancia / distanciaMinima);
-            return direccion.normalized * fuerzaRepulsion;
-        }
-
-        return Vector3.zero;
+        return posicionAleatoria;
     }
 }

@@ -95,9 +95,16 @@ public class AIAttackSystem : MonoBehaviour
     [SerializeField] private GameObject laserEffect;
     [SerializeField] private float effectDuration = 1f;
 
+    [Header("Animacion")]
+    [SerializeField] private Animator animator;
+
     [Header("Debug")]
     [SerializeField] private bool drawGizmos = true;
     [SerializeField] private bool showDebugLogs = true;
+
+    [Header("Configuración de Targeting")]
+    [SerializeField] private bool stickyTargeting = true; // Mantener objetivo hasta que muera
+    [SerializeField] private bool onlyChangeForHigherPriority = true;
 
     // Variables privadas
     private Transform currentTarget;
@@ -126,6 +133,11 @@ public class AIAttackSystem : MonoBehaviour
                     priorityDict[tp.tag] = tp.priority;
                 }
             }
+        }
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
         }
 
         // Validar configuración de proyectiles
@@ -167,7 +179,9 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    // Detecta objetivos según el tipo de IA
+    /// <summary>
+    /// Detecta objetivos según el tipo de IA
+    /// </summary>
     private void DetectTargets()
     {
         detectedObjects.Clear();
@@ -199,40 +213,89 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    // Detección para IA enemiga (con sistema de prioridades)
+    /// <summary>
+    /// Detección para IA enemiga (con sistema de prioridades)
+    /// </summary>
     private void DetectTargetsAsEnemy(Collider[] colliders)
     {
-        Transform bestTarget = null;
-        int bestPriority = -1;
+        if (stickyTargeting && currentTarget != null)
+        {
+            HealthSystem currentHealth = currentTarget.GetComponent<HealthSystem>();
+            bool isAlive = currentHealth != null && !currentHealth.IsDead;
+
+            if (isAlive)
+            {
+                // Verificar si sigue en rango
+                bool stillInRange = System.Array.Exists(colliders,
+                    col => col.transform == currentTarget);
+
+                if (stillInRange)
+                {
+                    // Solo cambiar si encontramos mayor prioridad
+                    if (onlyChangeForHigherPriority)
+                    {
+                        Transform bestTarget = null;
+                        int bestPriority = currentPriority;
+
+                        foreach (var col in colliders)
+                        {
+                            if (col.transform == transform || col.transform.IsChildOf(transform))
+                                continue;
+
+                            if (priorityDict.TryGetValue(col.tag, out int priority))
+                            {
+                                if (priority > bestPriority) // Mayor que el actual
+                                {
+                                    if (!requireLineOfSight || HasLineOfSight(col.transform))
+                                    {
+                                        bestPriority = priority;
+                                        bestTarget = col.transform;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (bestTarget != null)
+                        {
+                            UpdateTarget(bestTarget, bestPriority);
+                        }
+                    }
+
+                    return; // Mantener objetivo actual
+                }
+            }
+        }
+
+        // Buscar nuevo objetivo (código original)
+        Transform newBestTarget = null;
+        int newBestPriority = -1;
 
         foreach (var col in colliders)
         {
-            // Ignorar a sí mismo
             if (col.transform == transform || col.transform.IsChildOf(transform))
                 continue;
 
             detectedObjects.Add(col);
 
-            // Verificar si el tag tiene prioridad asignada
             if (priorityDict.TryGetValue(col.tag, out int priority))
             {
-                // Verificar línea de visión si está activado
                 if (requireLineOfSight && !HasLineOfSight(col.transform))
                     continue;
 
-                // Si encontramos un objetivo con mayor prioridad
-                if (priority > bestPriority)
+                if (priority > newBestPriority)
                 {
-                    bestPriority = priority;
-                    bestTarget = col.transform;
+                    newBestPriority = priority;
+                    newBestTarget = col.transform;
                 }
             }
         }
 
-        UpdateTarget(bestTarget, bestPriority);
+        UpdateTarget(newBestTarget, newBestPriority);
     }
 
-    // Detección para IA aliada (primer enemigo detectado)
+    /// <summary>
+    /// Detección para IA aliada (primer enemigo detectado)
+    /// </summary>
     private void DetectTargetsAsAlly(Collider[] colliders)
     {
         Transform newTarget = null;
@@ -260,7 +323,9 @@ public class AIAttackSystem : MonoBehaviour
         UpdateTarget(newTarget, newTarget != null ? 1 : -1);
     }
 
-    // Actualiza el objetivo actual
+    /// <summary>
+    /// Actualiza el objetivo actual
+    /// </summary>
     private void UpdateTarget(Transform newTarget, int priority)
     {
         if (newTarget != currentTarget)
@@ -283,7 +348,9 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    // Verifica si hay línea de visión con el objetivo
+    /// <summary>
+    /// Verifica si hay línea de visión con el objetivo
+    /// </summary>
     private bool HasLineOfSight(Transform target)
     {
         Vector3 direction = target.position - transform.position;
@@ -298,7 +365,9 @@ public class AIAttackSystem : MonoBehaviour
         return true;
     }
 
-    // Intenta atacar al objetivo actual
+    /// <summary>
+    /// Intenta atacar al objetivo actual
+    /// </summary>
     private void TryAttack()
     {
         if (currentTarget == null) return;
@@ -316,7 +385,9 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    // Ejecuta el ataque según el tipo configurado
+    /// <summary>
+    /// Ejecuta el ataque según el tipo configurado
+    /// </summary>
     private void PerformAttack()
     {
         attackTimer = 1f / attackRate;
@@ -354,9 +425,14 @@ public class AIAttackSystem : MonoBehaviour
                     break;
             }
         }
+
+        animator.SetTrigger("Shoot");
+
     }
 
-    // Ataque a un solo objetivo
+    /// <summary>
+    /// Ataque a un solo objetivo
+    /// </summary>
     private void SingleTargetAttack()
     {
         if (currentTarget == null) return;
@@ -369,13 +445,17 @@ public class AIAttackSystem : MonoBehaviour
             Destroy(hit, effectDuration);
         }
 
+
+
         if (showDebugLogs)
         {
             Debug.Log($"{gameObject.name} atacó a {currentTarget.name} con {attackDamage} de daño [SingleTarget]");
         }
     }
 
-    // Ataque en área alrededor del objetivo
+    /// <summary>
+    /// Ataque en área alrededor del objetivo
+    /// </summary>
     private void AreaOfEffectAttack()
     {
         if (currentTarget == null) return;
@@ -419,7 +499,9 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    // Ataque en cono desde el atacante
+    /// <summary>
+    /// Ataque en cono desde el atacante
+    /// </summary>
     private void ConeAttack()
     {
         if (currentTarget == null) return;
@@ -463,7 +545,9 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    // Ataque tipo láser en línea recta
+    /// <summary>
+    /// Ataque tipo láser en línea recta
+    /// </summary>
     private void LaserAttack()
     {
         if (currentTarget == null) return;
@@ -519,7 +603,9 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    // Ataque tipo escopeta (múltiples rayos en cono)
+    /// <summary>
+    /// Ataque tipo escopeta (múltiples rayos en cono)
+    /// </summary>
     private void ShotgunAttack()
     {
         if (currentTarget == null) return;
@@ -639,7 +725,9 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    // Aplica daño a un objetivo
+    /// <summary>
+    /// Aplica daño a un objetivo
+    /// </summary>
     private bool ApplyDamage(Transform target, float damage)
     {
         HealthSystem health = target.GetComponent<HealthSystem>();
@@ -651,7 +739,9 @@ public class AIAttackSystem : MonoBehaviour
         return false;
     }
 
-    // Crea un proyectil
+    /// <summary>
+    /// Crea un proyectil
+    /// </summary>
     private void SpawnProjectile()
     {
         Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
@@ -674,27 +764,35 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    // Fuerza la detección inmediata
+    /// <summary>
+    /// Fuerza la detección inmediata
+    /// </summary>
     public void ForceDetection()
     {
         DetectTargets();
     }
 
-    // Limpia el objetivo actual
+    /// <summary>
+    /// Limpia el objetivo actual
+    /// </summary>
     public void ClearTarget()
     {
         currentTarget = null;
         currentPriority = -1;
     }
 
-    // Obtiene la distancia al objetivo actual
+    /// <summary>
+    /// Obtiene la distancia al objetivo actual
+    /// </summary>
     public float GetDistanceToTarget()
     {
         if (currentTarget == null) return float.MaxValue;
         return Vector3.Distance(transform.position, currentTarget.position);
     }
 
-    // Verifica si está en rango de ataque
+    /// <summary>
+    /// Verifica si está en rango de ataque
+    /// </summary>
     public bool IsInAttackRange()
     {
         return currentTarget != null && GetDistanceToTarget() <= attackRange;

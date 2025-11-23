@@ -10,7 +10,9 @@ public class Projectile : MonoBehaviour
 
     [Header("Efectos")]
     [SerializeField] private LayerMask hitLayers = -1;
-
+    [SerializeField] private GameObject hitEffectN;
+    [SerializeField] private GameObject hitEffectS;
+ 
     private Vector3 direction;
     private GameObject owner;
     private Rigidbody rb;
@@ -19,7 +21,8 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-    }    
+    }
+       
     public void Initialize(Vector3 dir, float spd, float dmg, GameObject ownerObject)
     {
         direction = dir.normalized;
@@ -56,11 +59,14 @@ public class Projectile : MonoBehaviour
         if (((1 << other.gameObject.layer) & hitLayers) == 0)
             return;
 
+
         HandleHit(other);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        ContactPoint contact = collision.contacts[0];
+
         if (hasHit) return;
 
         // Ignorar al dueño del proyectil
@@ -70,6 +76,24 @@ public class Projectile : MonoBehaviour
         // Verificar si está en las capas que puede golpear
         if (((1 << collision.gameObject.layer) & hitLayers) == 0)
             return;
+
+        if (!collision.gameObject.CompareTag("Shield"))
+        {
+            GameObject effect = Instantiate(hitEffectN, contact.point, Quaternion.identity);
+
+            effect.transform.rotation = Quaternion.LookRotation(contact.normal);
+
+            Destroy(effect, 1);
+        }
+
+        else
+        {
+            GameObject effect = Instantiate(hitEffectS, contact.point, Quaternion.identity);
+
+            effect.transform.rotation = Quaternion.LookRotation(contact.normal);
+
+            Destroy(effect, 1);
+        }
 
         HandleHit(collision.collider);
     }

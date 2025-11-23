@@ -662,8 +662,9 @@ GameObject:
   - component: {fileID: 27287687}
   - component: {fileID: 27287686}
   - component: {fileID: 27287685}
-  - component: {fileID: 27287688}
   - component: {fileID: 27287689}
+  - component: {fileID: 27287688}
+  - component: {fileID: 27287690}
   m_Layer: 0
   m_Name: Atk3
   m_TagString: Untagged
@@ -773,19 +774,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 27287683}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df22a9e64992bd44b9799bf0cf6014c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 100
+  currentHealth: 0
+  destroyOnDeath: 1
+  destroyDelay: 0
+  enableRegeneration: 0
+  tagsToRegenerate: []
+  regenerationRate: 5
+  regenerationDelay: 3
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &27287689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27287683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934ee3d466cd48a4294d4a3fcd1a088e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAttackSystem
   aiType: 1
   attackType: 0
   detectionRange: 15
-  detectionAreaSize: {x: 20, y: 10, z: 20}
-  detectionAreaOffset: {x: 0, y: 2, z: 0}
+  detectionAreaSize: {x: 15, y: 10, z: 15}
+  detectionAreaOffset: {x: 0, y: 0, z: 0}
   detectionLayer:
     serializedVersion: 2
     m_Bits: 4294967295
   detectionInterval: 0.2
-  useBoxDetection: 1
+  useBoxDetection: 0
   tagPriorities:
   - tag: Player
     priority: 10
@@ -798,7 +828,7 @@ MonoBehaviour:
   - Boss
   attackDamage: 10
   attackRate: 1
-  attackRange: 5
+  attackRange: 10
   requireLineOfSight: 1
   obstacleLayer:
     serializedVersion: 2
@@ -841,46 +871,42 @@ MonoBehaviour:
   shotgunDamagePerPellet: 5
   shotgunDetectAllInCone: 1
   shotgunPelletRadius: 0.3
-  useProjectile: 1
-  projectilePrefab: {fileID: 921654163062106178, guid: 387d7ddc30fb65b45aaaac0073956798, type: 3}
+  useProjectile: 0
+  projectilePrefab: {fileID: 0}
   firePoint: {fileID: 1926613449}
   projectileSpeed: 20
-  muzzleFlashEffect: {fileID: 0}
+  muzzleFlashEffect: {fileID: 4683922028883973532, guid: faf63a8f535aeec4fa53481785a7f4e9, type: 3}
   hitEffect: {fileID: 0}
   aoeEffect: {fileID: 0}
   laserEffect: {fileID: 0}
   effectDuration: 1
+  animator: {fileID: 0}
   drawGizmos: 1
   showDebugLogs: 1
---- !u!114 &27287689
-MonoBehaviour:
+  stickyTargeting: 1
+  onlyChangeForHigherPriority: 1
+--- !u!195 &27287690
+NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27287683}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 100
-  currentHealth: 0
-  destroyOnDeath: 1
-  destroyDelay: 0
-  enableRegeneration: 0
-  tagsToRegenerate: []
-  regenerationRate: 5
-  regenerationDelay: 3
-  OnDamageTaken:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealthChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &28466443
 GameObject:
   m_ObjectHideFlags: 0
@@ -23552,9 +23578,10 @@ GameObject:
   - component: {fileID: 209368191}
   - component: {fileID: 209368190}
   - component: {fileID: 209368189}
-  - component: {fileID: 209368193}
-  - component: {fileID: 209368194}
+  - component: {fileID: 209368196}
   - component: {fileID: 209368195}
+  - component: {fileID: 209368194}
+  - component: {fileID: 209368193}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -23665,14 +23692,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 209368187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bff46d0a35ea2d41b9c405619c72654, type: 3}
+  m_Script: {fileID: 11500000, guid: b686db539a7083c41a943bee9096116a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  detectionAreaSize: {x: 10, y: 5, z: 10}
-  detectionAreaOffset: {x: 0, y: 0, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyNavMesh
+  detectionRadius: 15
   detectionLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+  detectionInterval: 0.2
   tagPriorities:
   - tag: Player
     priority: 10
@@ -23680,22 +23707,40 @@ MonoBehaviour:
     priority: 5
   - tag: Ally
     priority: 1
-  detectionInterval: 0.2
-  drawGizmos: 1
-  optimalDistance: 5
+  optimalDistance: 15
   distanceTolerance: 1
   moveSpeed: 3.5
-  acceleration: 2
-  deceleration: 3
+  stoppingDistance: 0.5
   rotationSpeed: 5
-  smoothRotation: 1
-  stoppingDistance: 0.1
-  useOrganicMovement: 1
-  bobFrequency: 2
-  bobAmount: 0.1
-  sideWaveFrequency: 1.5
-  sideWaveAmount: 0.3
---- !u!114 &209368194
+  angularSpeed: 120
+  acceleration: 8
+  maintainDistance: 0
+  stickyTargeting: 1
+  drawGizmos: 1
+  animator: {fileID: 0}
+--- !u!195 &209368194
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209368187}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5000001
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &209368195
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23704,19 +23749,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 209368187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df22a9e64992bd44b9799bf0cf6014c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 934ee3d466cd48a4294d4a3fcd1a088e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAttackSystem
   aiType: 0
   attackType: 0
   detectionRange: 15
-  detectionAreaSize: {x: 10, y: 3, z: 10}
-  detectionAreaOffset: {x: 0, y: 1, z: 0}
+  detectionAreaSize: {x: 15, y: 10, z: 15}
+  detectionAreaOffset: {x: 0, y: 0, z: 0}
   detectionLayer:
     serializedVersion: 2
     m_Bits: 4294967295
   detectionInterval: 0.2
-  useBoxDetection: 1
+  useBoxDetection: 0
   tagPriorities:
   - tag: Player
     priority: 10
@@ -23781,9 +23826,12 @@ MonoBehaviour:
   aoeEffect: {fileID: 0}
   laserEffect: {fileID: 0}
   effectDuration: 1
+  animator: {fileID: 0}
   drawGizmos: 1
   showDebugLogs: 1
---- !u!114 &209368195
+  stickyTargeting: 1
+  onlyChangeForHigherPriority: 1
+--- !u!114 &209368196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23792,10 +23840,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 209368187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 99999
+  maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
   destroyDelay: 0
@@ -27519,6 +27567,7 @@ GameObject:
   - component: {fileID: 456482942}
   - component: {fileID: 456482941}
   - component: {fileID: 456482944}
+  - component: {fileID: 456482945}
   m_Layer: 0
   m_Name: Def1
   m_TagString: Untagged
@@ -27627,12 +27676,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 456482939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 0
+  destroyOnDeath: 1
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
@@ -27647,6 +27696,28 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!195 &456482945
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456482939}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!43 &473424931
 Mesh:
   m_ObjectHideFlags: 0
@@ -28909,6 +28980,7 @@ GameObject:
   - component: {fileID: 558505735}
   - component: {fileID: 558505734}
   - component: {fileID: 558505737}
+  - component: {fileID: 558505738}
   m_Layer: 7
   m_Name: Baked Mesh 3
   m_TagString: Level
@@ -29009,6 +29081,38 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 512524547}
+--- !u!114 &558505738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558505733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: b1b5d8c83ee41304b81da5b1a3775398, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!4 &574153995 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4649982746705904617, guid: c507d00d0cbc90749974fe75ccbbae6b, type: 3}
@@ -29027,6 +29131,7 @@ GameObject:
   - component: {fileID: 578406202}
   - component: {fileID: 578406201}
   - component: {fileID: 578406204}
+  - component: {fileID: 578406205}
   m_Layer: 0
   m_Name: Def5
   m_TagString: Untagged
@@ -29135,12 +29240,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 578406199}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 0
+  destroyOnDeath: 1
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
@@ -29155,6 +29260,28 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!195 &578406205
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578406199}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!4 &590502760 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fa5c5fbfcad841d469e24d6a5317671d, type: 3}
@@ -30182,10 +30309,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 682242967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 999999
+  maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
   destroyDelay: 0
@@ -35587,10 +35714,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1036998441}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 999999
+  maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
   destroyDelay: 0
@@ -37195,6 +37322,7 @@ GameObject:
   - component: {fileID: 1114311813}
   - component: {fileID: 1114311812}
   - component: {fileID: 1114311815}
+  - component: {fileID: 1114311816}
   m_Layer: 0
   m_Name: Def4
   m_TagString: Untagged
@@ -37303,12 +37431,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1114311810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 0
+  destroyOnDeath: 1
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
@@ -37323,6 +37451,28 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!195 &1114311816
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114311810}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1121308398
 GameObject:
   m_ObjectHideFlags: 0
@@ -37335,8 +37485,9 @@ GameObject:
   - component: {fileID: 1121308402}
   - component: {fileID: 1121308401}
   - component: {fileID: 1121308400}
-  - component: {fileID: 1121308403}
   - component: {fileID: 1121308404}
+  - component: {fileID: 1121308403}
+  - component: {fileID: 1121308405}
   m_Layer: 0
   m_Name: Atk2
   m_TagString: Untagged
@@ -37446,19 +37597,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 1121308398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df22a9e64992bd44b9799bf0cf6014c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 100
+  currentHealth: 0
+  destroyOnDeath: 1
+  destroyDelay: 0
+  enableRegeneration: 0
+  tagsToRegenerate: []
+  regenerationRate: 5
+  regenerationDelay: 3
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1121308404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121308398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934ee3d466cd48a4294d4a3fcd1a088e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAttackSystem
   aiType: 1
   attackType: 0
   detectionRange: 15
-  detectionAreaSize: {x: 20, y: 10, z: 20}
-  detectionAreaOffset: {x: 0, y: 2, z: 0}
+  detectionAreaSize: {x: 15, y: 10, z: 15}
+  detectionAreaOffset: {x: 0, y: 0, z: 0}
   detectionLayer:
     serializedVersion: 2
     m_Bits: 4294967295
   detectionInterval: 0.2
-  useBoxDetection: 1
+  useBoxDetection: 0
   tagPriorities:
   - tag: Player
     priority: 10
@@ -37471,7 +37651,7 @@ MonoBehaviour:
   - Boss
   attackDamage: 10
   attackRate: 1
-  attackRange: 5
+  attackRange: 10
   requireLineOfSight: 1
   obstacleLayer:
     serializedVersion: 2
@@ -37514,46 +37694,42 @@ MonoBehaviour:
   shotgunDamagePerPellet: 5
   shotgunDetectAllInCone: 1
   shotgunPelletRadius: 0.3
-  useProjectile: 1
-  projectilePrefab: {fileID: 921654163062106178, guid: 387d7ddc30fb65b45aaaac0073956798, type: 3}
+  useProjectile: 0
+  projectilePrefab: {fileID: 0}
   firePoint: {fileID: 700017061}
   projectileSpeed: 20
-  muzzleFlashEffect: {fileID: 0}
+  muzzleFlashEffect: {fileID: 4683922028883973532, guid: faf63a8f535aeec4fa53481785a7f4e9, type: 3}
   hitEffect: {fileID: 0}
   aoeEffect: {fileID: 0}
   laserEffect: {fileID: 0}
   effectDuration: 1
+  animator: {fileID: 0}
   drawGizmos: 1
   showDebugLogs: 1
---- !u!114 &1121308404
-MonoBehaviour:
+  stickyTargeting: 1
+  onlyChangeForHigherPriority: 1
+--- !u!195 &1121308405
+NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1121308398}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 100
-  currentHealth: 0
-  destroyOnDeath: 1
-  destroyDelay: 0
-  enableRegeneration: 0
-  tagsToRegenerate: []
-  regenerationRate: 5
-  regenerationDelay: 3
-  OnDamageTaken:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealthChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1123189089
 GameObject:
   m_ObjectHideFlags: 0
@@ -39438,6 +39614,7 @@ GameObject:
   - component: {fileID: 1202753732}
   - component: {fileID: 1202753731}
   - component: {fileID: 1202753734}
+  - component: {fileID: 1202753735}
   m_Layer: 0
   m_Name: Def3
   m_TagString: Untagged
@@ -39546,12 +39723,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1202753729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 0
+  destroyOnDeath: 1
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
@@ -39566,6 +39743,28 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!195 &1202753735
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202753729}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &1238973687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40454,6 +40653,7 @@ GameObject:
   - component: {fileID: 1277246716}
   - component: {fileID: 1277246715}
   - component: {fileID: 1277246718}
+  - component: {fileID: 1277246719}
   m_Layer: 7
   m_Name: Baked Mesh
   m_TagString: Level
@@ -40554,6 +40754,38 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 912206052}
+--- !u!114 &1277246719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277246714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 039bb868c06c12649961f9849a05feba, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1001 &1286416920
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40862,6 +41094,7 @@ GameObject:
   - component: {fileID: 1341755805}
   - component: {fileID: 1341755804}
   - component: {fileID: 1341755803}
+  - component: {fileID: 1341755806}
   m_Layer: 0
   m_Name: Scout
   m_TagString: Untagged
@@ -40961,6 +41194,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341755801}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!195 &1341755806
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341755801}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1356741816
 GameObject:
   m_ObjectHideFlags: 0
@@ -41808,6 +42063,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 35556692-e846-4b96-bc68-2bc29d6c71b5
     m_ActionName: 'Controls/SwitchGun[/Keyboard/h]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 82acfea4-ad11-4562-890a-b3ed2878276b
+    m_ActionName: 'Controls/Pause Game[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: 
@@ -42259,7 +42518,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1474095289}
-  - component: {fileID: 1474095288}
+  - component: {fileID: 1474095290}
   m_Layer: 0
   m_Name: Drones
   m_TagString: Untagged
@@ -42267,69 +42526,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1474095288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1474095287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3ae95fe5b4426646a8cbb1752fbe726, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Drones
-  centroDeRotacion: {fileID: 1437905743}
-  dronesLista1:
-  - {fileID: 1341755802}
-  dronesLista2:
-  - {fileID: 2147422374}
-  - {fileID: 1121308399}
-  - {fileID: 27287684}
-  dronesLista3:
-  - {fileID: 456482940}
-  - {fileID: 1998143953}
-  - {fileID: 1202753730}
-  - {fileID: 1114311811}
-  - {fileID: 578406200}
-  listaActiva: 0
-  radioOrbita: 1.5
-  alturaOrbita: 1
-  velocidadRotacion: 180
-  velocidadVariada: 0
-  rangoVariacionVelocidad: 10
-  ejeRotacion: {x: 0, y: 1, z: 0}
-  distribucionAutomatica: 1
-  teclaCiclar: 31
-  teclaModoOrbita: 41
-  teclaBuscarObjetivo: 43
-  teclaMovimientoLibre: 42
-  tagObjetivoBusqueda: Objetivo
-  velocidadBusqueda: 5
-  radioBusqueda: 3
-  tagObjetivoDeteccion: Enemy
-  radioMovimientoLibre: 2
-  velocidadMovimientoLibre: 10
-  rangoDeteccion: 10
-  suavizadoMovimiento: 2
-  regresarOrbitaAlMorir: 1
-  tiempoEsperaRevivir: 10
-  velocidadRetornoOrbita: 5
-  evasionActiva: 1
-  capasObstaculos:
-    serializedVersion: 2
-    m_Bits: 217
-  distanciaDeteccion: 1
-  distanciaMinima: 1
-  numeroRayos: 8
-  fuerzaEvasion: 3
-  evitarJugador: 1
-  tagJugador: Player
-  distanciaMinimaJugador: 1.5
-  evitarEnemigos: 0
-  distanciaMinimaEnemigos: 1
-  evitarOtrosDrones: 1
-  distanciaMinimaDrones: 0.8
 --- !u!4 &1474095289
 Transform:
   m_ObjectHideFlags: 0
@@ -42354,6 +42550,68 @@ Transform:
   - {fileID: 578406200}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1474095290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474095287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 832df0da90de9be4fa1e29a641bd4921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drones
+  centroDeRotacion: {fileID: 1437905743}
+  dronesLista1:
+  - {fileID: 1341755802}
+  dronesLista2:
+  - {fileID: 2147422374}
+  - {fileID: 1121308399}
+  - {fileID: 27287684}
+  dronesLista3:
+  - {fileID: 456482940}
+  - {fileID: 1998143953}
+  - {fileID: 1202753730}
+  - {fileID: 1114311811}
+  - {fileID: 578406200}
+  listaActiva: 0
+  radioOrbita: 2
+  alturaOrbita: 0
+  velocidadRotacion: 3
+  velocidadVariada: 0
+  rangoVariacionVelocidad: 10
+  ejeRotacion: {x: 0, y: 1, z: 0}
+  distribucionAutomatica: 1
+  teclaCiclar: 1
+  teclaModoOrbita: 19
+  teclaBuscarObjetivo: 32
+  teclaMovimientoLibre: 20
+  teclaHabilidadEspecial: 31
+  tagObjetivoBusqueda: Objetivo
+  velocidadBusqueda: 5
+  radioBusqueda: 3
+  tagObjetivoDeteccion: Enemigo
+  radioMovimientoLibre: 10
+  velocidadMovimientoLibre: 3
+  rangoDeteccion: 8
+  suavizadoMovimiento: 5
+  regresarOrbitaAlMorir: 1
+  tiempoEsperaRevivir: 5
+  velocidadRetornoOrbita: 8
+  distanciaParaActualizarDestino: 0.5
+  distanciaParaLlegarADestino: 0.3
+  tiempoDesaparicionBuscador: 3
+  monedasMinimas: 50
+  monedasMaximas: 150
+  cooldownHabilidadBuscador: 10
+  cooldownHabilidadAtacante: 15
+  prefabEscudo: {fileID: 3993924027107787353, guid: ccd749ed9ce9ca74fa2d81e6935506a0, type: 3}
+  jugador: {fileID: 1437905743}
+  duracionEscudo: 10
+  cooldownHabilidadDefensor: 20
+  prefabEfectoTeletransporte: {fileID: 4526356900395455804, guid: dad85d442b3b79f42a4f78f024b69182, type: 3}
+  prefabEfectoDesaparicion: {fileID: 680171913431399424, guid: 9cfc4d8d7557e3b41ada68d38db91051, type: 3}
 --- !u!43 &1498334463
 Mesh:
   m_ObjectHideFlags: 0
@@ -44654,10 +44912,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1663495277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 999999
+  maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
   destroyDelay: 0
@@ -47741,10 +47999,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1898612901}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 999999
+  maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
   destroyDelay: 0
@@ -48629,6 +48887,7 @@ GameObject:
   - component: {fileID: 1998143955}
   - component: {fileID: 1998143954}
   - component: {fileID: 1998143957}
+  - component: {fileID: 1998143958}
   m_Layer: 0
   m_Name: Def2
   m_TagString: Untagged
@@ -48737,12 +48996,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1998143952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 0
+  destroyOnDeath: 1
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
@@ -48757,6 +49016,28 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!195 &1998143958
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998143952}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &1999418954
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49594,10 +49875,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2071839162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 999999
+  maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
   destroyDelay: 0
@@ -50173,8 +50454,9 @@ GameObject:
   - component: {fileID: 2147422377}
   - component: {fileID: 2147422376}
   - component: {fileID: 2147422375}
-  - component: {fileID: 2147422378}
   - component: {fileID: 2147422379}
+  - component: {fileID: 2147422378}
+  - component: {fileID: 2147422380}
   m_Layer: 0
   m_Name: Atk1
   m_TagString: Untagged
@@ -50284,19 +50566,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 2147422373}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df22a9e64992bd44b9799bf0cf6014c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 100
+  currentHealth: 0
+  destroyOnDeath: 1
+  destroyDelay: 0
+  enableRegeneration: 0
+  tagsToRegenerate: []
+  regenerationRate: 5
+  regenerationDelay: 3
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2147422379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147422373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934ee3d466cd48a4294d4a3fcd1a088e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAttackSystem
   aiType: 1
   attackType: 0
   detectionRange: 15
-  detectionAreaSize: {x: 20, y: 10, z: 20}
-  detectionAreaOffset: {x: 0, y: 2, z: 0}
+  detectionAreaSize: {x: 15, y: 10, z: 15}
+  detectionAreaOffset: {x: 0, y: 0, z: 0}
   detectionLayer:
     serializedVersion: 2
     m_Bits: 4294967295
   detectionInterval: 0.2
-  useBoxDetection: 1
+  useBoxDetection: 0
   tagPriorities:
   - tag: Player
     priority: 10
@@ -50309,7 +50620,7 @@ MonoBehaviour:
   - Boss
   attackDamage: 10
   attackRate: 1
-  attackRange: 5
+  attackRange: 10
   requireLineOfSight: 1
   obstacleLayer:
     serializedVersion: 2
@@ -50352,46 +50663,42 @@ MonoBehaviour:
   shotgunDamagePerPellet: 5
   shotgunDetectAllInCone: 1
   shotgunPelletRadius: 0.3
-  useProjectile: 1
-  projectilePrefab: {fileID: 921654163062106178, guid: 387d7ddc30fb65b45aaaac0073956798, type: 3}
+  useProjectile: 0
+  projectilePrefab: {fileID: 0}
   firePoint: {fileID: 1042343500}
   projectileSpeed: 20
-  muzzleFlashEffect: {fileID: 0}
+  muzzleFlashEffect: {fileID: 4683922028883973532, guid: faf63a8f535aeec4fa53481785a7f4e9, type: 3}
   hitEffect: {fileID: 0}
   aoeEffect: {fileID: 0}
   laserEffect: {fileID: 0}
   effectDuration: 1
+  animator: {fileID: 0}
   drawGizmos: 1
   showDebugLogs: 1
---- !u!114 &2147422379
-MonoBehaviour:
+  stickyTargeting: 1
+  onlyChangeForHigherPriority: 1
+--- !u!195 &2147422380
+NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2147422373}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b43c30c2ef755c64baf612246c1464e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 50
-  currentHealth: 0
-  destroyOnDeath: 0
-  destroyDelay: 0
-  enableRegeneration: 0
-  tagsToRegenerate: []
-  regenerationRate: 5
-  regenerationDelay: 3
-  OnDamageTaken:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealthChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!224 &33271432439007215
 RectTransform:
   m_ObjectHideFlags: 0

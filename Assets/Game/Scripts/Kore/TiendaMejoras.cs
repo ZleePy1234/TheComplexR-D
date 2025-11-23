@@ -107,14 +107,14 @@ public class TiendaMejoras : MonoBehaviour
         defensor.text = "Defensores LV: " + nivelMejoraLista3;
     }
 
-    // Agrega dinero al jugador    
+    /// Agrega dinero al jugador    
     public void AgregarDinero(int cantidad)
     {
         dineroActual += cantidad;
         Debug.Log($"Dinero agregado: {cantidad}. Total: {dineroActual}");
     }
         
-    // Mejora los drones de la Lista 1 (Buscadores)
+    /// Mejora los drones de la Lista 1 (Buscadores)
     public bool MejorarLista1()
     {
         if (nivelMejoraLista1 >= MAX_NIVEL_LISTA1)
@@ -135,13 +135,14 @@ public class TiendaMejoras : MonoBehaviour
 
         Debug.Log($"¡Lista 1 mejorada al nivel {nivelMejoraLista1}!");
 
-        // Aquí irá la lógica de mejora        
+        // Aquí irá la lógica de mejora cuando decidas qué mejorar
+        // Por ahora está vacía
         AplicarMejoraLista1();
 
         return true;
     }
 
-    // Mejora los drones de la Lista 2 (Atacantes) - Aumenta cantidad de drones
+    /// Mejora los drones de la Lista 2 (Atacantes) - Aumenta cantidad de drones
     public void MejorarLista2()
     {
         if (nivelMejoraLista2 >= MAX_NIVEL_LISTA2)
@@ -168,7 +169,7 @@ public class TiendaMejoras : MonoBehaviour
         AplicarMejoraLista2();
     }
 
-    // Mejora los drones de la Lista 3 (Defensores) - Aumenta cantidad de drones
+    /// Mejora los drones de la Lista 3 (Defensores) - Aumenta cantidad de drones
     public void MejorarLista3()
     {
         if (nivelMejoraLista3 >= MAX_NIVEL_LISTA3)
@@ -196,7 +197,7 @@ public class TiendaMejoras : MonoBehaviour
     }
 
 
-    // Obtiene el costo de la siguiente mejora para la Lista 2
+    /// Obtiene el costo de la siguiente mejora para la Lista 2
     public int ObtenerCostoMejoraLista2()
     {
         switch (nivelMejoraLista2)
@@ -207,7 +208,7 @@ public class TiendaMejoras : MonoBehaviour
         }
     }
 
-    // Obtiene el costo de la siguiente mejora para la Lista 3
+    /// Obtiene el costo de la siguiente mejora para la Lista 3
     public int ObtenerCostoMejoraLista3()
     {
         switch (nivelMejoraLista3)
@@ -220,7 +221,7 @@ public class TiendaMejoras : MonoBehaviour
         }
     }
 
-    // Verifica si se puede comprar una mejora específica
+    /// Verifica si se puede comprar una mejora específica
     public bool PuedeComprarMejora(int numeroLista)
     {
         switch (numeroLista)
@@ -236,13 +237,14 @@ public class TiendaMejoras : MonoBehaviour
         }
     }
 
-    // Aplica la mejora a la Lista 1
+    /// Aplica la mejora a la Lista 1 (función vacía por ahora)
     private void AplicarMejoraLista1()
     {
+        // Esta función está vacía intencionalmente
         // Aquí irá la lógica para el dron buscador   
     }
         
-    // Aplica la mejora a la Lista 2 - Activa drones adicionales
+    /// Aplica la mejora a la Lista 2 - Activa drones adicionales
     private void AplicarMejoraLista2()
     {
         if (sistemaDrones == null) return;
@@ -263,7 +265,7 @@ public class TiendaMejoras : MonoBehaviour
         }
     }
 
-    // Aplica la mejora a la Lista 3 - Activa drones adicionales
+    /// Aplica la mejora a la Lista 3 - Activa drones adicionales
     private void AplicarMejoraLista3()
     {
         if (sistemaDrones == null) return;
@@ -321,7 +323,7 @@ public class TiendaMejoras : MonoBehaviour
         }
     }
 
-    // Obtiene información de estado para UI
+    /// Obtiene información de estado para UI
     public string ObtenerInfoMejora(int numeroLista)
     {
         switch (numeroLista)

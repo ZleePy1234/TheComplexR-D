@@ -49,7 +49,7 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    // Verifica si este objeto tiene un tag que permite regeneración
+    /// Verifica si este objeto tiene un tag que permite regeneración
 
     private void CheckIfCanRegenerate()
     {
@@ -71,7 +71,7 @@ public class HealthSystem : MonoBehaviour
         canRegenerate = false;
     }
 
-    // Regenera vida gradualmente    
+    /// Regenera vida gradualmente    
     private void Regenerate()
     {
         float amountToHeal = regenerationRate * Time.deltaTime;
@@ -81,7 +81,7 @@ public class HealthSystem : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth);
     }
 
-    // Recibe daño y reduce la vida actual    
+    /// Recibe daño y reduce la vida actual    
     public void TakeDamage(float damage)
     {
         if (IsDead) return;
@@ -103,7 +103,7 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    // Cura la unidad
+    /// Cura la unidad
 
     public void Heal(float amount)
     {
@@ -118,7 +118,7 @@ public class HealthSystem : MonoBehaviour
         Debug.Log($"{gameObject.name} curado por {amount}. Vida actual: {currentHealth}/{maxHealth}");
     }
 
-    // Establece la vida al máximo    
+    /// Establece la vida al máximo    
     public void FullHeal()
     {
         if (IsDead) return;
@@ -127,7 +127,7 @@ public class HealthSystem : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth);
     }
 
-    // Ejecuta la muerte de la unidad    
+    /// Ejecuta la muerte de la unidad    
     private void Die()
     {
         if (IsDead) return;
@@ -143,13 +143,13 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    // Mata instantáneamente a la unidad
+    /// Mata instantáneamente a la unidad
     public void Kill()
     {
         TakeDamage(currentHealth);
     }
 
-    // Revive la unidad con vida completa
+    /// Revive la unidad con vida completa
     public void Revive()
     {
         IsDead = false;
@@ -160,7 +160,7 @@ public class HealthSystem : MonoBehaviour
         Debug.Log($"{gameObject.name} ha sido revivido");
     }
 
-    // Revive la unidad con un porcentaje específico de vida
+    /// Revive la unidad con un porcentaje específico de vida
     public void Revive(float healthPercentage)
     {
         IsDead = false;
