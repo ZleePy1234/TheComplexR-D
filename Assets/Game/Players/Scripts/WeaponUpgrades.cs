@@ -11,7 +11,7 @@ public class WeaponUpgrades : MonoBehaviour
     private PlayerWeapon playerWeapon;
     public List<WeaponData> weaponDataList;
 
-    // index to track current weapon for cycling
+
     private int currentIndex = 0;
 
     void Awake()
@@ -21,9 +21,7 @@ public class WeaponUpgrades : MonoBehaviour
         SetPistol();
     }
 
-    // Removed Input.GetKeyDown(H) here; cycling is done from PlayerWeapon via CycleWeapon()
 
-    // public method so PlayerWeapon can trigger cycling using the InputAction
     public void CycleWeapon()
     {
         if (weaponDataList == null || weaponDataList.Count == 0) return;
@@ -31,7 +29,6 @@ public class WeaponUpgrades : MonoBehaviour
         SwitchToCurrent();
     }
 
-    // use the existing Set... methods for each index
     private void SwitchToCurrent()
     {
         switch (currentIndex)
