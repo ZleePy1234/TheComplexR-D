@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d8ae29805749eae48bf4d123a849ec56
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 190384
+  packageName: Audio Visualize Anything
+  packageVersion: 1.1
+  assetPath: Assets/Smitesoft/Audio Visualize Anything/Scripts/GraphScripts/Graph.cs
+  uploadId: 420494

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 17f713dc01b76d84098b33228006fda3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 190384
+  packageName: Audio Visualize Anything
+  packageVersion: 1.1
+  assetPath: Assets/Smitesoft/Audio Visualize Anything/Scripts/BeatListenerB.cs
+  uploadId: 420494

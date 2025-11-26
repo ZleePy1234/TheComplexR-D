@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4c4b4348e5907484585913ce8a9340da
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 190384
+  packageName: Audio Visualize Anything
+  packageVersion: 1.1
+  assetPath: Assets/Smitesoft/Audio Visualize Anything/Scripts/GraphScripts/MaxYTextScript.cs
+  uploadId: 420494

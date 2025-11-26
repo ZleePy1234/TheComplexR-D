@@ -18,6 +18,8 @@ public class PlayerWeapon : MonoBehaviour
     InputAction fireAction;
     InputAction reloadAction;
     InputAction switchWeaponAction;
+    private AudioSource audioSource;
+    private PlayerSounds playerSounds;
 
     void Awake()
     {
@@ -27,7 +29,8 @@ public class PlayerWeapon : MonoBehaviour
         fireAction = playerControls.Controls.Fire;
         reloadAction = playerControls.Controls.Reload;
         switchWeaponAction = playerControls.Controls.SwitchGun;
-        
+        audioSource = GetComponent<AudioSource>();
+        playerSounds = GetComponent<PlayerSounds>();
     }
     private void OnEnable()
     {
@@ -70,6 +73,7 @@ public class PlayerWeapon : MonoBehaviour
         fireMode.Fire(firePoint, weaponData);
         Debug.Log("Fired weapon: " + weaponData.weaponName);
         currentAmmo--;
+        audioSource.PlayOneShot(playerSounds.shot);
     }
     public void Reload()
     {

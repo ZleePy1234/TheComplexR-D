@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 790d7b7acd3f20b45b98878b305cdf00
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 190384
+  packageName: Audio Visualize Anything
+  packageVersion: 1.1
+  assetPath: Assets/Smitesoft/Audio Visualize Anything/Scripts/AudioVisualizeManager.cs
+  uploadId: 420494
