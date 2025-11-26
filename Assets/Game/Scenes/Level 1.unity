@@ -2856,11 +2856,11 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras:
+  - {fileID: 1130068085}
   - {fileID: 1130068082}
   - {fileID: 1130068083}
   - {fileID: 1130068084}
-  - {fileID: 1130068085}
-  m_RendererIndex: -1
+  m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -14595,7 +14595,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1218648766460709341, guid: bdaea2ff7885ccd4cabb98ff2427cb11, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1249940703052194085, guid: bdaea2ff7885ccd4cabb98ff2427cb11, type: 3}
       propertyPath: m_Name
@@ -14607,15 +14607,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3325252808313423155, guid: bdaea2ff7885ccd4cabb98ff2427cb11, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3787239176335052571, guid: bdaea2ff7885ccd4cabb98ff2427cb11, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5331068182981953186, guid: bdaea2ff7885ccd4cabb98ff2427cb11, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7083710579849564903, guid: bdaea2ff7885ccd4cabb98ff2427cb11, type: 3}
       propertyPath: m_LocalPosition.x
