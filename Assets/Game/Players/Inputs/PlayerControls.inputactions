@@ -52,7 +52,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pause Game",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "82acfea4-ad11-4562-890a-b3ed2878276b",
                     "expectedControlType": "",
@@ -221,7 +221,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KBM",
-                    "action": "Pause Game",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -232,7 +232,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Pause Game",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

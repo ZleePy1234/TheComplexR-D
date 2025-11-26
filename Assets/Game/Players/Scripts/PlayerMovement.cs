@@ -19,13 +19,18 @@ public class PlayerMovement : MonoBehaviour
     private PlayerControls playerControls;
     private PlayerInput playerInput;
     private PlayerStats playerStats;
+    InputAction pauseGameAction;
+    public UI_PostProcesser uipost;
 
     void Awake()
     {
+        Time.timeScale = 1f;
         controller = GetComponent<CharacterController>();
         playerControls = new PlayerControls();
         playerInput = GetComponent<PlayerInput>();
         playerStats = GetComponent<PlayerStats>();
+        pauseGameAction = playerControls.Controls.Pause;
+        uipost = GameObject.FindWithTag("PostProcessingManager").GetComponent<UI_PostProcesser>();
     }
 
     private void OnEnable()
@@ -42,6 +47,10 @@ public class PlayerMovement : MonoBehaviour
         InputHandler();
         MovementHandler();
         RotationHandler();
+        if (pauseGameAction.WasPressedThisFrame())
+        {
+            uipost.PauseMenu();
+        }
     }
 
     void InputHandler()

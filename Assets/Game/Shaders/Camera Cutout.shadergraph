@@ -1163,7 +1163,7 @@
     "m_PerRendererData": false,
     "m_customAttributes": [],
     "m_Value": {
-        "m_SerializedTexture": "",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"3e3dbfec4ffc23e4885e7dc88e03b06d\",\"type\":3}}",
         "m_Guid": ""
     },
     "isMainTexture": false,
@@ -1886,8 +1886,8 @@
     "m_ObjectId": "628b546ca1754ee7b2066f49f7801507",
     "m_Title": "awaw",
     "m_Position": {
-        "x": -1457.0,
-        "y": -127.0
+        "x": -1456.9998779296875,
+        "y": -127.00001525878906
     }
 }
 

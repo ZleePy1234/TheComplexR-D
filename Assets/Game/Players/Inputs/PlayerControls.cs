@@ -138,7 +138,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Pause Game"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""82acfea4-ad11-4562-890a-b3ed2878276b"",
                     ""expectedControlType"": """",
@@ -307,7 +307,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";KBM"",
-                    ""action"": ""Pause Game"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -318,7 +318,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Pause Game"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -384,7 +384,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_Fire = m_Controls.FindAction("Fire", throwIfNotFound: true);
         m_Controls_Reload = m_Controls.FindAction("Reload", throwIfNotFound: true);
         m_Controls_SwitchGun = m_Controls.FindAction("SwitchGun", throwIfNotFound: true);
-        m_Controls_PauseGame = m_Controls.FindAction("Pause Game", throwIfNotFound: true);
+        m_Controls_Pause = m_Controls.FindAction("Pause", throwIfNotFound: true);
         m_Controls_Dash = m_Controls.FindAction("Dash", throwIfNotFound: true);
     }
 
@@ -471,7 +471,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Fire;
     private readonly InputAction m_Controls_Reload;
     private readonly InputAction m_Controls_SwitchGun;
-    private readonly InputAction m_Controls_PauseGame;
+    private readonly InputAction m_Controls_Pause;
     private readonly InputAction m_Controls_Dash;
     /// <summary>
     /// Provides access to input actions defined in input action map "Controls".
@@ -505,9 +505,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @SwitchGun => m_Wrapper.m_Controls_SwitchGun;
         /// <summary>
-        /// Provides access to the underlying input action "Controls/PauseGame".
+        /// Provides access to the underlying input action "Controls/Pause".
         /// </summary>
-        public InputAction @PauseGame => m_Wrapper.m_Controls_PauseGame;
+        public InputAction @Pause => m_Wrapper.m_Controls_Pause;
         /// <summary>
         /// Provides access to the underlying input action "Controls/Dash".
         /// </summary>
@@ -553,9 +553,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwitchGun.started += instance.OnSwitchGun;
             @SwitchGun.performed += instance.OnSwitchGun;
             @SwitchGun.canceled += instance.OnSwitchGun;
-            @PauseGame.started += instance.OnPauseGame;
-            @PauseGame.performed += instance.OnPauseGame;
-            @PauseGame.canceled += instance.OnPauseGame;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -585,9 +585,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwitchGun.started -= instance.OnSwitchGun;
             @SwitchGun.performed -= instance.OnSwitchGun;
             @SwitchGun.canceled -= instance.OnSwitchGun;
-            @PauseGame.started -= instance.OnPauseGame;
-            @PauseGame.performed -= instance.OnPauseGame;
-            @PauseGame.canceled -= instance.OnPauseGame;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -693,12 +693,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwitchGun(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Pause Game" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPauseGame(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Dash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

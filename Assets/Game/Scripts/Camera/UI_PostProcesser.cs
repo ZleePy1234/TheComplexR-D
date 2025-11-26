@@ -5,6 +5,7 @@ using com.cyborgAssets.inspectorButtonPro;
 [ExecuteAlways]
 public class UI_PostProcesser : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
     [Header("hud Post")]
     [SerializeField] private Camera hudCamera;
     [SerializeField] private GameObject hudVol;
@@ -65,10 +66,14 @@ public class UI_PostProcesser : MonoBehaviour
     [ProButton]
     public void PauseMenu()
     {
-        int i = 1;
         PauseToggle();
         HudToggle();
+        player.SetActive(!player.activeSelf);
         Time.timeScale = Time.timeScale == 1 ? 0 : 1;
     }
-    
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

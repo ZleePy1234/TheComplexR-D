@@ -65,6 +65,7 @@ public class PlayerWeapon : MonoBehaviour
                 upgrades.CycleWeapon();
             }
         }
+        
     }
 
     public void Fire()
