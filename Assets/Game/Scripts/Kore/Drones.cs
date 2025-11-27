@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -100,6 +99,8 @@ public class Drones : MonoBehaviour
     private Dictionary<TipoDron, float> tiemposUltimaHabilidad = new Dictionary<TipoDron, float>();
     private Dictionary<TipoDron, bool> habilidadesEnCooldown = new Dictionary<TipoDron, bool>();
     private GameObject escudoActual;
+
+    [SerializeField] private PlayerStats playerStats;
 
     void Start()
     {
@@ -293,7 +294,7 @@ public class Drones : MonoBehaviour
 
         switch (modoActual)
         {
-            case ModoDrone.OrbitaFija:                
+            case ModoDrone.OrbitaFija:
                 ActualizarPosicionesDrones();
                 break;
             case ModoDrone.BuscarObjetivo:
@@ -428,7 +429,7 @@ public class Drones : MonoBehaviour
             Debug.Log($"{drone.name} ha sido revivido y teletransportado a órbita");
         }
     }
-    
+
 
     void ControlTeclado()
     {
@@ -562,16 +563,18 @@ public class Drones : MonoBehaviour
         // Generar monedas aleatorias
         int monedasRecolectadas = Random.Range(monedasMinimas, monedasMaximas + 1);
 
-        // Aquí debes llamar a tu sistema de monedas del juego
-        // Ejemplo: GameManager.Instance.AgregarMonedas(monedasRecolectadas);
+        if (playerStats != null)
+        {
+            playerStats.playerResin += monedasRecolectadas;
+        }
+
+        else
+        {
+            Debug.Log($"No tiene playerstats asignado");
+        }
+
         Debug.Log($"{drone.name} ha regresado con {monedasRecolectadas} monedas!");
 
-        // Si tienes un GameManager con sistema de monedas, descomenta esto:
-        // GameManager gameManager = FindFirstObjectByType<GameManager>();
-        // if (gameManager != null)
-        // {
-        //     gameManager.AgregarMonedas(monedasRecolectadas);
-        // }
     }
 
     /// <summary>

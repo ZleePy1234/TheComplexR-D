@@ -12,23 +12,35 @@ public class Projectile : MonoBehaviour
     [SerializeField] private LayerMask hitLayers = -1;
     [SerializeField] private GameObject hitEffectN;
     [SerializeField] private GameObject hitEffectS;
- 
+
+    [Header("Tags")]
+    [SerializeField] private string tagJugador = "Player";
+    [SerializeField] private string tagAliado = "Ally";
+    [SerializeField] private string tagEscudo = "Shield";
+
     private Vector3 direction;
     private GameObject owner;
     private Rigidbody rb;
     private bool hasHit = false;
+    private bool esProyectilAliado = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
-       
+
     public void Initialize(Vector3 dir, float spd, float dmg, GameObject ownerObject)
     {
         direction = dir.normalized;
         speed = spd;
         damage = dmg;
         owner = ownerObject;
+
+        // Determinar si es proyectil aliado (del jugador o de un aliado)
+        if (owner != null)
+        {
+            esProyectilAliado = owner.CompareTag(tagJugador) || owner.CompareTag(tagAliado);
+        }
 
         if (rb != null)
         {
@@ -55,10 +67,13 @@ public class Projectile : MonoBehaviour
         if (owner != null && (other.transform == owner.transform || other.transform.IsChildOf(owner.transform)))
             return;
 
+        // Si es proyectil aliado, ignorar el escudo
+        if (esProyectilAliado && other.CompareTag(tagEscudo))
+            return;
+
         // Verificar si está en las capas que puede golpear
         if (((1 << other.gameObject.layer) & hitLayers) == 0)
             return;
-
 
         HandleHit(other);
     }
@@ -73,26 +88,32 @@ public class Projectile : MonoBehaviour
         if (owner != null && (collision.transform == owner.transform || collision.transform.IsChildOf(owner.transform)))
             return;
 
+        // Si es proyectil aliado, ignorar el escudo
+        if (esProyectilAliado && collision.gameObject.CompareTag(tagEscudo))
+            return;
+
         // Verificar si está en las capas que puede golpear
         if (((1 << collision.gameObject.layer) & hitLayers) == 0)
             return;
 
-        if (!collision.gameObject.CompareTag("Shield"))
+        // Efectos visuales
+        if (!collision.gameObject.CompareTag(tagEscudo))
         {
-            GameObject effect = Instantiate(hitEffectN, contact.point, Quaternion.identity);
-
-            effect.transform.rotation = Quaternion.LookRotation(contact.normal);
-
-            Destroy(effect, 1);
+            if (hitEffectN != null)
+            {
+                GameObject effect = Instantiate(hitEffectN, contact.point, Quaternion.identity);
+                effect.transform.rotation = Quaternion.LookRotation(contact.normal);
+                Destroy(effect, 1);
+            }
         }
-
         else
         {
-            GameObject effect = Instantiate(hitEffectS, contact.point, Quaternion.identity);
-
-            effect.transform.rotation = Quaternion.LookRotation(contact.normal);
-
-            Destroy(effect, 1);
+            if (hitEffectS != null)
+            {
+                GameObject effect = Instantiate(hitEffectS, contact.point, Quaternion.identity);
+                effect.transform.rotation = Quaternion.LookRotation(contact.normal);
+                Destroy(effect, 1);
+            }
         }
 
         HandleHit(collision.collider);
@@ -102,11 +123,23 @@ public class Projectile : MonoBehaviour
     {
         hasHit = true;
 
-        // Aplicar daño si el objeto tiene HealthSystem
-        HealthSystem health = hitCollider.GetComponent<HealthSystem>();
-        if (health != null && !health.IsDead)
+        // Verificar si golpeó al jugador (usa PlayerStats)
+        if (hitCollider.CompareTag(tagJugador))
         {
-            health.TakeDamage(damage);
+            PlayerStats playerStats = hitCollider.GetComponent<PlayerStats>();
+            if (playerStats != null)
+            {
+                playerStats.DamagePlayer(Mathf.RoundToInt(damage));
+            }
+        }
+        else
+        {
+            // Para otros objetos, usar HealthSystem
+            HealthSystem health = hitCollider.GetComponent<HealthSystem>();
+            if (health != null && !health.IsDead)
+            {
+                health.TakeDamage(damage);
+            }
         }
 
         // Destruir proyectil

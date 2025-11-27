@@ -1,341 +1,697 @@
-using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
+/// <summary>
+/// Sistema de tienda con 3 opciones aleatorias por nivel/zona.
+/// - Armas: Al comprar se equipan, solo muestra armas diferentes a la equipada
+/// - Buscadores: Solo 1, mejoras aumentan recursos
+/// - Atacantes: Primero cantidad (max 3), luego daño
+/// - Defensores: Primero cantidad (max 5), luego vida
+/// </summary>
 public class TiendaMejoras : MonoBehaviour
 {
-    [Header("Referencias")]
+    #region Enums y Clases
+
+    public enum TipoMejora
+    {
+        // Armas
+        Arma_Pistola,
+        Arma_HandCannon,
+        Arma_MachineGun,
+        Arma_SMG,
+        Arma_Shotgun,
+
+        // Drones - Buscador (solo recursos, no cantidad)
+        Drone_Buscador_Recursos,
+
+        // Drones - Atacante
+        Drone_Atacante_Cantidad,
+        Drone_Atacante_Daño,
+
+        // Drones - Defensor
+        Drone_Defensor_Cantidad,
+        Drone_Defensor_Vida
+    }
+
+    [System.Serializable]
+    public class ConfiguracionMejora
+    {
+        public TipoMejora tipo;
+        public string nombre;
+        public string descripcion;
+        public Sprite icono;
+        public int costoBase;
+        public int incrementoCostoPorNivel;
+        public int nivelMaximo;
+        [HideInInspector] public int nivelActual;
+
+        public int ObtenerCostoActual()
+        {
+            return costoBase + (incrementoCostoPorNivel * nivelActual);
+        }
+
+        public bool EstaAlMaximo()
+        {
+            return nivelActual >= nivelMaximo;
+        }
+    }
+
+    #endregion
+
+    #region Referencias
+
+    [Header("Referencias Principales")]
     public Drones sistemaDrones;
+    public WeaponUpgrades sistemaArmas;
+    public PlayerStats playerStats;
 
-    [Header("Economía")]
-    public int dineroActual = 0;
+    [Header("Sistema de Zona/Nivel")]
+    public int zonaActual = 1;
 
-    [Header("Costos de Mejoras - Lista 1 (Buscadores)")]
-    public int costoMejoraLista1 = 100;
+    [Header("Configuración de Mejoras")]
+    public List<ConfiguracionMejora> todasLasMejoras = new List<ConfiguracionMejora>();
 
-    [Header("Costos de Mejoras - Lista 2 (Atacantes)")]
-    public int costoMejoraLista2Nivel1 = 150;  // Para el segundo dron
-    public int costoMejoraLista2Nivel2 = 300;  // Para el tercer dron
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip sonidoCompra;
+    public AudioClip sonidoError;
 
-    [Header("Costos de Mejoras - Lista 3 (Defensores)")]
-    public int costoMejoraLista3Nivel1 = 200;  // Para el segundo dron
-    public int costoMejoraLista3Nivel2 = 400;  // Para el tercer dron
-    public int costoMejoraLista3Nivel3 = 600;  // Para el cuarto dron
-    public int costoMejoraLista3Nivel4 = 800;  // Para el quinto dron
+    #endregion
 
-    [Header("Estado de Mejoras")]
-    public int nivelMejoraLista1 = 0;
-    public int nivelMejoraLista2 = 1; // Empieza con 1 dron
-    public int nivelMejoraLista3 = 1; // Empieza con 1 dron
+    #region Variables Privadas
 
-    private const int MAX_NIVEL_LISTA1 = 1;
-    private const int MAX_NIVEL_LISTA2 = 3; // Máximo 3 drones
-    private const int MAX_NIVEL_LISTA3 = 5; // Máximo 5 drones
+    private List<ConfiguracionMejora> opcionesActuales = new List<ConfiguracionMejora>();
+    private System.Random randomGenerador;
 
-    [Header("UI")]
-    public TextMeshProUGUI dinero;
-    public TextMeshProUGUI buscador;
-    public TextMeshProUGUI ataque;
-    public TextMeshProUGUI defensor;
+    // Constantes
+    private const int MAX_DRONES_ATACANTE = 3;
+    private const int MAX_DRONES_DEFENSOR = 5;
+    private const int MAX_MEJORAS_RECURSOS_BUSCADOR = 5;
+    private const int MAX_MEJORAS_DAÑO_ATACANTE = 5;
+    private const int MAX_MEJORAS_VIDA_DEFENSOR = 5;
+
+    // Valores base para el buscador
+    private int monedasMinimasBase = 50;
+    private int monedasMaximasBase = 150;
+
+    #endregion
+
+    #region Inicialización
 
     void Start()
     {
+        randomGenerador = new System.Random();
+
+        // Buscar referencias si no están asignadas
         if (sistemaDrones == null)
-        {
             sistemaDrones = FindFirstObjectByType<Drones>();
-            if (sistemaDrones == null)
-            {
-                Debug.LogError("No se encontró el sistema de Drones en la escena");
-            }
+
+        if (sistemaArmas == null)
+            sistemaArmas = FindFirstObjectByType<WeaponUpgrades>();
+
+        if (playerStats == null)
+            playerStats = FindFirstObjectByType<PlayerStats>();
+
+        // Inicializar mejoras por defecto si la lista está vacía
+        if (todasLasMejoras.Count == 0)
+            InicializarMejorasPorDefecto();
+
+        // Guardar valores base del buscador
+        if (sistemaDrones != null)
+        {
+            monedasMinimasBase = sistemaDrones.monedasMinimas;
+            monedasMaximasBase = sistemaDrones.monedasMaximas;
         }
 
+        // Configurar drones iniciales
         ConfigurarDronesIniciales();
+
+        // Generar opciones para la primera zona
+        GenerarOpcionesParaZona();
     }
 
-    private void ConfigurarDronesIniciales()
+    void InicializarMejorasPorDefecto()
     {
-        // Desactivar todos los drones de las listas 2 y 3
-        DesactivarTodosLosDrones();
-
-        // Activar solo los drones comprados
-        ActivarDronesSegunNivel();
-    }
-
-    private void DesactivarTodosLosDrones()
-    {
-        // Lista 2
-        foreach (Transform drone in sistemaDrones.dronesLista2)
+        // ===== ARMAS =====
+        todasLasMejoras.Add(new ConfiguracionMejora
         {
-            if (drone != null)
-                drone.gameObject.SetActive(false);
+            tipo = TipoMejora.Arma_Pistola,
+            nombre = "Pistola",
+            descripcion = "Arma básica, precisa y confiable",
+            costoBase = 100,
+            incrementoCostoPorNivel = 0,
+            nivelMaximo = 1,
+            nivelActual = 1 // Ya la tienes equipada al inicio
+        });
+
+        todasLasMejoras.Add(new ConfiguracionMejora
+        {
+            tipo = TipoMejora.Arma_HandCannon,
+            nombre = "Hand Cannon",
+            descripcion = "Alto daño, baja cadencia",
+            costoBase = 200,
+            incrementoCostoPorNivel = 0,
+            nivelMaximo = 1
+        });
+
+        todasLasMejoras.Add(new ConfiguracionMejora
+        {
+            tipo = TipoMejora.Arma_MachineGun,
+            nombre = "Machine Pistol",
+            descripcion = "Alta cadencia, daño moderado",
+            costoBase = 250,
+            incrementoCostoPorNivel = 0,
+            nivelMaximo = 1
+        });
+
+        todasLasMejoras.Add(new ConfiguracionMejora
+        {
+            tipo = TipoMejora.Arma_SMG,
+            nombre = "SMG",
+            descripcion = "Subfusil equilibrado",
+            costoBase = 300,
+            incrementoCostoPorNivel = 0,
+            nivelMaximo = 1
+        });
+
+        todasLasMejoras.Add(new ConfiguracionMejora
+        {
+            tipo = TipoMejora.Arma_Shotgun,
+            nombre = "Escopeta",
+            descripcion = "Devastadora a corta distancia",
+            costoBase = 350,
+            incrementoCostoPorNivel = 0,
+            nivelMaximo = 1
+        });
+
+        // ===== BUSCADOR (Solo mejora de recursos) =====
+        todasLasMejoras.Add(new ConfiguracionMejora
+        {
+            tipo = TipoMejora.Drone_Buscador_Recursos,
+            nombre = "Buscador: +Recursos",
+            descripcion = "Aumenta monedas recolectadas (+25%)",
+            costoBase = 150,
+            incrementoCostoPorNivel = 75,
+            nivelMaximo = MAX_MEJORAS_RECURSOS_BUSCADOR
+        });
+
+        // ===== ATACANTES =====
+        todasLasMejoras.Add(new ConfiguracionMejora
+        {
+            tipo = TipoMejora.Drone_Atacante_Cantidad,
+            nombre = "Dron Atacante +1",
+            descripcion = "Añade un dron atacante adicional",
+            costoBase = 150,
+            incrementoCostoPorNivel = 150,
+            nivelMaximo = MAX_DRONES_ATACANTE - 1 // Ya empezamos con 1
+        });
+
+        todasLasMejoras.Add(new ConfiguracionMejora
+        {
+            tipo = TipoMejora.Drone_Atacante_Daño,
+            nombre = "Atacantes: +Daño",
+            descripcion = "Aumenta el daño de ataque (+15%)",
+            costoBase = 200,
+            incrementoCostoPorNivel = 100,
+            nivelMaximo = MAX_MEJORAS_DAÑO_ATACANTE
+        });
+
+        // ===== DEFENSORES =====
+        todasLasMejoras.Add(new ConfiguracionMejora
+        {
+            tipo = TipoMejora.Drone_Defensor_Cantidad,
+            nombre = "Dron Defensor +1",
+            descripcion = "Añade un dron defensor adicional",
+            costoBase = 200,
+            incrementoCostoPorNivel = 200,
+            nivelMaximo = MAX_DRONES_DEFENSOR - 1 // Ya empezamos con 1
+        });
+
+        todasLasMejoras.Add(new ConfiguracionMejora
+        {
+            tipo = TipoMejora.Drone_Defensor_Vida,
+            nombre = "Defensores: +Vida",
+            descripcion = "Aumenta la vida de defensores (+20%)",
+            costoBase = 175,
+            incrementoCostoPorNivel = 85,
+            nivelMaximo = MAX_MEJORAS_VIDA_DEFENSOR
+        });
+    }
+
+    void ConfigurarDronesIniciales()
+    {
+        if (sistemaDrones == null) return;
+
+        // Buscadores: Solo 1, siempre activo
+        if (sistemaDrones.dronesLista1.Count > 0 && sistemaDrones.dronesLista1[0] != null)
+            sistemaDrones.dronesLista1[0].gameObject.SetActive(true);
+
+        // Desactivar buscadores extra (si los hay)
+        for (int i = 1; i < sistemaDrones.dronesLista1.Count; i++)
+        {
+            if (sistemaDrones.dronesLista1[i] != null)
+                sistemaDrones.dronesLista1[i].gameObject.SetActive(false);
         }
 
-        // Lista 3
-        foreach (Transform drone in sistemaDrones.dronesLista3)
-        {
-            if (drone != null)
-                drone.gameObject.SetActive(false);
-        }
-    }
-
-    private void ActivarDronesSegunNivel()
-    {
-        // Activar drones de Lista 2 según nivel
-        for (int i = 0; i < nivelMejoraLista2 && i < sistemaDrones.dronesLista2.Count; i++)
+        // Atacantes: Solo el primero activo
+        for (int i = 0; i < sistemaDrones.dronesLista2.Count; i++)
         {
             if (sistemaDrones.dronesLista2[i] != null)
-                sistemaDrones.dronesLista2[i].gameObject.SetActive(true);
+                sistemaDrones.dronesLista2[i].gameObject.SetActive(i == 0);
         }
 
-        // Activar drones de Lista 3 según nivel
-        for (int i = 0; i < nivelMejoraLista3 && i < sistemaDrones.dronesLista3.Count; i++)
+        // Defensores: Solo el primero activo
+        for (int i = 0; i < sistemaDrones.dronesLista3.Count; i++)
         {
             if (sistemaDrones.dronesLista3[i] != null)
-                sistemaDrones.dronesLista3[i].gameObject.SetActive(true);
+                sistemaDrones.dronesLista3[i].gameObject.SetActive(i == 0);
         }
     }
 
-    private void Update()
-    {
-        ActualizarUI();
-    }
+    #endregion
 
-    private void ActualizarUI()
-    {
-        dinero.text = "Dinero: " + dineroActual;
-        buscador.text = "Nivel Buscador: " ;
-        ataque.text = "Atacantes LV: " + nivelMejoraLista2;
-        defensor.text = "Defensores LV: " + nivelMejoraLista3;
-    }
+    #region Sistema de Opciones Aleatorias
 
-    /// Agrega dinero al jugador    
-    public void AgregarDinero(int cantidad)
+    /// <summary>
+    /// Genera 3 opciones aleatorias para la zona actual
+    /// Solo se llama cuando avanzas de zona
+    /// </summary>
+    public void GenerarOpcionesParaZona()
     {
-        dineroActual += cantidad;
-        Debug.Log($"Dinero agregado: {cantidad}. Total: {dineroActual}");
-    }
-        
-    /// Mejora los drones de la Lista 1 (Buscadores)
-    public bool MejorarLista1()
-    {
-        if (nivelMejoraLista1 >= MAX_NIVEL_LISTA1)
+        opcionesActuales.Clear();
+        opcionesCompradas.Clear(); // Resetear compras para la nueva zona
+
+        List<ConfiguracionMejora> mejorasDisponibles = ObtenerMejorasDisponibles();
+
+        if (mejorasDisponibles.Count == 0)
         {
-            Debug.Log("Lista 1 ya está al máximo nivel");
-            return false;
+            Debug.Log("¡Todas las mejoras están al máximo!");
+            return;
         }
 
-        if (dineroActual < costoMejoraLista1)
+        // Mezclar la lista
+        for (int i = mejorasDisponibles.Count - 1; i > 0; i--)
         {
-            Debug.Log($"Dinero insuficiente. Necesitas {costoMejoraLista1}, tienes {dineroActual}");
-            return false;
+            int j = randomGenerador.Next(i + 1);
+            var temp = mejorasDisponibles[i];
+            mejorasDisponibles[i] = mejorasDisponibles[j];
+            mejorasDisponibles[j] = temp;
         }
 
-        // Restar dinero
-        dineroActual -= costoMejoraLista1;
-        nivelMejoraLista1++;
+        // Tomar las primeras 3 (o menos si no hay suficientes)
+        int cantidadOpciones = Mathf.Min(3, mejorasDisponibles.Count);
+        for (int i = 0; i < cantidadOpciones; i++)
+        {
+            opcionesActuales.Add(mejorasDisponibles[i]);
+            opcionesCompradas.Add(false); // Ninguna comprada inicialmente
+        }
 
-        Debug.Log($"¡Lista 1 mejorada al nivel {nivelMejoraLista1}!");
+        Debug.Log($"Zona {zonaActual}: Generadas {cantidadOpciones} opciones");
+    }
 
-        // Aquí irá la lógica de mejora cuando decidas qué mejorar
-        // Por ahora está vacía
-        AplicarMejoraLista1();
+    List<ConfiguracionMejora> ObtenerMejorasDisponibles()
+    {
+        List<ConfiguracionMejora> disponibles = new List<ConfiguracionMejora>();
+
+        foreach (var mejora in todasLasMejoras)
+        {
+            // Verificar si está al máximo
+            if (mejora.EstaAlMaximo())
+                continue;
+
+            // Verificar requisitos especiales
+            if (!CumpleRequisitos(mejora))
+                continue;
+
+            disponibles.Add(mejora);
+        }
+
+        return disponibles;
+    }
+
+    bool CumpleRequisitos(ConfiguracionMejora mejora)
+    {
+        switch (mejora.tipo)
+        {
+            // Armas: Solo mostrar si NO es el arma equipada actualmente
+            case TipoMejora.Arma_Pistola:
+                return sistemaArmas == null || sistemaArmas.GetIndiceArmaActual() != 0;
+            case TipoMejora.Arma_HandCannon:
+                return sistemaArmas == null || sistemaArmas.GetIndiceArmaActual() != 1;
+            case TipoMejora.Arma_MachineGun:
+                return sistemaArmas == null || sistemaArmas.GetIndiceArmaActual() != 2;
+            case TipoMejora.Arma_SMG:
+                return sistemaArmas == null || sistemaArmas.GetIndiceArmaActual() != 3;
+            case TipoMejora.Arma_Shotgun:
+                return sistemaArmas == null || sistemaArmas.GetIndiceArmaActual() != 4;
+
+            // Daño de atacantes: Solo disponible cuando tenemos max drones
+            case TipoMejora.Drone_Atacante_Daño:
+                var mejoraCantidadAtacante = ObtenerMejora(TipoMejora.Drone_Atacante_Cantidad);
+                return mejoraCantidadAtacante == null || mejoraCantidadAtacante.EstaAlMaximo();
+
+            // Vida de defensores: Solo disponible cuando tenemos max drones
+            case TipoMejora.Drone_Defensor_Vida:
+                var mejoraCantidadDefensor = ObtenerMejora(TipoMejora.Drone_Defensor_Cantidad);
+                return mejoraCantidadDefensor == null || mejoraCantidadDefensor.EstaAlMaximo();
+        }
 
         return true;
     }
 
-    /// Mejora los drones de la Lista 2 (Atacantes) - Aumenta cantidad de drones
-    public void MejorarLista2()
+    #endregion
+
+    #region Sistema de Compras
+
+    // Rastrea qué opciones ya fueron compradas en esta zona
+    private List<bool> opcionesCompradas = new List<bool>();
+
+    public void ComprarOpcion(int indice)
     {
-        if (nivelMejoraLista2 >= MAX_NIVEL_LISTA2)
+        if (indice < 0 || indice >= opcionesActuales.Count)
+            return;
+
+        // Verificar si ya fue comprada
+        if (indice < opcionesCompradas.Count && opcionesCompradas[indice])
         {
-            Debug.Log("Lista 2 ya está al máximo nivel (3 drones)");
+            Debug.Log("Esta opción ya fue comprada");
+            if (sonidoError != null && audioSource != null)
+                audioSource.PlayOneShot(sonidoError);
             return;
         }
 
-        int costoActual = ObtenerCostoMejoraLista2();
+        var mejora = opcionesActuales[indice];
 
-        if (dineroActual < costoActual)
+        if (ObtenerDinero() < mejora.ObtenerCostoActual() || mejora.EstaAlMaximo())
         {
-            Debug.Log($"Dinero insuficiente. Necesitas {costoActual}, tienes {dineroActual}");
+            if (sonidoError != null && audioSource != null)
+                audioSource.PlayOneShot(sonidoError);
             return;
         }
 
-        // Restar dinero
-        dineroActual -= costoActual;
-        nivelMejoraLista2++;
+        // Cobrar
+        RestarDinero(mejora.ObtenerCostoActual());
 
-        Debug.Log($"¡Lista 2 mejorada! Ahora tienes {nivelMejoraLista2} drones atacantes");
+        // Aplicar mejora
+        AplicarMejora(mejora);
 
-        // Activar el siguiente dron en la lista
-        AplicarMejoraLista2();
+        // Incrementar nivel
+        mejora.nivelActual++;
+
+        // Marcar como comprada
+        if (indice < opcionesCompradas.Count)
+            opcionesCompradas[indice] = true;
+
+        if (sonidoCompra != null && audioSource != null)
+            audioSource.PlayOneShot(sonidoCompra);
+
+        Debug.Log($"Comprado: {mejora.nombre}");
     }
 
-    /// Mejora los drones de la Lista 3 (Defensores) - Aumenta cantidad de drones
-    public void MejorarLista3()
+    /// <summary>
+    /// Verifica si una opción ya fue comprada
+    /// </summary>
+    public bool OpcionYaComprada(int indice)
     {
-        if (nivelMejoraLista3 >= MAX_NIVEL_LISTA3)
-        {
-            Debug.Log("Lista 3 ya está al máximo nivel (5 drones)");
-            return;
-        }
-
-        int costoActual = ObtenerCostoMejoraLista3();
-
-        if (dineroActual < costoActual)
-        {
-            Debug.Log($"Dinero insuficiente. Necesitas {costoActual}, tienes {dineroActual}");
-            return;
-        }
-
-        // Restar dinero
-        dineroActual -= costoActual;
-        nivelMejoraLista3++;
-
-        Debug.Log($"¡Lista 3 mejorada! Ahora tienes {nivelMejoraLista3} drones defensores");
-
-        // Activar el siguiente dron en la lista
-        AplicarMejoraLista3();
+        if (indice < 0 || indice >= opcionesCompradas.Count)
+            return false;
+        return opcionesCompradas[indice];
     }
 
-
-    /// Obtiene el costo de la siguiente mejora para la Lista 2
-    public int ObtenerCostoMejoraLista2()
+    void AplicarMejora(ConfiguracionMejora mejora)
     {
-        switch (nivelMejoraLista2)
+        switch (mejora.tipo)
         {
-            case 1: return costoMejoraLista2Nivel1; // Para obtener el 2do dron
-            case 2: return costoMejoraLista2Nivel2; // Para obtener el 3er dron
-            default: return 0;
-        }
-    }
+            // ===== ARMAS =====
+            case TipoMejora.Arma_Pistola:
+                sistemaArmas?.EquiparArma(0);
+                break;
+            case TipoMejora.Arma_HandCannon:
+                sistemaArmas?.EquiparArma(1);
+                break;
+            case TipoMejora.Arma_MachineGun:
+                sistemaArmas?.EquiparArma(2);
+                break;
+            case TipoMejora.Arma_SMG:
+                sistemaArmas?.EquiparArma(3);
+                break;
+            case TipoMejora.Arma_Shotgun:
+                sistemaArmas?.EquiparArma(4);
+                break;
 
-    /// Obtiene el costo de la siguiente mejora para la Lista 3
-    public int ObtenerCostoMejoraLista3()
-    {
-        switch (nivelMejoraLista3)
-        {
-            case 1: return costoMejoraLista3Nivel1; // Para obtener el 2do dron
-            case 2: return costoMejoraLista3Nivel2; // Para obtener el 3er dron
-            case 3: return costoMejoraLista3Nivel3; // Para obtener el 4to dron
-            case 4: return costoMejoraLista3Nivel4; // Para obtener el 5to dron
-            default: return 0;
-        }
-    }
+            // ===== BUSCADOR (Solo recursos) =====
+            case TipoMejora.Drone_Buscador_Recursos:
+                AplicarMejoraRecursosBuscador(mejora.nivelActual + 1);
+                break;
 
-    /// Verifica si se puede comprar una mejora específica
-    public bool PuedeComprarMejora(int numeroLista)
-    {
-        switch (numeroLista)
-        {
-            case 1:
-                return nivelMejoraLista1 < MAX_NIVEL_LISTA1 && dineroActual >= costoMejoraLista1;
-            case 2:
-                return nivelMejoraLista2 < MAX_NIVEL_LISTA2 && dineroActual >= ObtenerCostoMejoraLista2();
-            case 3:
-                return nivelMejoraLista3 < MAX_NIVEL_LISTA3 && dineroActual >= ObtenerCostoMejoraLista3();
-            default:
-                return false;
+            // ===== ATACANTES =====
+            case TipoMejora.Drone_Atacante_Cantidad:
+                AplicarMejoraCantidadDrones(sistemaDrones.dronesLista2, mejora.nivelActual + 1);
+                break;
+            case TipoMejora.Drone_Atacante_Daño:
+                AplicarMejoraDañoAtacante(mejora.nivelActual + 1);
+                break;
+
+            // ===== DEFENSORES =====
+            case TipoMejora.Drone_Defensor_Cantidad:
+                AplicarMejoraCantidadDrones(sistemaDrones.dronesLista3, mejora.nivelActual + 1);
+                break;
+            case TipoMejora.Drone_Defensor_Vida:
+                AplicarMejoraVidaDefensor(mejora.nivelActual + 1);
+                break;
         }
     }
 
-    /// Aplica la mejora a la Lista 1 (función vacía por ahora)
-    private void AplicarMejoraLista1()
+    #endregion
+
+    #region Aplicar Mejoras Específicas
+
+    void AplicarMejoraCantidadDrones(List<Transform> listaDrones, int nuevoNivel)
     {
-        // Esta función está vacía intencionalmente
-        // Aquí irá la lógica para el dron buscador   
+        // +1 porque ya tenemos 1 dron base
+        int dronesAActivar = nuevoNivel + 1;
+
+        for (int i = 0; i < listaDrones.Count && i < dronesAActivar; i++)
+        {
+            if (listaDrones[i] != null)
+                listaDrones[i].gameObject.SetActive(true);
+        }
+
+        sistemaDrones?.CambiarListaActiva(sistemaDrones.listaActiva);
     }
-        
-    /// Aplica la mejora a la Lista 2 - Activa drones adicionales
-    private void AplicarMejoraLista2()
+
+    void AplicarMejoraRecursosBuscador(int nivel)
     {
         if (sistemaDrones == null) return;
 
-        // Activar el dron recién comprado (índice = nivel - 1)
-        int indiceDronNuevo = nivelMejoraLista2 - 1;
+        float multiplicador = 1f + (nivel * 0.25f); // +25% por nivel
 
-        if (indiceDronNuevo < sistemaDrones.dronesLista2.Count &&
-            sistemaDrones.dronesLista2[indiceDronNuevo] != null)
-        {
-            sistemaDrones.dronesLista2[indiceDronNuevo].gameObject.SetActive(true);
+        sistemaDrones.monedasMinimas = Mathf.RoundToInt(monedasMinimasBase * multiplicador);
+        sistemaDrones.monedasMaximas = Mathf.RoundToInt(monedasMaximasBase * multiplicador);
 
-            // Si la lista 2 está activa, forzar actualización
-            if (sistemaDrones.listaActiva == 1)
-            {
-                sistemaDrones.CambiarListaActiva(1);
-            }
-        }
+        Debug.Log($"Recursos del Buscador: {sistemaDrones.monedasMinimas}-{sistemaDrones.monedasMaximas}");
     }
 
-    /// Aplica la mejora a la Lista 3 - Activa drones adicionales
-    private void AplicarMejoraLista3()
+    void AplicarMejoraDañoAtacante(int nivel)
     {
         if (sistemaDrones == null) return;
 
-        // Activar el dron recién comprado (índice = nivel - 1)
-        int indiceDronNuevo = nivelMejoraLista3 - 1;
+        float multiplicador = 1f + (nivel * 0.15f); // +15% por nivel
 
-        if (indiceDronNuevo < sistemaDrones.dronesLista3.Count &&
-            sistemaDrones.dronesLista3[indiceDronNuevo] != null)
+        foreach (Transform drone in sistemaDrones.dronesLista2)
         {
-            sistemaDrones.dronesLista3[indiceDronNuevo].gameObject.SetActive(true);
+            if (drone == null) continue;
 
-            // Si la lista 3 está activa, forzar actualización
-            if (sistemaDrones.listaActiva == 2)
+            // Buscar el modificador de ataque
+            AIAttackModifier modifier = drone.GetComponent<AIAttackModifier>();
+            if (modifier != null)
             {
-                sistemaDrones.CambiarListaActiva(2);
+                modifier.SetDamageMultiplier(multiplicador);
+            }
+            else
+            {
+                // Fallback: usar reflexión directa
+                AIAttackSystem attackSystem = drone.GetComponent<AIAttackSystem>();
+                if (attackSystem != null)
+                {
+                    var field = typeof(AIAttackSystem).GetField("attackDamage",
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    if (field != null)
+                    {
+                        float baseDamage = 10f;
+                        field.SetValue(attackSystem, baseDamage * multiplicador);
+                    }
+                }
             }
         }
+
+        Debug.Log($"Daño de Atacantes: x{multiplicador:F2}");
     }
 
+    void AplicarMejoraVidaDefensor(int nivel)
+    {
+        if (sistemaDrones == null) return;
+
+        float multiplicador = 1f + (nivel * 0.20f); // +20% por nivel
+
+        foreach (Transform drone in sistemaDrones.dronesLista3)
+        {
+            if (drone == null) continue;
+
+            HealthSystem health = drone.GetComponent<HealthSystem>();
+            if (health != null)
+            {
+                health.SetHealthMultiplier(multiplicador);
+            }
+        }
+
+        Debug.Log($"Vida de Defensores: x{multiplicador:F2}");
+    }
+
+    #endregion
+
+    #region Métodos Públicos
+
+    /// <summary>
+    /// Obtiene el dinero actual del jugador (playerResin)
+    /// </summary>
+    public int ObtenerDinero()
+    {
+        if (playerStats == null) return 0;
+        return playerStats.playerResin;
+    }
+
+    /// <summary>
+    /// Resta dinero al jugador
+    /// </summary>
+    private void RestarDinero(int cantidad)
+    {
+        if (playerStats == null) return;
+        playerStats.playerResin -= cantidad;
+    }
+
+    /// <summary>
+    /// Agrega dinero al jugador
+    /// </summary>
+    public void AgregarDinero(int cantidad)
+    {
+        if (playerStats == null) return;
+        playerStats.playerResin += cantidad;
+        Debug.Log($"Dinero agregado: {cantidad}. Total: {playerStats.playerResin}");
+    }
+
+    /// <summary>
+    /// Avanza a la siguiente zona y genera nuevas opciones
+    /// </summary>
+    public void AvanzarZona()
+    {
+        zonaActual++;
+        GenerarOpcionesParaZona();
+        Debug.Log($"Avanzando a Zona {zonaActual}");
+    }
+
+    /// <summary>
+    /// Obtiene una mejora específica por tipo
+    /// </summary>
+    public ConfiguracionMejora ObtenerMejora(TipoMejora tipo)
+    {
+        return todasLasMejoras.Find(m => m.tipo == tipo);
+    }
+
+    /// <summary>
+    /// Obtiene el nivel actual de una mejora
+    /// </summary>
+    public int ObtenerNivelMejora(TipoMejora tipo)
+    {
+        var mejora = ObtenerMejora(tipo);
+        return mejora?.nivelActual ?? 0;
+    }
+
+    /// <summary>
+    /// Obtiene las opciones actuales de la tienda
+    /// </summary>
+    public List<ConfiguracionMejora> ObtenerOpcionesActuales()
+    {
+        return opcionesActuales;
+    }
+
+    /// <summary>
+    /// Obtiene el máximo de drones para una lista específica
+    /// </summary>
     public int ObtenerMaxDronesLista(int numeroLista)
     {
+        if (sistemaDrones == null) return 0;
+
         switch (numeroLista)
         {
-            case 1: return sistemaDrones.dronesLista1.Count; // Lista 1 siempre completa
-            case 2: return nivelMejoraLista2;
-            case 3: return nivelMejoraLista3;
-            default: return 0;
+            case 0: // Lista 1 - Buscadores (siempre 1)
+                return 1;
+            case 1: // Lista 2 - Atacantes
+                return 1 + ObtenerNivelMejora(TipoMejora.Drone_Atacante_Cantidad);
+            case 2: // Lista 3 - Defensores
+                return 1 + ObtenerNivelMejora(TipoMejora.Drone_Defensor_Cantidad);
+            default:
+                return 0;
         }
     }
 
+    /// <summary>
+    /// Aplica el límite de drones activos según las mejoras compradas
+    /// </summary>
     public void AplicarLimiteDronesAListaActiva(int numeroLista)
     {
+        if (sistemaDrones == null) return;
+
         if (numeroLista == 1)
         {
-            // Lista 2: Limitar a los drones comprados
+            // Lista 2 (Atacantes): Limitar a los drones comprados
+            int maxAtacantes = 1 + ObtenerNivelMejora(TipoMejora.Drone_Atacante_Cantidad);
             for (int i = 0; i < sistemaDrones.dronesLista2.Count; i++)
             {
                 if (sistemaDrones.dronesLista2[i] != null)
                 {
-                    sistemaDrones.dronesLista2[i].gameObject.SetActive(i < nivelMejoraLista2);
+                    sistemaDrones.dronesLista2[i].gameObject.SetActive(i < maxAtacantes);
                 }
             }
         }
         else if (numeroLista == 2)
         {
-            // Lista 3: Limitar a los drones comprados
+            // Lista 3 (Defensores): Limitar a los drones comprados
+            int maxDefensores = 1 + ObtenerNivelMejora(TipoMejora.Drone_Defensor_Cantidad);
             for (int i = 0; i < sistemaDrones.dronesLista3.Count; i++)
             {
                 if (sistemaDrones.dronesLista3[i] != null)
                 {
-                    sistemaDrones.dronesLista3[i].gameObject.SetActive(i < nivelMejoraLista3);
+                    sistemaDrones.dronesLista3[i].gameObject.SetActive(i < maxDefensores);
                 }
             }
         }
     }
 
-    /// Obtiene información de estado para UI
-    public string ObtenerInfoMejora(int numeroLista)
+    #endregion
+
+    #region Debug
+
+    [ContextMenu("Debug: Agregar 1000 de dinero")]
+    void DebugAgregarDinero()
     {
-        switch (numeroLista)
+        AgregarDinero(1000);
+    }
+
+    [ContextMenu("Debug: Avanzar Zona")]
+    void DebugAvanzarZona()
+    {
+        AvanzarZona();
+    }
+
+    [ContextMenu("Debug: Mostrar Estado")]
+    void DebugMostrarEstado()
+    {
+        foreach (var mejora in todasLasMejoras)
         {
-            case 1:
-                return $"Lista 1 - Nivel: {nivelMejoraLista1}/{MAX_NIVEL_LISTA1}\nCosto: {costoMejoraLista1}";
-            case 2:
-                return $"Lista 2 - Drones: {nivelMejoraLista2}/{MAX_NIVEL_LISTA2}\nCosto: {ObtenerCostoMejoraLista2()}";
-            case 3:
-                return $"Lista 3 - Drones: {nivelMejoraLista3}/{MAX_NIVEL_LISTA3}\nCosto: {ObtenerCostoMejoraLista3()}";
-            default:
-                return "Lista inválida";
+            Debug.Log($"{mejora.nombre}: Nivel {mejora.nivelActual}/{mejora.nivelMaximo} - Costo: ${mejora.ObtenerCostoActual()}");
         }
     }
+
+    #endregion
 }

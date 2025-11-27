@@ -779,12 +779,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 1
+  destroyOnDeath: 0
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -792,6 +794,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &27287689
@@ -876,7 +884,7 @@ MonoBehaviour:
   firePoint: {fileID: 1926613449}
   projectileSpeed: 20
   muzzleFlashEffect: {fileID: 4683922028883973532, guid: faf63a8f535aeec4fa53481785a7f4e9, type: 3}
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 1826534579995449418, guid: 9ef7b25d8252e48488c3b7c337c40709, type: 3}
   aoeEffect: {fileID: 0}
   laserEffect: {fileID: 0}
   effectDuration: 1
@@ -903,8 +911,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 3.5
+  m_BaseOffset: 3.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &28466443
@@ -23851,6 +23859,8 @@ MonoBehaviour:
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -23858,6 +23868,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &212096536
@@ -27487,12 +27503,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 1
+  destroyOnDeath: 0
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -27500,6 +27518,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!195 &456482945
@@ -27520,8 +27544,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 3.5
+  m_BaseOffset: 3.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!43 &473424931
@@ -29051,12 +29075,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 1
+  destroyOnDeath: 0
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -29064,6 +29090,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!195 &578406205
@@ -29084,8 +29116,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 3.5
+  m_BaseOffset: 3.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!4 &590502760 stripped
@@ -30126,6 +30158,8 @@ MonoBehaviour:
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -30133,6 +30167,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &690370702
@@ -35531,6 +35571,8 @@ MonoBehaviour:
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -35538,6 +35580,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1042343499
@@ -37242,12 +37290,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 1
+  destroyOnDeath: 0
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -37255,6 +37305,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!195 &1114311816
@@ -37275,8 +37331,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 3.5
+  m_BaseOffset: 3.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &1121308398
@@ -37408,12 +37464,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 1
+  destroyOnDeath: 0
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -37421,6 +37479,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1121308404
@@ -37505,7 +37569,7 @@ MonoBehaviour:
   firePoint: {fileID: 700017061}
   projectileSpeed: 20
   muzzleFlashEffect: {fileID: 4683922028883973532, guid: faf63a8f535aeec4fa53481785a7f4e9, type: 3}
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 1826534579995449418, guid: 9ef7b25d8252e48488c3b7c337c40709, type: 3}
   aoeEffect: {fileID: 0}
   laserEffect: {fileID: 0}
   effectDuration: 1
@@ -37532,8 +37596,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 3.5
+  m_BaseOffset: 3.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &1123189089
@@ -39534,12 +39598,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 1
+  destroyOnDeath: 0
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -39547,6 +39613,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!195 &1202753735
@@ -39567,8 +39639,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 3.5
+  m_BaseOffset: 3.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1001 &1238973687
@@ -41018,8 +41090,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 3.5
+  m_BaseOffset: 3.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &1356741816
@@ -41756,6 +41828,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1474095289}
   - {fileID: 590502760}
   - {fileID: 1356741817}
   - {fileID: 2006810343}
@@ -41779,6 +41852,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4a9622b4b3cb59240b600fc80385657d, type: 2}
   - {fileID: 11400000, guid: fbb9899d987b46049b62319daf28478c, type: 2}
   - {fileID: 11400000, guid: 442356133c032624282b05a19ceb8433, type: 2}
+  indiceArmaActual: 0
 --- !u!114 &1437905745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41812,6 +41886,7 @@ MonoBehaviour:
   gamepadDeadzone: 0.1
   gamepadRotSmoothing: 1500
   isGamepad: 0
+  uipost: {fileID: 0}
 --- !u!114 &1437905747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41873,6 +41948,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 82acfea4-ad11-4562-890a-b3ed2878276b
     m_ActionName: 'Controls/Pause Game[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 02ce96cf-c8bc-4ff9-bd51-ece7090b3163
+    m_ActionName: 'Controls/Dash[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: 
@@ -42325,6 +42404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1474095289}
   - component: {fileID: 1474095290}
+  - component: {fileID: 1474095291}
   m_Layer: 0
   m_Name: Drones
   m_TagString: Untagged
@@ -42340,7 +42420,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1474095287}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -42354,7 +42434,7 @@ Transform:
   - {fileID: 1202753730}
   - {fileID: 1114311811}
   - {fileID: 578406200}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1437905743}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1474095290
 MonoBehaviour:
@@ -42384,7 +42464,7 @@ MonoBehaviour:
   listaActiva: 0
   radioOrbita: 2
   alturaOrbita: 0
-  velocidadRotacion: 3
+  velocidadRotacion: 80
   velocidadVariada: 0
   rangoVariacionVelocidad: 10
   ejeRotacion: {x: 0, y: 1, z: 0}
@@ -42418,6 +42498,19 @@ MonoBehaviour:
   cooldownHabilidadDefensor: 20
   prefabEfectoTeletransporte: {fileID: 4526356900395455804, guid: dad85d442b3b79f42a4f78f024b69182, type: 3}
   prefabEfectoDesaparicion: {fileID: 680171913431399424, guid: 9cfc4d8d7557e3b41ada68d38db91051, type: 3}
+  playerStats: {fileID: 0}
+--- !u!114 &1474095291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474095287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4f5b568d290d6a40bd2fce0f89254b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MantenerRotacion
 --- !u!43 &1498334463
 Mesh:
   m_ObjectHideFlags: 0
@@ -44729,6 +44822,8 @@ MonoBehaviour:
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -44736,6 +44831,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1665817489
@@ -44800,12 +44901,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 313b5663f09e5954095b49cd3faa8a34, type: 2}
     - target: {fileID: 5866666021909216657, guid: fa5c5fbfcad841d469e24d6a5317671d, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'index_03_l'\n\tTransform 'lowerarm_l'\n\tTransform
-        'pinky_03_l'\n\tTransform 'neck_01'\n\tTransform 'pinky_03_r'\n\tTransform
-        'ring_02_l'\n\tTransform 'hand_l'\n\tTransform 'ring_01_r'\n\tTransform 'index_03_r'\n\tTransform
-        'spine_02'\n\tand more ...\n\tFrom animation clip 'catwalk-loop-378982'"
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -47816,6 +47912,8 @@ MonoBehaviour:
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -47823,6 +47921,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1905080777
@@ -48807,12 +48911,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 1
+  destroyOnDeath: 0
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -48820,6 +48926,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!195 &1998143958
@@ -48840,8 +48952,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 3.5
+  m_BaseOffset: 3.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1001 &1999418954
@@ -49692,6 +49804,8 @@ MonoBehaviour:
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -49699,6 +49813,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &2094558600
@@ -50377,12 +50497,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
   currentHealth: 0
-  destroyOnDeath: 1
+  destroyOnDeath: 0
   destroyDelay: 0
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
   regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -50390,6 +50512,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &2147422379
@@ -50474,7 +50602,7 @@ MonoBehaviour:
   firePoint: {fileID: 1042343500}
   projectileSpeed: 20
   muzzleFlashEffect: {fileID: 4683922028883973532, guid: faf63a8f535aeec4fa53481785a7f4e9, type: 3}
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 1826534579995449418, guid: 9ef7b25d8252e48488c3b7c337c40709, type: 3}
   aoeEffect: {fileID: 0}
   laserEffect: {fileID: 0}
   effectDuration: 1
@@ -50501,8 +50629,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 3.5
+  m_BaseOffset: 3.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!224 &33271432439007215
@@ -52662,6 +52790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72866a0c7a766e24d905c71f739edf6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  player: {fileID: 0}
   hudCamera: {fileID: 6152793835769791750}
   hudVol: {fileID: 102652380736774126}
   hudCanvas: {fileID: 5371428477263743045}
@@ -56036,7 +56165,6 @@ SceneRoots:
   - {fileID: 1123189090}
   - {fileID: 131092959}
   - {fileID: 1455932291}
-  - {fileID: 1474095289}
   - {fileID: 7467617501729778446}
   - {fileID: 2027392274}
   - {fileID: 1999418954}
