@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// Sistema de tienda con 3 opciones aleatorias por nivel/zona.
 /// - Armas: Al comprar se equipan, solo muestra armas diferentes a la equipada
 /// - Buscadores: Solo 1, mejoras aumentan recursos
-/// - Atacantes: Primero cantidad (max 3), luego daño
+/// - Atacantes: Primero cantidad (max 3), luego daï¿½o
 /// - Defensores: Primero cantidad (max 5), luego vida
 /// </summary>
 public class TiendaMejoras : MonoBehaviour
@@ -26,7 +26,7 @@ public class TiendaMejoras : MonoBehaviour
 
         // Drones - Atacante
         Drone_Atacante_Cantidad,
-        Drone_Atacante_Daño,
+        Drone_Atacante_DaÃ±o,
 
         // Drones - Defensor
         Drone_Defensor_Cantidad,
@@ -68,7 +68,7 @@ public class TiendaMejoras : MonoBehaviour
     [Header("Sistema de Zona/Nivel")]
     public int zonaActual = 1;
 
-    [Header("Configuración de Mejoras")]
+    [Header("Configuraciï¿½n de Mejoras")]
     public List<ConfiguracionMejora> todasLasMejoras = new List<ConfiguracionMejora>();
 
     [Header("Audio")]
@@ -87,7 +87,7 @@ public class TiendaMejoras : MonoBehaviour
     private const int MAX_DRONES_ATACANTE = 3;
     private const int MAX_DRONES_DEFENSOR = 5;
     private const int MAX_MEJORAS_RECURSOS_BUSCADOR = 5;
-    private const int MAX_MEJORAS_DAÑO_ATACANTE = 5;
+    private const int MAX_MEJORAS_DAÃ‘O_ATACANTE = 5;
     private const int MAX_MEJORAS_VIDA_DEFENSOR = 5;
 
     // Valores base para el buscador
@@ -96,13 +96,13 @@ public class TiendaMejoras : MonoBehaviour
 
     #endregion
 
-    #region Inicialización
+    #region Inicializaciï¿½n
 
     void Start()
     {
         randomGenerador = new System.Random();
 
-        // Buscar referencias si no están asignadas
+        // Buscar referencias si no estï¿½n asignadas
         if (sistemaDrones == null)
             sistemaDrones = FindFirstObjectByType<Drones>();
 
@@ -112,7 +112,7 @@ public class TiendaMejoras : MonoBehaviour
         if (playerStats == null)
             playerStats = FindFirstObjectByType<PlayerStats>();
 
-        // Inicializar mejoras por defecto si la lista está vacía
+        // Inicializar mejoras por defecto si la lista estï¿½ vacï¿½a
         if (todasLasMejoras.Count == 0)
             InicializarMejorasPorDefecto();
 
@@ -137,7 +137,7 @@ public class TiendaMejoras : MonoBehaviour
         {
             tipo = TipoMejora.Arma_Pistola,
             nombre = "Pistola",
-            descripcion = "Arma básica, precisa y confiable",
+            descripcion = "Arma bï¿½sica, precisa y confiable",
             costoBase = 100,
             incrementoCostoPorNivel = 0,
             nivelMaximo = 1,
@@ -148,7 +148,7 @@ public class TiendaMejoras : MonoBehaviour
         {
             tipo = TipoMejora.Arma_HandCannon,
             nombre = "Hand Cannon",
-            descripcion = "Alto daño, baja cadencia",
+            descripcion = "Alto daï¿½o, baja cadencia",
             costoBase = 200,
             incrementoCostoPorNivel = 0,
             nivelMaximo = 1
@@ -158,7 +158,7 @@ public class TiendaMejoras : MonoBehaviour
         {
             tipo = TipoMejora.Arma_MachineGun,
             nombre = "Machine Pistol",
-            descripcion = "Alta cadencia, daño moderado",
+            descripcion = "Alta cadencia, daï¿½o moderado",
             costoBase = 250,
             incrementoCostoPorNivel = 0,
             nivelMaximo = 1
@@ -200,7 +200,7 @@ public class TiendaMejoras : MonoBehaviour
         {
             tipo = TipoMejora.Drone_Atacante_Cantidad,
             nombre = "Dron Atacante +1",
-            descripcion = "Añade un dron atacante adicional",
+            descripcion = "Aï¿½ade un dron atacante adicional",
             costoBase = 150,
             incrementoCostoPorNivel = 150,
             nivelMaximo = MAX_DRONES_ATACANTE - 1 // Ya empezamos con 1
@@ -208,12 +208,12 @@ public class TiendaMejoras : MonoBehaviour
 
         todasLasMejoras.Add(new ConfiguracionMejora
         {
-            tipo = TipoMejora.Drone_Atacante_Daño,
-            nombre = "Atacantes: +Daño",
-            descripcion = "Aumenta el daño de ataque (+15%)",
+            tipo = TipoMejora.Drone_Atacante_DaÃ±o,
+            nombre = "Atacantes: +Daï¿½o",
+            descripcion = "Aumenta el daï¿½o de ataque (+15%)",
             costoBase = 200,
             incrementoCostoPorNivel = 100,
-            nivelMaximo = MAX_MEJORAS_DAÑO_ATACANTE
+            nivelMaximo = MAX_MEJORAS_DAÃ‘O_ATACANTE
         });
 
         // ===== DEFENSORES =====
@@ -221,7 +221,7 @@ public class TiendaMejoras : MonoBehaviour
         {
             tipo = TipoMejora.Drone_Defensor_Cantidad,
             nombre = "Dron Defensor +1",
-            descripcion = "Añade un dron defensor adicional",
+            descripcion = "Aï¿½ade un dron defensor adicional",
             costoBase = 200,
             incrementoCostoPorNivel = 200,
             nivelMaximo = MAX_DRONES_DEFENSOR - 1 // Ya empezamos con 1
@@ -285,7 +285,7 @@ public class TiendaMejoras : MonoBehaviour
 
         if (mejorasDisponibles.Count == 0)
         {
-            Debug.Log("¡Todas las mejoras están al máximo!");
+            Debug.Log("ï¿½Todas las mejoras estï¿½n al mï¿½ximo!");
             return;
         }
 
@@ -315,7 +315,7 @@ public class TiendaMejoras : MonoBehaviour
 
         foreach (var mejora in todasLasMejoras)
         {
-            // Verificar si está al máximo
+            // Verificar si estï¿½ al mï¿½ximo
             if (mejora.EstaAlMaximo())
                 continue;
 
@@ -345,8 +345,8 @@ public class TiendaMejoras : MonoBehaviour
             case TipoMejora.Arma_Shotgun:
                 return sistemaArmas == null || sistemaArmas.GetIndiceArmaActual() != 4;
 
-            // Daño de atacantes: Solo disponible cuando tenemos max drones
-            case TipoMejora.Drone_Atacante_Daño:
+            // Daï¿½o de atacantes: Solo disponible cuando tenemos max drones
+            case TipoMejora.Drone_Atacante_DaÃ±o:
                 var mejoraCantidadAtacante = ObtenerMejora(TipoMejora.Drone_Atacante_Cantidad);
                 return mejoraCantidadAtacante == null || mejoraCantidadAtacante.EstaAlMaximo();
 
@@ -363,7 +363,7 @@ public class TiendaMejoras : MonoBehaviour
 
     #region Sistema de Compras
 
-    // Rastrea qué opciones ya fueron compradas en esta zona
+    // Rastrea quï¿½ opciones ya fueron compradas en esta zona
     private List<bool> opcionesCompradas = new List<bool>();
 
     public void ComprarOpcion(int indice)
@@ -374,7 +374,7 @@ public class TiendaMejoras : MonoBehaviour
         // Verificar si ya fue comprada
         if (indice < opcionesCompradas.Count && opcionesCompradas[indice])
         {
-            Debug.Log("Esta opción ya fue comprada");
+            Debug.Log("Esta opciï¿½n ya fue comprada");
             if (sonidoError != null && audioSource != null)
                 audioSource.PlayOneShot(sonidoError);
             return;
@@ -409,7 +409,7 @@ public class TiendaMejoras : MonoBehaviour
     }
 
     /// <summary>
-    /// Verifica si una opción ya fue comprada
+    /// Verifica si una opciï¿½n ya fue comprada
     /// </summary>
     public bool OpcionYaComprada(int indice)
     {
@@ -448,8 +448,8 @@ public class TiendaMejoras : MonoBehaviour
             case TipoMejora.Drone_Atacante_Cantidad:
                 AplicarMejoraCantidadDrones(sistemaDrones.dronesLista2, mejora.nivelActual + 1);
                 break;
-            case TipoMejora.Drone_Atacante_Daño:
-                AplicarMejoraDañoAtacante(mejora.nivelActual + 1);
+            case TipoMejora.Drone_Atacante_DaÃ±o:
+                AplicarMejoraDaÃ±oAtacante(mejora.nivelActual + 1);
                 break;
 
             // ===== DEFENSORES =====
@@ -464,7 +464,7 @@ public class TiendaMejoras : MonoBehaviour
 
     #endregion
 
-    #region Aplicar Mejoras Específicas
+    #region Aplicar Mejoras Especï¿½ficas
 
     void AplicarMejoraCantidadDrones(List<Transform> listaDrones, int nuevoNivel)
     {
@@ -492,7 +492,7 @@ public class TiendaMejoras : MonoBehaviour
         Debug.Log($"Recursos del Buscador: {sistemaDrones.monedasMinimas}-{sistemaDrones.monedasMaximas}");
     }
 
-    void AplicarMejoraDañoAtacante(int nivel)
+    void AplicarMejoraDaÃ±oAtacante(int nivel)
     {
         if (sistemaDrones == null) return;
 
@@ -510,7 +510,7 @@ public class TiendaMejoras : MonoBehaviour
             }
             else
             {
-                // Fallback: usar reflexión directa
+                // Fallback: usar reflexiï¿½n directa
                 AIAttackSystem attackSystem = drone.GetComponent<AIAttackSystem>();
                 if (attackSystem != null)
                 {
@@ -525,7 +525,7 @@ public class TiendaMejoras : MonoBehaviour
             }
         }
 
-        Debug.Log($"Daño de Atacantes: x{multiplicador:F2}");
+        Debug.Log($"Daï¿½o de Atacantes: x{multiplicador:F2}");
     }
 
     void AplicarMejoraVidaDefensor(int nivel)
@@ -550,7 +550,7 @@ public class TiendaMejoras : MonoBehaviour
 
     #endregion
 
-    #region Métodos Públicos
+    #region Mï¿½todos Pï¿½blicos
 
     /// <summary>
     /// Obtiene el dinero actual del jugador (playerResin)
@@ -591,7 +591,7 @@ public class TiendaMejoras : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtiene una mejora específica por tipo
+    /// Obtiene una mejora especï¿½fica por tipo
     /// </summary>
     public ConfiguracionMejora ObtenerMejora(TipoMejora tipo)
     {
@@ -616,7 +616,7 @@ public class TiendaMejoras : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtiene el máximo de drones para una lista específica
+    /// Obtiene el mï¿½ximo de drones para una lista especï¿½fica
     /// </summary>
     public int ObtenerMaxDronesLista(int numeroLista)
     {
@@ -636,7 +636,7 @@ public class TiendaMejoras : MonoBehaviour
     }
 
     /// <summary>
-    /// Aplica el límite de drones activos según las mejoras compradas
+    /// Aplica el lï¿½mite de drones activos segï¿½n las mejoras compradas
     /// </summary>
     public void AplicarLimiteDronesAListaActiva(int numeroLista)
     {

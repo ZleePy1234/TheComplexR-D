@@ -66,7 +66,7 @@ public class TiendaUI : MonoBehaviour
         public Image imagenFondo;
     }
 
-    private bool tiendaAbierta = false;
+    public bool tiendaAbierta = false;
 
     void Start()
     {

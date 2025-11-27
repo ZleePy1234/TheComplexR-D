@@ -4,8 +4,8 @@ using com.cyborgAssets.inspectorButtonPro;
 
 /// <summary>
 /// Sistema de armas del jugador.
-/// - No hay opción de ciclar armas
-/// - Cuando compras un arma, se equipa automáticamente
+/// - No hay opciï¿½n de ciclar armas
+/// - Cuando compras un arma, se equipa automï¿½ticamente
 /// - La tienda solo muestra armas diferentes a la equipada
 /// </summary>
 [RequireComponent(typeof(PlayerWeapon))]
@@ -24,7 +24,7 @@ public class WeaponUpgrades : MonoBehaviour
         playerWeapon = GetComponent<PlayerWeapon>();
 
         // Equipar la pistola por defecto
-        EquiparArma(0);
+        EquiparArma(3);
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public class WeaponUpgrades : MonoBehaviour
     }
 
     /// <summary>
-    /// Equipa un arma por índice (usado internamente)
+    /// Equipa un arma por ï¿½ndice (usado internamente)
     /// </summary>
     private void EquiparArmaPorIndice(int indice)
     {
@@ -67,13 +67,13 @@ public class WeaponUpgrades : MonoBehaviour
     }
 
     /// <summary>
-    /// Equipa un arma por índice (público, para la tienda)
+    /// Equipa un arma por ï¿½ndice (pï¿½blico, para la tienda)
     /// </summary>
     public void EquiparArma(int indice)
     {
         if (indice < 0 || indice >= weaponDataList.Count)
         {
-            Debug.LogWarning($"Índice de arma inválido: {indice}");
+            Debug.LogWarning($"ï¿½ndice de arma invï¿½lido: {indice}");
             return;
         }
 
@@ -83,7 +83,7 @@ public class WeaponUpgrades : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtiene el índice del arma actualmente equipada
+    /// Obtiene el ï¿½ndice del arma actualmente equipada
     /// </summary>
     public int GetIndiceArmaActual()
     {
@@ -113,14 +113,14 @@ public class WeaponUpgrades : MonoBehaviour
     }
 
     /// <summary>
-    /// Verifica si un arma específica está equipada
+    /// Verifica si un arma especï¿½fica estï¿½ equipada
     /// </summary>
     public bool EstaEquipada(int indice)
     {
         return indiceArmaActual == indice;
     }
 
-    #region Métodos de Armas Específicas
+    #region Mï¿½todos de Armas Especï¿½ficas
 
     [ProButton]
     public void SetPistol()
@@ -179,7 +179,7 @@ public class WeaponUpgrades : MonoBehaviour
     [ContextMenu("Debug: Mostrar Arma Actual")]
     void DebugMostrarArma()
     {
-        Debug.Log($"Arma actual: {ObtenerNombreArmaActual()} (índice: {indiceArmaActual})");
+        Debug.Log($"Arma actual: {ObtenerNombreArmaActual()} (ï¿½ndice: {indiceArmaActual})");
     }
 
     #endregion

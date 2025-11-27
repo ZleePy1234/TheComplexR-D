@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 /// <summary>
 /// Objeto interactuable de la tienda en el mundo del juego.
-/// Cuando el jugador se acerca y presiona la tecla de interacción, abre la tienda.
+/// Cuando el jugador se acerca y presiona la tecla de interacciï¿½n, abre la tienda.
 /// </summary>
 public class TiendaInteractuable : MonoBehaviour
 {
@@ -11,13 +11,13 @@ public class TiendaInteractuable : MonoBehaviour
     public TiendaUI tiendaUI;
     public TiendaMejoras tiendaMejoras;
 
-    [Header("Configuración de Interacción")]
+    [Header("Configuraciï¿½n de Interacciï¿½n")]
     public float radioInteraccion = 3f;
     public Key teclaInteraccion = Key.E;
     public LayerMask capaJugador;
     public string tagJugador = "Player";
 
-    [Header("UI de Interacción")]
+    [Header("UI de Interacciï¿½n")]
     public GameObject indicadorInteraccion; // Texto o icono que muestra "Presiona E para abrir"
     public Canvas canvasIndicador;
 
@@ -87,12 +87,12 @@ public class TiendaInteractuable : MonoBehaviour
     {
         if (indicadorInteraccion != null)
         {
-            // Mostrar indicador solo si el jugador está en rango y la tienda no está abierta
+            // Mostrar indicador solo si el jugador estï¿½ en rango y la tienda no estï¿½ abierta
             bool mostrar = jugadorEnRango && (tiendaUI == null || !tiendaUI.EstaAbierta());
             indicadorInteraccion.SetActive(mostrar);
         }
 
-        // Hacer que el indicador mire hacia la cámara
+        // Hacer que el indicador mire hacia la cï¿½mara
         if (canvasIndicador != null && Camera.main != null)
         {
             canvasIndicador.transform.LookAt(Camera.main.transform);
@@ -114,8 +114,14 @@ public class TiendaInteractuable : MonoBehaviour
             tiendaYaUsada = true;
         }
 
-        // Abrir la tienda
-        tiendaUI.AbrirTienda();
+        if(tiendaUI.tiendaAbierta == true)
+        {
+            tiendaUI.CerrarTienda();
+        }
+        else
+        {
+            tiendaUI.AbrirTienda();
+        }
 
         // Efectos
         if (sonidoInteraccion != null && audioSource != null)
@@ -134,7 +140,7 @@ public class TiendaInteractuable : MonoBehaviour
     }
 
     /// <summary>
-    /// Forzar la generación de nuevas opciones (para cuando se avanza de zona)
+    /// Forzar la generaciï¿½n de nuevas opciones (para cuando se avanza de zona)
     /// </summary>
     public void GenerarNuevasOpciones()
     {
@@ -147,7 +153,7 @@ public class TiendaInteractuable : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        // Visualizar radio de interacción
+        // Visualizar radio de interacciï¿½n
         Gizmos.color = new Color(0, 1, 0, 0.3f);
         Gizmos.DrawWireSphere(transform.position, radioInteraccion);
     }
