@@ -3,14 +3,16 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
+
 /// <summary>
 /// Controlador de UI para la tienda de mejoras.
 /// - 3 opciones aleatorias por zona (armas o mejoras de drones)
-/// - Sin opción de refresh
+/// - Sin opciï¿½n de refresh
 /// - Se abre al completar un nivel
 /// </summary>
 public class TiendaUI : MonoBehaviour
 {
+    public UI_PostProcesser ui_PostProcesser;
     [Header("Referencias")]
     public TiendaMejoras tiendaMejoras;
 
@@ -18,7 +20,7 @@ public class TiendaUI : MonoBehaviour
     public GameObject panelTienda;
     public CanvasGroup canvasGroup;
 
-    [Header("Información General")]
+    [Header("Informacion General")]
     public TextMeshProUGUI textoDinero;
     public TextMeshProUGUI textoZona;
     public TextMeshProUGUI textoTitulo;
@@ -26,11 +28,11 @@ public class TiendaUI : MonoBehaviour
     [Header("3 Opciones de Compra")]
     public List<OpcionUI> opciones = new List<OpcionUI>();
 
-    [Header("Botón Continuar")]
+    [Header("Botï¿½n Continuar")]
     public Button botonContinuar;
     public TextMeshProUGUI textoBotonContinuar;
 
-    [Header("Panel de Información")]
+    [Header("Panel de Informaciï¿½n")]
     public TextMeshProUGUI textoBuscador;
     public TextMeshProUGUI textoAtacantes;
     public TextMeshProUGUI textoDefensores;
@@ -68,6 +70,7 @@ public class TiendaUI : MonoBehaviour
 
     void Start()
     {
+        ui_PostProcesser = GetComponent<UI_PostProcesser>();
         if (tiendaMejoras == null)
             tiendaMejoras = FindFirstObjectByType<TiendaMejoras>();
 
@@ -88,7 +91,7 @@ public class TiendaUI : MonoBehaviour
 
     void ConfigurarBotones()
     {
-        // Botón continuar
+        // Botï¿½n continuar
         if (botonContinuar != null)
             botonContinuar.onClick.AddListener(ContinuarJuego);
 
@@ -114,8 +117,7 @@ public class TiendaUI : MonoBehaviour
 
         tiendaAbierta = true;
 
-        if (panelTienda != null)
-            panelTienda.SetActive(true);
+        ui_PostProcesser.ShopToggle();
 
         // Pausar el juego (opcional - puedes quitarlo si prefieres que no pause)
         Time.timeScale = 0f;
@@ -129,7 +131,7 @@ public class TiendaUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Cierra la tienda y continúa el juego
+    /// Cierra la tienda y continï¿½a el juego
     /// </summary>
     public void CerrarTienda()
     {
@@ -137,8 +139,7 @@ public class TiendaUI : MonoBehaviour
 
         tiendaAbierta = false;
 
-        if (panelTienda != null)
-            panelTienda.SetActive(false);
+        ui_PostProcesser.ShopToggle();
 
         // Reanudar el juego
         Time.timeScale = 1f;
@@ -159,7 +160,7 @@ public class TiendaUI : MonoBehaviour
 
     #endregion
 
-    #region Actualización de UI
+    #region Actualizaciï¿½n de UI
 
     void ActualizarUI()
     {
@@ -224,13 +225,13 @@ public class TiendaUI : MonoBehaviour
                 if (opcionUI.imagenIcono != null && mejora.icono != null)
                     opcionUI.imagenIcono.sprite = mejora.icono;
 
-                // Estado del botón
+                // Estado del botï¿½n
                 bool puedeComprar = !yaComprada && tiendaMejoras.ObtenerDinero() >= mejora.ObtenerCostoActual();
 
                 if (opcionUI.botonComprar != null)
                     opcionUI.botonComprar.interactable = puedeComprar;
 
-                // Colores según estado
+                // Colores segï¿½n estado
                 if (opcionUI.imagenFondo != null)
                 {
                     if (yaComprada)
@@ -285,8 +286,8 @@ public class TiendaUI : MonoBehaviour
         if (textoAtacantes != null)
         {
             int cantidad = 1 + tiendaMejoras.ObtenerNivelMejora(TiendaMejoras.TipoMejora.Drone_Atacante_Cantidad);
-            int nivelDaño = tiendaMejoras.ObtenerNivelMejora(TiendaMejoras.TipoMejora.Drone_Atacante_Daño);
-            string bonus = nivelDaño > 0 ? $" (+{nivelDaño * 15}% daño)" : "";
+            int nivelDaÃ±o = tiendaMejoras.ObtenerNivelMejora(TiendaMejoras.TipoMejora.Drone_Atacante_DaÃ±o);
+            string bonus = nivelDaÃ±o > 0 ? $" (+{nivelDaÃ±o * 15}% daï¿½o)" : "";
             textoAtacantes.text = $"Atacantes: {cantidad}/3{bonus}";
         }
 
@@ -340,7 +341,7 @@ public class TiendaUI : MonoBehaviour
 
     #endregion
 
-    #region Métodos Públicos
+    #region Mï¿½todos Pï¿½blicos
 
     /// <summary>
     /// Llamar cuando se complete un nivel/zona
@@ -351,7 +352,7 @@ public class TiendaUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Verifica si la tienda está abierta
+    /// Verifica si la tienda estï¿½ abierta
     /// </summary>
     public bool EstaAbierta()
     {
