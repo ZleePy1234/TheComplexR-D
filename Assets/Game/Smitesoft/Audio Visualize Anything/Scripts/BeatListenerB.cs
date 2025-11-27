@@ -1,26 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class BeatListenerB : MonoBehaviour
-{
-    private Transform targetTransform;
-    private Vector3 startTransform;
+{    
+    private Volume targetVolume;
+    private Bloom  bloom;
+    public float currentIntensity;
 
+    
     private void Awake() //I guess I should put most my refrence grabbing on awake not start
     {
-        targetTransform = gameObject.transform; //weird, after rebooting project I had to change this from start to awake
-        startTransform = new Vector3(targetTransform.localScale.x, targetTransform.localScale.y, targetTransform.localScale.z);
+        targetVolume = gameObject.GetComponent<Volume>();
+        targetVolume.profile.TryGet<Bloom>(out bloom);
     }
 
     public void ListenToVolumeChange()
     {
-        if (!gameObject.activeSelf)
-            return;
+        bloom.intensity.value = 10 + (AudioVisualizeManager.Output_Volume * 10f);
 
-        targetTransform.localScale = new Vector3(
-            startTransform.x ,
-            startTransform.y * (AudioVisualizeManager.Output_Volume + 1),
-            startTransform.z );
+    }
+    void Update()
+    {
+        currentIntensity = bloom.intensity.value;
     }
 }

@@ -19,8 +19,9 @@ public class BeatListenerC : MonoBehaviour
             return;
 
         targetTransform.localScale = new Vector3(
-            startTransform.x * (AudioVisualizeManager.Output_Volume + 1),
-            startTransform.y ,
-            startTransform.z * (AudioVisualizeManager.Output_Volume + 1));
+            startTransform.x ,
+            (startTransform.y * (AudioVisualizeManager.Output_Volume + 1)) > 1.1f ? 1.1f : (startTransform.y * (AudioVisualizeManager.Output_Volume + 1)) ,
+            startTransform.z
+            );
     }
 }
