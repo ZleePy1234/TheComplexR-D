@@ -6,11 +6,17 @@ using TMPro;
 
 public class MainMenuScript : MonoBehaviour
 {
+	public CreditsScript creditsScript;
 	[Tooltip("Optional UI slider to show loading progress")]
 	public Slider progressSlider;
 
 	[Tooltip("Optional text to show loading percent")]
 	public TextMeshProUGUI progressText;
+
+	public void OpenCredits()
+	{
+		creditsScript.ToggleCredits();
+	}
 	public void StartLoadNextLevel()
 	{
 		_ = LoadNextLevelAsync();

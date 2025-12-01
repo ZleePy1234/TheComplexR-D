@@ -71,6 +71,10 @@ public class UI_PostProcesser : MonoBehaviour
         player.SetActive(!player.activeSelf);
         Time.timeScale = Time.timeScale == 1 ? 0 : 1;
     }
+    [ProButton]public void CreditsMenu()
+    {
+        PauseToggle();
+    }
 
     public void QuitGame()
     {
