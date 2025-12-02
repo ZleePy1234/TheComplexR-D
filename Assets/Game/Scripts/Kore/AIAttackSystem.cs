@@ -52,6 +52,11 @@ public class AIAttackSystem : MonoBehaviour
     [Header("Tags Objetivos (Solo Aliados)")]
     [SerializeField] private List<string> enemyTags = new List<string> { "Enemy", "Boss" };
 
+    [Header("Configuración de Apuntado")]
+    [SerializeField] private float aimHeightOffset = 1.2f;
+    [SerializeField] private bool useTargetAimPoint = true;
+    [SerializeField] private string aimPointName = "AimPoint";
+
     [Header("Configuración de Ataque Base")]
     [SerializeField] private float attackDamage = 10f;
     [SerializeField] private float attackRate = 1f;
@@ -103,7 +108,7 @@ public class AIAttackSystem : MonoBehaviour
     [SerializeField] private bool showDebugLogs = true;
 
     [Header("Configuración de Targeting")]
-    [SerializeField] private bool stickyTargeting = true; // Mantener objetivo hasta que muera
+    [SerializeField] private bool stickyTargeting = true;
     [SerializeField] private bool onlyChangeForHigherPriority = true;
 
     // Variables privadas
@@ -114,6 +119,10 @@ public class AIAttackSystem : MonoBehaviour
     private Dictionary<string, int> priorityDict;
     private List<Collider> detectedObjects = new List<Collider>();
 
+    // Cache del punto de apuntado
+    private Transform cachedAimPoint;
+    private Transform lastTargetChecked;
+
     // Propiedades públicas
     public Transform CurrentTarget => currentTarget;
     public int CurrentPriority => currentPriority;
@@ -122,7 +131,6 @@ public class AIAttackSystem : MonoBehaviour
 
     private void Start()
     {
-        // Inicializar diccionario de prioridades solo para enemigos
         if (aiType == AIType.Enemy)
         {
             priorityDict = new Dictionary<string, int>();
@@ -140,7 +148,6 @@ public class AIAttackSystem : MonoBehaviour
             animator = GetComponent<Animator>();
         }
 
-        // Validar configuración de proyectiles
         if (useProjectile)
         {
             if (projectilePrefab == null)
@@ -160,34 +167,79 @@ public class AIAttackSystem : MonoBehaviour
 
     private void Update()
     {
-        // Actualizar timers
         detectionTimer += Time.deltaTime;
         if (attackTimer > 0)
             attackTimer -= Time.deltaTime;
 
-        // Detectar objetivos
         if (detectionTimer >= detectionInterval)
         {
             detectionTimer = 0f;
             DetectTargets();
         }
 
-        // Atacar si hay objetivo válido
         if (currentTarget != null && CanAttack)
         {
             TryAttack();
         }
     }
 
+    #region Sistema de Apuntado
+
     /// <summary>
-    /// Detecta objetivos según el tipo de IA
+    /// Obtiene la posición de apuntado del objetivo actual
     /// </summary>
+    private Vector3 GetTargetAimPosition()
+    {
+        if (currentTarget == null) return Vector3.zero;
+
+        // Buscar punto de apuntado específico en el objetivo
+        if (useTargetAimPoint)
+        {
+            // Cache del AimPoint para evitar búsquedas repetidas
+            if (lastTargetChecked != currentTarget)
+            {
+                lastTargetChecked = currentTarget;
+                cachedAimPoint = currentTarget.Find(aimPointName);
+            }
+
+            if (cachedAimPoint != null)
+            {
+                return cachedAimPoint.position;
+            }
+        }
+
+        // Fallback: usar offset de altura
+        return currentTarget.position + Vector3.up * aimHeightOffset;
+    }
+
+    /// <summary>
+    /// Obtiene la posición de apuntado de un transform específico
+    /// </summary>
+    private Vector3 GetAimPositionFor(Transform target)
+    {
+        if (target == null) return Vector3.zero;
+
+        if (useTargetAimPoint)
+        {
+            Transform aimPoint = target.Find(aimPointName);
+            if (aimPoint != null)
+            {
+                return aimPoint.position;
+            }
+        }
+
+        return target.position + Vector3.up * aimHeightOffset;
+    }
+
+    #endregion
+
+    #region Detección
+
     private void DetectTargets()
     {
         detectedObjects.Clear();
         Collider[] colliders;
 
-        // Detectar objetos según el método configurado
         if (useBoxDetection)
         {
             Vector3 center = transform.position + transform.TransformDirection(detectionAreaOffset);
@@ -213,9 +265,6 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Detección para IA enemiga (con sistema de prioridades)
-    /// </summary>
     private void DetectTargetsAsEnemy(Collider[] colliders)
     {
         if (stickyTargeting && currentTarget != null)
@@ -225,13 +274,11 @@ public class AIAttackSystem : MonoBehaviour
 
             if (isAlive)
             {
-                // Verificar si sigue en rango
                 bool stillInRange = System.Array.Exists(colliders,
                     col => col.transform == currentTarget);
 
                 if (stillInRange)
                 {
-                    // Solo cambiar si encontramos mayor prioridad
                     if (onlyChangeForHigherPriority)
                     {
                         Transform bestTarget = null;
@@ -244,7 +291,7 @@ public class AIAttackSystem : MonoBehaviour
 
                             if (priorityDict.TryGetValue(col.tag, out int priority))
                             {
-                                if (priority > bestPriority) // Mayor que el actual
+                                if (priority > bestPriority)
                                 {
                                     if (!requireLineOfSight || HasLineOfSight(col.transform))
                                     {
@@ -261,12 +308,11 @@ public class AIAttackSystem : MonoBehaviour
                         }
                     }
 
-                    return; // Mantener objetivo actual
+                    return;
                 }
             }
         }
 
-        // Buscar nuevo objetivo (código original)
         Transform newBestTarget = null;
         int newBestPriority = -1;
 
@@ -293,39 +339,30 @@ public class AIAttackSystem : MonoBehaviour
         UpdateTarget(newBestTarget, newBestPriority);
     }
 
-    /// <summary>
-    /// Detección para IA aliada (primer enemigo detectado)
-    /// </summary>
     private void DetectTargetsAsAlly(Collider[] colliders)
     {
         Transform newTarget = null;
 
         foreach (var col in colliders)
         {
-            // Ignorar a sí mismo
             if (col.transform == transform || col.transform.IsChildOf(transform))
                 continue;
 
             detectedObjects.Add(col);
 
-            // Verificar si tiene uno de los tags enemigos
             if (enemyTags.Contains(col.tag))
             {
-                // Verificar línea de visión si está activado
                 if (requireLineOfSight && !HasLineOfSight(col.transform))
                     continue;
 
                 newTarget = col.transform;
-                break; // Tomar el primer enemigo encontrado
+                break;
             }
         }
 
         UpdateTarget(newTarget, newTarget != null ? 1 : -1);
     }
 
-    /// <summary>
-    /// Actualiza el objetivo actual
-    /// </summary>
     private void UpdateTarget(Transform newTarget, int priority)
     {
         if (newTarget != currentTarget)
@@ -333,6 +370,10 @@ public class AIAttackSystem : MonoBehaviour
             Transform previousTarget = currentTarget;
             currentTarget = newTarget;
             currentPriority = priority;
+
+            // Limpiar cache de AimPoint
+            cachedAimPoint = null;
+            lastTargetChecked = null;
 
             if (showDebugLogs)
             {
@@ -348,36 +389,33 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Verifica si hay línea de visión con el objetivo
-    /// </summary>
     private bool HasLineOfSight(Transform target)
     {
-        Vector3 direction = target.position - transform.position;
+        Vector3 origin = firePoint != null ? firePoint.position : transform.position + Vector3.up * aimHeightOffset;
+        Vector3 targetPos = GetAimPositionFor(target);
+        Vector3 direction = targetPos - origin;
         float distance = direction.magnitude;
 
-        if (Physics.Raycast(transform.position, direction.normalized, out RaycastHit hit, distance, obstacleLayer))
+        if (Physics.Raycast(origin, direction.normalized, out RaycastHit hit, distance, obstacleLayer))
         {
-            // Si el raycast golpea algo antes de llegar al objetivo, no hay línea de visión
-            return hit.transform == target;
+            return hit.transform == target || hit.transform.IsChildOf(target);
         }
 
         return true;
     }
 
-    /// <summary>
-    /// Intenta atacar al objetivo actual
-    /// </summary>
+    #endregion
+
+    #region Ataques
+
     private void TryAttack()
     {
         if (currentTarget == null) return;
 
         float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
 
-        // Verificar si está en rango de ataque
         if (distanceToTarget <= attackRange)
         {
-            // Verificar línea de visión una última vez antes de atacar
             if (requireLineOfSight && !HasLineOfSight(currentTarget))
                 return;
 
@@ -385,14 +423,10 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Ejecuta el ataque según el tipo configurado
-    /// </summary>
     private void PerformAttack()
     {
         attackTimer = 1f / attackRate;
 
-        // Efecto de disparo
         if (muzzleFlashEffect != null && firePoint != null)
         {
             GameObject flash = Instantiate(muzzleFlashEffect, firePoint.position, firePoint.rotation);
@@ -405,7 +439,6 @@ public class AIAttackSystem : MonoBehaviour
         }
         else
         {
-            // Ejecutar ataque instantáneo según el tipo
             switch (attackType)
             {
                 case AttackType.SingleTarget:
@@ -426,13 +459,12 @@ public class AIAttackSystem : MonoBehaviour
             }
         }
 
-        animator.SetTrigger("Shoot");
-
+        if (animator != null)
+        {
+            animator.SetTrigger("Shoot");
+        }
     }
 
-    /// <summary>
-    /// Ataque a un solo objetivo
-    /// </summary>
     private void SingleTargetAttack()
     {
         if (currentTarget == null) return;
@@ -441,11 +473,10 @@ public class AIAttackSystem : MonoBehaviour
 
         if (hitEffect != null)
         {
-            GameObject hit = Instantiate(hitEffect, currentTarget.position, Quaternion.identity);
+            Vector3 hitPos = GetTargetAimPosition();
+            GameObject hit = Instantiate(hitEffect, hitPos, Quaternion.identity);
             Destroy(hit, effectDuration);
         }
-
-
 
         if (showDebugLogs)
         {
@@ -453,14 +484,11 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Ataque en área alrededor del objetivo
-    /// </summary>
     private void AreaOfEffectAttack()
     {
         if (currentTarget == null) return;
 
-        Vector3 explosionCenter = currentTarget.position;
+        Vector3 explosionCenter = GetTargetAimPosition();
         Collider[] hitColliders = Physics.OverlapSphere(explosionCenter, aoeRadius, detectionLayer);
 
         int targetsHit = 0;
@@ -469,7 +497,8 @@ public class AIAttackSystem : MonoBehaviour
             if (col.transform == transform || col.transform.IsChildOf(transform))
                 continue;
 
-            float distance = Vector3.Distance(explosionCenter, col.transform.position);
+            Vector3 targetPos = GetAimPositionFor(col.transform);
+            float distance = Vector3.Distance(explosionCenter, targetPos);
             float damageMultiplier = 1f;
 
             if (aoeDamageFalloff)
@@ -485,7 +514,6 @@ public class AIAttackSystem : MonoBehaviour
             }
         }
 
-        // Efecto visual de explosión
         if (aoeEffect != null)
         {
             GameObject effect = Instantiate(aoeEffect, explosionCenter, Quaternion.identity);
@@ -499,15 +527,13 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Ataque en cono desde el atacante
-    /// </summary>
     private void ConeAttack()
     {
         if (currentTarget == null) return;
 
-        Vector3 attackDirection = (currentTarget.position - transform.position).normalized;
-        Vector3 attackOrigin = firePoint != null ? firePoint.position : transform.position;
+        Vector3 attackOrigin = firePoint != null ? firePoint.position : transform.position + Vector3.up * aimHeightOffset;
+        Vector3 targetAimPos = GetTargetAimPosition();
+        Vector3 attackDirection = (targetAimPos - attackOrigin).normalized;
 
         Collider[] potentialTargets = Physics.OverlapSphere(attackOrigin, coneRange, detectionLayer);
 
@@ -517,12 +543,13 @@ public class AIAttackSystem : MonoBehaviour
             if (col.transform == transform || col.transform.IsChildOf(transform))
                 continue;
 
-            Vector3 directionToTarget = (col.transform.position - attackOrigin).normalized;
+            Vector3 targetPos = GetAimPositionFor(col.transform);
+            Vector3 directionToTarget = (targetPos - attackOrigin).normalized;
             float angle = Vector3.Angle(attackDirection, directionToTarget);
 
             if (angle <= coneAngle / 2f)
             {
-                float distance = Vector3.Distance(attackOrigin, col.transform.position);
+                float distance = Vector3.Distance(attackOrigin, targetPos);
                 if (distance <= coneRange)
                 {
                     if (ApplyDamage(col.transform, attackDamage))
@@ -531,7 +558,7 @@ public class AIAttackSystem : MonoBehaviour
 
                         if (hitEffect != null)
                         {
-                            GameObject hit = Instantiate(hitEffect, col.transform.position, Quaternion.identity);
+                            GameObject hit = Instantiate(hitEffect, targetPos, Quaternion.identity);
                             Destroy(hit, effectDuration);
                         }
                     }
@@ -545,18 +572,19 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Ataque tipo láser en línea recta
-    /// </summary>
     private void LaserAttack()
     {
         if (currentTarget == null) return;
 
-        Vector3 attackOrigin = firePoint != null ? firePoint.position : transform.position;
-        Vector3 attackDirection = (currentTarget.position - attackOrigin).normalized;
+        Vector3 attackOrigin = firePoint != null ? firePoint.position : transform.position + Vector3.up * aimHeightOffset;
+        Vector3 targetAimPos = GetTargetAimPosition();
+        Vector3 attackDirection = (targetAimPos - attackOrigin).normalized;
 
         List<Transform> hitTargets = new List<Transform>();
         RaycastHit[] hits = Physics.RaycastAll(attackOrigin, attackDirection, laserRange, detectionLayer);
+
+        // Ordenar por distancia
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
 
         foreach (RaycastHit hit in hits)
         {
@@ -584,7 +612,6 @@ public class AIAttackSystem : MonoBehaviour
             }
         }
 
-        // Efecto visual del láser
         if (laserEffect != null)
         {
             GameObject laser = Instantiate(laserEffect, attackOrigin, Quaternion.LookRotation(attackDirection));
@@ -603,22 +630,19 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Ataque tipo escopeta (múltiples rayos en cono)
-    /// </summary>
     private void ShotgunAttack()
     {
         if (currentTarget == null) return;
 
-        Vector3 attackOrigin = firePoint != null ? firePoint.position : transform.position;
-        Vector3 baseDirection = (currentTarget.position - attackOrigin).normalized;
+        Vector3 attackOrigin = firePoint != null ? firePoint.position : transform.position + Vector3.up * aimHeightOffset;
+        Vector3 targetAimPos = GetTargetAimPosition();
+        Vector3 baseDirection = (targetAimPos - attackOrigin).normalized;
 
         Dictionary<Transform, int> targetHits = new Dictionary<Transform, int>();
         HashSet<Transform> allTargetsInCone = new HashSet<Transform>();
 
         if (shotgunDetectAllInCone)
         {
-            // Primero, detectar TODOS los objetivos en el cono
             Collider[] potentialTargets = Physics.OverlapSphere(attackOrigin, shotgunRange, detectionLayer);
 
             foreach (Collider col in potentialTargets)
@@ -626,20 +650,19 @@ public class AIAttackSystem : MonoBehaviour
                 if (col.transform == transform || col.transform.IsChildOf(transform))
                     continue;
 
-                Vector3 directionToTarget = (col.transform.position - attackOrigin).normalized;
+                Vector3 targetPos = GetAimPositionFor(col.transform);
+                Vector3 directionToTarget = (targetPos - attackOrigin).normalized;
                 float angle = Vector3.Angle(baseDirection, directionToTarget);
 
-                // Si está dentro del cono de dispersión
                 if (angle <= shotgunSpread / 2f)
                 {
-                    float distance = Vector3.Distance(attackOrigin, col.transform.position);
+                    float distance = Vector3.Distance(attackOrigin, targetPos);
                     if (distance <= shotgunRange)
                     {
-                        // Verificar obstáculos
                         if (Physics.Raycast(attackOrigin, directionToTarget, out RaycastHit obstacleCheck, distance, obstacleLayer))
                         {
-                            if (obstacleCheck.transform != col.transform)
-                                continue; // Bloqueado
+                            if (obstacleCheck.transform != col.transform && !obstacleCheck.transform.IsChildOf(col.transform))
+                                continue;
                         }
 
                         allTargetsInCone.Add(col.transform);
@@ -648,17 +671,14 @@ public class AIAttackSystem : MonoBehaviour
             }
         }
 
-        // Disparar perdigones individuales
         for (int i = 0; i < shotgunPellets; i++)
         {
-            // Calcular dirección con dispersión
             float randomAngleH = Random.Range(-shotgunSpread / 2f, shotgunSpread / 2f);
             float randomAngleV = Random.Range(-shotgunSpread / 2f, shotgunSpread / 2f);
 
             Quaternion spread = Quaternion.Euler(randomAngleV, randomAngleH, 0);
             Vector3 pelletDirection = spread * baseDirection;
 
-            // SphereCast para cada perdigón (simula grosor del perdigón)
             RaycastHit[] hits = Physics.SphereCastAll(attackOrigin, shotgunPelletRadius, pelletDirection, shotgunRange, detectionLayer);
 
             foreach (RaycastHit hit in hits)
@@ -666,21 +686,18 @@ public class AIAttackSystem : MonoBehaviour
                 if (hit.transform == transform || hit.transform.IsChildOf(transform))
                     continue;
 
-                // Verificar si hay obstáculo antes del objetivo
                 if (Physics.Raycast(attackOrigin, pelletDirection, out RaycastHit obstacleCheck, hit.distance, obstacleLayer))
                 {
-                    if (obstacleCheck.transform != hit.transform)
-                        continue; // Bloqueado por obstáculo
+                    if (obstacleCheck.transform != hit.transform && !obstacleCheck.transform.IsChildOf(hit.transform))
+                        continue;
                 }
 
-                // Contar impactos por objetivo
                 if (!targetHits.ContainsKey(hit.transform))
                 {
                     targetHits[hit.transform] = 0;
                 }
                 targetHits[hit.transform]++;
 
-                // Si detectamos all in cone, asegurar que esté en la lista
                 if (shotgunDetectAllInCone)
                 {
                     allTargetsInCone.Add(hit.transform);
@@ -688,21 +705,17 @@ public class AIAttackSystem : MonoBehaviour
             }
         }
 
-        // Si está activado detectar todos en cono, asegurar que reciban al menos 1 impacto
         if (shotgunDetectAllInCone)
         {
             foreach (Transform target in allTargetsInCone)
             {
                 if (!targetHits.ContainsKey(target))
                 {
-                    // Objetivo en el cono pero no golpeado por ningún perdigón
-                    // Darle al menos 1 impacto para que no sea ignorado
                     targetHits[target] = 1;
                 }
             }
         }
 
-        // Aplicar daño a cada objetivo según los impactos
         foreach (var kvp in targetHits)
         {
             float totalDamage = shotgunDamagePerPellet * kvp.Value;
@@ -710,7 +723,8 @@ public class AIAttackSystem : MonoBehaviour
 
             if (hitEffect != null)
             {
-                GameObject hit = Instantiate(hitEffect, kvp.Key.position, Quaternion.identity);
+                Vector3 hitPos = GetAimPositionFor(kvp.Key);
+                GameObject hit = Instantiate(hitEffect, hitPos, Quaternion.identity);
                 Destroy(hit, effectDuration);
             }
         }
@@ -725,9 +739,6 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Aplica daño a un objetivo
-    /// </summary>
     private bool ApplyDamage(Transform target, float damage)
     {
         HealthSystem health = target.GetComponent<HealthSystem>();
@@ -739,13 +750,11 @@ public class AIAttackSystem : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// Crea un proyectil
-    /// </summary>
     private void SpawnProjectile()
     {
-        Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
-        Vector3 direction = (currentTarget.position - spawnPos).normalized;
+        Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position + Vector3.up * aimHeightOffset;
+        Vector3 targetAimPos = GetTargetAimPosition();
+        Vector3 direction = (targetAimPos - spawnPos).normalized;
 
         GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
 
@@ -764,45 +773,50 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Fuerza la detección inmediata
-    /// </summary>
+    #endregion
+
+    #region Utilidades Públicas
+
     public void ForceDetection()
     {
         DetectTargets();
     }
 
-    /// <summary>
-    /// Limpia el objetivo actual
-    /// </summary>
     public void ClearTarget()
     {
         currentTarget = null;
         currentPriority = -1;
+        cachedAimPoint = null;
+        lastTargetChecked = null;
     }
 
-    /// <summary>
-    /// Obtiene la distancia al objetivo actual
-    /// </summary>
     public float GetDistanceToTarget()
     {
         if (currentTarget == null) return float.MaxValue;
         return Vector3.Distance(transform.position, currentTarget.position);
     }
 
-    /// <summary>
-    /// Verifica si está en rango de ataque
-    /// </summary>
     public bool IsInAttackRange()
     {
         return currentTarget != null && GetDistanceToTarget() <= attackRange;
     }
 
+    /// <summary>
+    /// Obtiene la posición actual de apuntado (útil para otros sistemas)
+    /// </summary>
+    public Vector3 GetCurrentAimPosition()
+    {
+        return GetTargetAimPosition();
+    }
+
+    #endregion
+
+    #region Gizmos
+
     private void OnDrawGizmos()
     {
         if (!drawGizmos) return;
 
-        // Dibujar rango de detección
         Gizmos.color = currentTarget != null ? new Color(1f, 0f, 0f, 0.3f) : new Color(1f, 1f, 0f, 0.3f);
 
         if (useBoxDetection)
@@ -815,54 +829,52 @@ public class AIAttackSystem : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, detectionRange);
         }
 
-        // Dibujar rango de ataque base
+        Gizmos.matrix = Matrix4x4.identity;
+
         Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
-        // Dibujar área específica según tipo de ataque
         if (currentTarget != null && Application.isPlaying)
         {
-            Gizmos.matrix = Matrix4x4.identity;
-            Vector3 attackOrigin = firePoint != null ? firePoint.position : transform.position;
-            Vector3 directionToTarget = (currentTarget.position - attackOrigin).normalized;
+            Vector3 attackOrigin = firePoint != null ? firePoint.position : transform.position + Vector3.up * aimHeightOffset;
+            Vector3 targetAimPos = GetTargetAimPosition();
+            Vector3 directionToTarget = (targetAimPos - attackOrigin).normalized;
+
+            // Dibujar punto de apuntado
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(targetAimPos, 0.3f);
 
             switch (attackType)
             {
                 case AttackType.SingleTarget:
-                    // Línea al objetivo
                     Gizmos.color = Color.red;
-                    Gizmos.DrawLine(attackOrigin, currentTarget.position);
-                    Gizmos.DrawWireSphere(currentTarget.position, 0.5f);
+                    Gizmos.DrawLine(attackOrigin, targetAimPos);
                     break;
 
                 case AttackType.AreaOfEffect:
-                    // Esfera alrededor del objetivo
                     Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
-                    Gizmos.DrawWireSphere(currentTarget.position, aoeRadius);
+                    Gizmos.DrawWireSphere(targetAimPos, aoeRadius);
+                    Gizmos.DrawLine(attackOrigin, targetAimPos);
                     break;
 
                 case AttackType.Cone:
-                    // Cono de ataque
                     Gizmos.color = new Color(0f, 1f, 1f, 0.3f);
                     DrawConeGizmo(attackOrigin, directionToTarget, coneAngle, coneRange);
                     break;
 
                 case AttackType.Laser:
-                    // Línea recta del láser
                     Gizmos.color = Color.cyan;
                     Gizmos.DrawLine(attackOrigin, attackOrigin + directionToTarget * laserRange);
                     Gizmos.DrawWireSphere(attackOrigin + directionToTarget * laserRange, laserWidth);
                     break;
 
                 case AttackType.Shotgun:
-                    // Cono de dispersión de escopeta
                     Gizmos.color = new Color(1f, 0f, 1f, 0.3f);
                     DrawConeGizmo(attackOrigin, directionToTarget, shotgunSpread, shotgunRange);
                     break;
             }
         }
 
-        // Dibujar punto de disparo
         if (firePoint != null)
         {
             Gizmos.color = Color.cyan;
@@ -907,4 +919,6 @@ public class AIAttackSystem : MonoBehaviour
             Gizmos.DrawSphere(transform.position, detectionRange);
         }
     }
+
+    #endregion
 }

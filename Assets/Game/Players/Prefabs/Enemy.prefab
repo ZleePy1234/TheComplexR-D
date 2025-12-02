@@ -40,11 +40,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7807080993158418727}
-  - component: {fileID: 2570284515402601037}
   - component: {fileID: 3936900046388830753}
   - component: {fileID: 3858386328145187114}
   - component: {fileID: 2071070949013548306}
   - component: {fileID: 8401983738299547657}
+  - component: {fileID: 2441531394410732351}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -69,33 +69,6 @@ Transform:
   - {fileID: 6743658542340131453}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &2570284515402601037
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4957006711389018230}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &3936900046388830753
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -216,7 +189,7 @@ MonoBehaviour:
   shotgunDamagePerPellet: 5
   shotgunDetectAllInCone: 1
   shotgunPelletRadius: 0.3
-  useProjectile: 0
+  useProjectile: 1
   projectilePrefab: {fileID: 408857043240106589, guid: c9c7bd28b4202fe48932be64133c82c9, type: 3}
   firePoint: {fileID: 6743658542340131453}
   projectileSpeed: 20
@@ -263,8 +236,49 @@ MonoBehaviour:
   acceleration: 8
   maintainDistance: 1
   stickyTargeting: 1
+  enableIdleMovement: 1
+  idleMoveRadius: 2
+  idleMoveInterval: 2
+  idleMoveIntervalVariance: 1
   drawGizmos: 1
   animator: {fileID: 0}
+--- !u!114 &2441531394410732351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4957006711389018230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 100
+  currentHealth: 0
+  destroyOnDeath: 1
+  destroyDelay: 0
+  enableRegeneration: 0
+  tagsToRegenerate: []
+  regenerationRate: 5
+  regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &6691169509223838664
 PrefabInstance:
   m_ObjectHideFlags: 0

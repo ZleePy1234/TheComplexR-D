@@ -45,7 +45,16 @@ public class EnemyNavMesh : MonoBehaviour
 
     [Header("Comportamiento")]
     [SerializeField] private bool maintainDistance = true;
-    [SerializeField] private bool stickyTargeting = true; // Mantiene el primer objetivo detectado
+    [SerializeField] private bool stickyTargeting = true;
+
+    [Header("Movimiento Orgánico")]
+    [SerializeField] private bool enableIdleMovement = true;
+    [SerializeField] private float idleMoveInterval = 2f;
+    [SerializeField] private float idleMoveIntervalVariance = 1f;
+    [Tooltip("Ángulo máximo de movimiento desde la posición actual (±grados)")]
+    [SerializeField] private float idleArcAngle = 45f;
+    [SerializeField] private float idleMinDistance = 1f;
+    [SerializeField] private float idleMaxDistance = 3f;
 
     [Header("Debug")]
     [SerializeField] private bool drawGizmos = true;
@@ -56,6 +65,12 @@ public class EnemyNavMesh : MonoBehaviour
     private float detectionTimer;
     private Dictionary<string, int> priorityDict;
     private Collider[] detectionBuffer = new Collider[50];
+
+    // Movimiento orgánico
+    private float idleTimer;
+    private float currentIdleInterval;
+    private Vector3 idleTargetPosition;
+    private bool isIdleMoving;
 
     [Header("Animación")]
     [SerializeField] private Animator animator;
@@ -71,7 +86,6 @@ public class EnemyNavMesh : MonoBehaviour
 
     private void Start()
     {
-        // Obtener NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
         if (agent == null)
         {
@@ -80,13 +94,11 @@ public class EnemyNavMesh : MonoBehaviour
             return;
         }
 
-        // Configurar NavMesh
         agent.speed = moveSpeed;
         agent.stoppingDistance = stoppingDistance;
         agent.angularSpeed = angularSpeed;
         agent.acceleration = acceleration;
 
-        // Crear diccionario de prioridades
         priorityDict = new Dictionary<string, int>();
         foreach (var tp in tagPriorities)
         {
@@ -97,13 +109,13 @@ public class EnemyNavMesh : MonoBehaviour
         }
 
         detectionTimer = 0f;
+        currentIdleInterval = idleMoveInterval;
     }
 
     private void Update()
     {
         if (agent == null) return;
 
-        // Sistema de detección
         detectionTimer += Time.deltaTime;
         if (detectionTimer >= detectionInterval)
         {
@@ -111,7 +123,6 @@ public class EnemyNavMesh : MonoBehaviour
             DetectTargets();
         }
 
-        // Mover hacia el objetivo
         if (currentTarget != null)
         {
             MoveTowardsTarget();
@@ -126,7 +137,6 @@ public class EnemyNavMesh : MonoBehaviour
             animator.SetBool("Moviendo", agent.velocity.magnitude > 0.1f);
         }
 
-        // Rotación suave hacia la dirección de movimiento
         if (agent.velocity.magnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(agent.velocity.normalized);
@@ -134,7 +144,6 @@ public class EnemyNavMesh : MonoBehaviour
         }
         else if (currentTarget != null)
         {
-            // Si está detenido pero tiene objetivo, mirar hacia él
             Vector3 lookDirection = (currentTarget.position - transform.position).normalized;
             if (lookDirection.magnitude > 0.01f)
             {
@@ -159,20 +168,16 @@ public class EnemyNavMesh : MonoBehaviour
         {
             Collider col = detectionBuffer[i];
 
-            // Ignorar el propio enemigo
             if (col.transform == transform || col.transform.IsChildOf(transform))
                 continue;
 
-            // Verificar si el tag tiene prioridad asignada
             if (priorityDict.TryGetValue(col.tag, out int priority))
             {
-                // Verificar si el objetivo actual sigue en rango
                 if (col.transform == currentTarget)
                 {
                     currentTargetStillInRange = true;
                 }
 
-                // Buscar el mejor objetivo
                 if (priority > bestPriority)
                 {
                     bestPriority = priority;
@@ -181,10 +186,8 @@ public class EnemyNavMesh : MonoBehaviour
             }
         }
 
-        // Sticky targeting: mantener objetivo actual si sigue en rango
         if (stickyTargeting && currentTarget != null && currentTargetStillInRange)
         {
-            // Solo cambiar si encontramos uno con MAYOR prioridad
             if (bestTarget != null && bestPriority > currentPriority)
             {
                 Transform oldTarget = currentTarget;
@@ -192,11 +195,9 @@ public class EnemyNavMesh : MonoBehaviour
                 currentPriority = bestPriority;
                 OnTargetChanged(oldTarget, currentTarget);
             }
-            // Mantener el objetivo actual
         }
         else if (bestTarget != null)
         {
-            // Nuevo objetivo o el anterior salió del rango
             if (bestTarget != currentTarget)
             {
                 Transform oldTarget = currentTarget;
@@ -207,7 +208,6 @@ public class EnemyNavMesh : MonoBehaviour
         }
         else if (currentTarget != null && !currentTargetStillInRange)
         {
-            // Objetivo perdido
             Transform oldTarget = currentTarget;
             currentTarget = null;
             currentPriority = -1;
@@ -231,43 +231,181 @@ public class EnemyNavMesh : MonoBehaviour
 
         if (maintainDistance)
         {
-            // Mantener distancia óptima
             float minDistance = optimalDistance - distanceTolerance;
             float maxDistance = optimalDistance + distanceTolerance;
 
             if (distanceToTarget > maxDistance)
             {
                 // Acercarse
+                isIdleMoving = false;
                 agent.isStopped = false;
                 agent.stoppingDistance = optimalDistance - distanceTolerance;
                 agent.SetDestination(currentTarget.position);
             }
             else if (distanceToTarget < minDistance)
             {
-                // Alejarse - calcular punto de retroceso
-                Vector3 awayDirection = (transform.position - currentTarget.position).normalized;
-                Vector3 retreatPosition = currentTarget.position + awayDirection * optimalDistance;
+                // Alejarse - buscar punto válido
+                isIdleMoving = false;
+                Vector3 retreatPos = CalculateRetreatOrStrafePosition();
 
-                // Verificar que esté en NavMesh
-                if (NavMesh.SamplePosition(retreatPosition, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+                if (retreatPos != Vector3.zero)
                 {
                     agent.isStopped = false;
-                    agent.SetDestination(hit.position);
+                    agent.stoppingDistance = 0.5f;
+                    agent.SetDestination(retreatPos);
+                }
+                else
+                {
+                    // No hay escape - quedarse quieto
+                    agent.isStopped = true;
                 }
             }
             else
             {
-                // En rango óptimo - detenerse
-                agent.isStopped = true;
+                // En rango óptimo
+                if (enableIdleMovement)
+                {
+                    UpdateIdleMovement();
+                }
+                else
+                {
+                    agent.isStopped = true;
+                }
             }
         }
         else
         {
-            // Modo persecución simple sin mantener distancia
             agent.isStopped = false;
             agent.stoppingDistance = stoppingDistance;
             agent.SetDestination(currentTarget.position);
         }
+    }
+
+    private Vector3 CalculateRetreatOrStrafePosition()
+    {
+        Vector3 directionFromTarget = (transform.position - currentTarget.position).normalized;
+        Vector3 rightDirection = Vector3.Cross(Vector3.up, directionFromTarget).normalized;
+
+        // Prioridades: atrás, diagonales, laterales
+        Vector3[] directions = {
+            directionFromTarget,                                    // Atrás
+            (directionFromTarget + rightDirection).normalized,      // Atrás-derecha
+            (directionFromTarget - rightDirection).normalized,      // Atrás-izquierda
+            rightDirection,                                         // Derecha
+            -rightDirection,                                        // Izquierda
+            (directionFromTarget + rightDirection * 2).normalized,  // Más lateral derecha
+            (directionFromTarget - rightDirection * 2).normalized   // Más lateral izquierda
+        };
+
+        float[] distances = { optimalDistance, optimalDistance * 0.8f, optimalDistance * 0.6f };
+
+        foreach (float dist in distances)
+        {
+            foreach (Vector3 dir in directions)
+            {
+                float currentDist = GetDistanceToTarget();
+                Vector3 candidatePos = transform.position + dir * (dist - currentDist + distanceTolerance);
+
+                if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+                {
+                    NavMeshPath path = new NavMeshPath();
+                    if (agent.CalculatePath(hit.position, path) && path.status == NavMeshPathStatus.PathComplete)
+                    {
+                        float newDist = Vector3.Distance(hit.position, currentTarget.position);
+                        if (newDist >= optimalDistance - distanceTolerance)
+                        {
+                            return hit.position;
+                        }
+                    }
+                }
+            }
+        }
+
+        return Vector3.zero;
+    }
+
+    #endregion
+
+    #region Movimiento Orgánico
+
+    private void UpdateIdleMovement()
+    {
+        if (!enableIdleMovement || currentTarget == null) return;
+
+        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
+        float minDistance = optimalDistance - distanceTolerance;
+        float maxDistance = optimalDistance + distanceTolerance;
+
+        bool inOptimalRange = distanceToTarget >= minDistance && distanceToTarget <= maxDistance;
+
+        if (!inOptimalRange)
+        {
+            isIdleMoving = false;
+            return;
+        }
+
+        idleTimer += Time.deltaTime;
+
+        // Verificar si llegó al punto idle
+        if (isIdleMoving && agent.remainingDistance <= agent.stoppingDistance + 0.1f)
+        {
+            isIdleMoving = false;
+            agent.isStopped = true;
+        }
+
+        // Buscar nuevo punto idle
+        if (idleTimer >= currentIdleInterval && !isIdleMoving)
+        {
+            idleTimer = 0f;
+            currentIdleInterval = idleMoveInterval + Random.Range(-idleMoveIntervalVariance, idleMoveIntervalVariance);
+
+            Vector3 newIdlePos = CalculateIdlePosition();
+            if (newIdlePos != Vector3.zero)
+            {
+                idleTargetPosition = newIdlePos;
+                agent.isStopped = false;
+                agent.stoppingDistance = 0.3f;
+                agent.SetDestination(idleTargetPosition);
+                isIdleMoving = true;
+            }
+        }
+    }
+
+    private Vector3 CalculateIdlePosition()
+    {
+        // Ángulo actual del enemigo respecto al jugador
+        Vector3 directionToEnemy = (transform.position - currentTarget.position).normalized;
+        float currentAngle = Mathf.Atan2(directionToEnemy.x, directionToEnemy.z) * Mathf.Rad2Deg;
+
+        for (int i = 0; i < 10; i++)
+        {
+            // Solo moverse en un arco limitado desde la posición actual
+            float angleOffset = Random.Range(-idleArcAngle, idleArcAngle);
+            float angle = (currentAngle + angleOffset) * Mathf.Deg2Rad;
+
+            float distance = Random.Range(optimalDistance - distanceTolerance * 0.5f,
+                                          optimalDistance + distanceTolerance * 0.5f);
+
+            Vector3 offset = new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle)) * distance;
+            Vector3 candidatePos = currentTarget.position + offset;
+
+            if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+            {
+                float distFromCurrent = Vector3.Distance(transform.position, hit.position);
+
+                // Distancia corta para evitar atravesar al jugador
+                if (distFromCurrent <= idleMaxDistance && distFromCurrent >= idleMinDistance)
+                {
+                    NavMeshPath path = new NavMeshPath();
+                    if (agent.CalculatePath(hit.position, path) && path.status == NavMeshPathStatus.PathComplete)
+                    {
+                        return hit.position;
+                    }
+                }
+            }
+        }
+
+        return Vector3.zero;
     }
 
     #endregion
@@ -276,6 +414,11 @@ public class EnemyNavMesh : MonoBehaviour
 
     private void OnTargetChanged(Transform oldTarget, Transform newTarget)
     {
+        // Resetear movimiento idle
+        isIdleMoving = false;
+        idleTimer = 0f;
+        currentIdleInterval = idleMoveInterval;
+
         if (newTarget != null)
         {
             Debug.Log($"{gameObject.name}: Nuevo objetivo detectado - {newTarget.name} (Tag: {newTarget.tag}, Prioridad: {currentPriority})");
@@ -344,6 +487,7 @@ public class EnemyNavMesh : MonoBehaviour
         currentTarget = null;
         currentPriority = -1;
         agent.isStopped = true;
+        isIdleMoving = false;
     }
 
     /// <summary>
@@ -371,6 +515,18 @@ public class EnemyNavMesh : MonoBehaviour
         maintainDistance = maintain;
     }
 
+    /// <summary>
+    /// Activa o desactiva el movimiento orgánico
+    /// </summary>
+    public void SetIdleMovement(bool enable)
+    {
+        enableIdleMovement = enable;
+        if (!enable)
+        {
+            isIdleMoving = false;
+        }
+    }
+
     #endregion
 
     #region Gizmos
@@ -379,20 +535,17 @@ public class EnemyNavMesh : MonoBehaviour
     {
         if (!drawGizmos) return;
 
-        // Radio de detección
         Gizmos.color = currentTarget != null ? new Color(1, 0, 0, 0.3f) : new Color(1, 1, 0, 0.3f);
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
 
         if (!Application.isPlaying) return;
 
-        // Línea al objetivo actual
         if (currentTarget != null)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, currentTarget.position);
             Gizmos.DrawWireSphere(currentTarget.position, 0.5f);
 
-            // Rango óptimo de distancia
             if (maintainDistance)
             {
                 Gizmos.color = new Color(1, 0.5f, 0, 0.3f);
@@ -403,7 +556,14 @@ public class EnemyNavMesh : MonoBehaviour
             }
         }
 
-        // Path del NavMesh
+        // Mostrar punto de movimiento idle
+        if (isIdleMoving && idleTargetPosition != Vector3.zero)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(idleTargetPosition, 0.3f);
+            Gizmos.DrawLine(transform.position, idleTargetPosition);
+        }
+
         if (agent != null && agent.hasPath)
         {
             Gizmos.color = Color.yellow;
@@ -419,11 +579,9 @@ public class EnemyNavMesh : MonoBehaviour
     {
         if (!drawGizmos) return;
 
-        // Área de detección más visible cuando está seleccionado
         Gizmos.color = new Color(1f, 1f, 0f, 0.2f);
         Gizmos.DrawSphere(transform.position, detectionRadius);
 
-        // Mostrar distancia óptima incluso sin target
         if (maintainDistance)
         {
             Gizmos.color = new Color(1, 0.5f, 0, 0.2f);
