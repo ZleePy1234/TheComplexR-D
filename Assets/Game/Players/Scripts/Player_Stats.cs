@@ -8,11 +8,13 @@ public class PlayerStats : MonoBehaviour
     public int plating;
     public int platingMax = 3;
     public int playerResin;
+    private PlayerMovement playerMovement;
 
     public float speedMultiplier = 1.0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        playerMovement = GetComponent<PlayerMovement>();
         currentHealth = maxHealth;
         plating = 0;
 
@@ -34,6 +36,7 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         Debug.Log("Player Died");
+        playerMovement.enabled = false;
     }
     public void HealPlayer(int healAmount)
     {
