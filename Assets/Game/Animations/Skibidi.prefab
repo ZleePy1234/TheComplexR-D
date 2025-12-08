@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7509704720883930068}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8435814042354226099}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_shoulder_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ Transform:
   m_Children:
   - {fileID: 6890027430015668282}
   m_Father: {fileID: 7825013983495427489}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 1.5323062, y: 53.892185, z: -36.899883}
 --- !u!1 &168398765325433198
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +73,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1545367187934685481}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Master_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1271879321589770974}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Pelv_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7424075641168051323}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_toe_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 647165416226568492}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7765782363462416086}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2355558972773566541}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ Transform:
   m_Children:
   - {fileID: 3460772148016161475}
   m_Father: {fileID: 3071224401564574459}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -58.766045, y: -63.070503, z: 60.344547}
 --- !u!1 &530329552875571759
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 746190604270875029}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ Transform:
   m_Children:
   - {fileID: 7822307637743431495}
   m_Father: {fileID: 7564060388202830779}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 40.105858}
 --- !u!1 &536741678957085816
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,7 +308,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7867649966892224072}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,7 +330,7 @@ Transform:
   m_Children:
   - {fileID: 5778809512242740002}
   m_Father: {fileID: 53868513912130612}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 31.226032}
 --- !u!1 &553220113569155055
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,7 +340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327476256006810430}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -362,7 +362,7 @@ Transform:
   m_Children:
   - {fileID: 8881655695398657601}
   m_Father: {fileID: 1709510848258994314}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -63.947876, y: -39.0115, z: 34.148094}
 --- !u!1 &568997362853796938
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +372,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7799071918916058150}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_clav_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5506560227046360476}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky3_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5359195948137955792}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Root_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,7 +468,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2447622659561690001}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +490,7 @@ Transform:
   m_Children:
   - {fileID: 4767887558093746230}
   m_Father: {fileID: 5164660178357932794}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 14.617388}
 --- !u!1 &791396804214713992
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +500,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6810823278466358023}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_arm_IK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531,7 +531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4374168444964862016}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -563,7 +563,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8389431385322310086}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ankle_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -585,7 +585,7 @@ Transform:
   m_Children:
   - {fileID: 2296992917588221088}
   m_Father: {fileID: 479547248275579436}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 27.944838, y: -21.62134, z: -112.46713}
 --- !u!1 &939849212931993559
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +595,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4179757657841648391}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle3_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -626,7 +626,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8947440246778756518}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Center_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -649,7 +649,7 @@ Transform:
   - {fileID: 1271879321589770974}
   - {fileID: 2106589274155949779}
   m_Father: {fileID: 1247640747127029033}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &1178652447354261923
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,7 +659,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7537274064822655690}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -681,7 +681,7 @@ Transform:
   m_Children:
   - {fileID: 7139846240124600433}
   m_Father: {fileID: 2546693549428685958}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 27.57905}
 --- !u!1 &1278545933711005547
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8200688751864888541}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Center_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -724,7 +724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3460772148016161475}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -746,7 +746,7 @@ Transform:
   m_Children:
   - {fileID: 2578833612728201857}
   m_Father: {fileID: 2355558972773566541}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -19.408035, y: -6.3361278, z: 61.491383}
 --- !u!1 &1485390666781498912
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,7 +756,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5228982324422266997}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:NeckB_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -778,7 +778,7 @@ Transform:
   m_Children:
   - {fileID: 885290776528664897}
   m_Father: {fileID: 6247350016724052111}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -5.630089, z: 0}
 --- !u!1 &1523738218483093768
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,7 +788,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5634595883459230624}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -810,7 +810,7 @@ Transform:
   m_Children:
   - {fileID: 8458396200062148016}
   m_Father: {fileID: 6789026899401749640}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -3.757367e-14, y: 2.0952481e-13, z: 20.333342}
 --- !u!1 &1618701660164230040
 GameObject:
   m_ObjectHideFlags: 0
@@ -820,7 +820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2485463791861204622}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_thumb1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,7 +852,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3155616095179165935}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +884,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6774064004577389378}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:NeckB_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -916,7 +916,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8881655695398657601}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -938,7 +938,7 @@ Transform:
   m_Children:
   - {fileID: 3147208840583024422}
   m_Father: {fileID: 327476256006810430}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 3.742448, y: -18.874617, z: 66.66563}
 --- !u!1 &2029913944646544944
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,7 +948,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4563980743559595573}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -980,7 +980,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8128388189150756810}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Pelv_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1011,7 +1011,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6603353336457248147}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_elbow_PV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1042,7 +1042,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6812133516276461946}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_thumb0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1074,7 +1074,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8037509304205755824}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1106,7 +1106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2685183482167676508}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_elbow_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1128,7 +1128,7 @@ Transform:
   m_Children:
   - {fileID: 1709510848258994314}
   m_Father: {fileID: 5005480736895229676}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -5.503021e-13, y: -1.0179549e-13, z: -109.886795}
 --- !u!1 &2278757323543200453
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,7 +1138,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7960077864912404630}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1170,7 +1170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5668670782444415271}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1192,7 +1192,7 @@ Transform:
   m_Children:
   - {fileID: 4834788976470323872}
   m_Father: {fileID: 1709510848258994314}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -56.40788, y: -11.802372, z: 4.9686656}
 --- !u!1 &2298133760647320280
 GameObject:
   m_ObjectHideFlags: 0
@@ -1202,7 +1202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2941947179207989135}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_thumb2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1234,7 +1234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 394062665273733047}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1256,7 +1256,7 @@ Transform:
   m_Children:
   - {fileID: 942838212494617497}
   m_Father: {fileID: 2754378470582320274}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.0824761, y: 2.6246946, z: 22.60424}
 --- !u!1 &2396183462454838000
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,7 +1266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3681052343978879830}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index3_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1298,7 +1298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1199667705419587618}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_thumb2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1330,7 +1330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2019389394482291971}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1362,7 +1362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5446848272552954926}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring3_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1393,7 +1393,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2337372227295929869}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_hand_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1425,7 +1425,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1001852590295033702}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Spine2_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1457,7 +1457,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3135218064655042021}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1479,7 +1479,7 @@ Transform:
   m_Children:
   - {fileID: 2961404126474003575}
   m_Father: {fileID: 1254263651353946632}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -21.083778, y: -3.673843, z: 18.531883}
 --- !u!1 &2536156230951236907
 GameObject:
   m_ObjectHideFlags: 0
@@ -1489,7 +1489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2258305960134850613}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Root_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1520,7 +1520,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7139846240124600433}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring3_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1552,7 +1552,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7564060388202830779}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1584,7 +1584,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 711705756841035799}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_foot_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1616,7 +1616,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3355174851023411214}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_hand_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1648,7 +1648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6516865988175354782}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ankle_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1670,7 +1670,7 @@ Transform:
   m_Children:
   - {fileID: 9095379833858374454}
   m_Father: {fileID: 950485640654420885}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.060487, y: 1.5829277, z: -104.35943}
 --- !u!1 &2769640660865772341
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,7 +1680,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1032825096953330695}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:NeckB_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1702,7 +1702,7 @@ Transform:
   m_Children:
   - {fileID: 3024639508757323367}
   m_Father: {fileID: 6774064004577389378}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -5.630089, z: 0}
 --- !u!1 &2835001033098689126
 GameObject:
   m_ObjectHideFlags: 0
@@ -1712,7 +1712,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9140830656395718058}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_clav_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1744,7 +1744,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 479547248275579436}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_knee_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1766,7 +1766,7 @@ Transform:
   m_Children:
   - {fileID: 8389431385322310086}
   m_Father: {fileID: 4699049633429150501}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.0004712179, y: 0.00017150381, z: 82.103035}
 --- !u!1 &3037676529166503273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,7 +1776,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7517283005041333209}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Master_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1808,7 +1808,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3147208840583024422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1830,7 +1830,7 @@ Transform:
   m_Children:
   - {fileID: 4158582793328683947}
   m_Father: {fileID: 8881655695398657601}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 11.940818, y: -2.47647, z: 52.677986}
 --- !u!1 &3052546904202113908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1840,7 +1840,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6220288605038197069}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_wrist_loc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1866,7 +1866,7 @@ Transform:
   - {fileID: 4374168444964862016}
   - {fileID: 6987523826440426155}
   m_Father: {fileID: 1545367187934685481}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -15.641336, y: 108.27708, z: -41.484642}
 --- !u!1 &3157582674574122956
 GameObject:
   m_ObjectHideFlags: 0
@@ -1876,7 +1876,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2296992917588221088}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_toe_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1897,7 +1897,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8389431385322310086}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.2626432e-15, y: 9.2112946e-20, z: 1.6057045e-13}
 --- !u!1 &3175600562999133623
 GameObject:
   m_ObjectHideFlags: 0
@@ -1907,7 +1907,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4694532127342519741}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1929,7 +1929,7 @@ Transform:
   m_Children:
   - {fileID: 6789026899401749640}
   m_Father: {fileID: 3071224401564574459}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -42.744957, y: 7.31898, z: -9.781638}
 --- !u!1 &3192617135505611664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1939,7 +1939,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 983917906767850916}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_toe_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1971,7 +1971,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6485175150845812426}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky3_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2002,7 +2002,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3240139862216685383}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2024,7 +2024,7 @@ Transform:
   m_Children:
   - {fileID: 5506560227046360476}
   m_Father: {fileID: 7822307637743431495}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 8.072672}
 --- !u!1 &3287713527020892594
 GameObject:
   m_ObjectHideFlags: 0
@@ -2034,7 +2034,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 429205607490306109}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle3_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2065,7 +2065,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4699049633429150501}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_hip_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2087,7 +2087,7 @@ Transform:
   m_Children:
   - {fileID: 479547248275579436}
   m_Father: {fileID: 1271879321589770974}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -51.44464, y: -168.87843, z: 132.64859}
 --- !u!1 &3422260928156544745
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,7 +2097,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2546693549428685958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2129,7 +2129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5599783385624364480}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky3_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2161,7 +2161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5816665028776176354}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_foot_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2193,7 +2193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2877238709773883232}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Head_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2214,7 +2214,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3024639508757323367}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.25858235, y: -22.920341, z: -1.1949086}
 --- !u!1 &3693599031228497337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2224,7 +2224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4658425840858942546}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_foot_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2247,7 +2247,7 @@ Transform:
   - {fileID: 4122399735882213535}
   - {fileID: 983917906767850916}
   m_Father: {fileID: 5816665028776176354}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -4.4319, z: 0}
 --- !u!1 &3701427846945565504
 GameObject:
   m_ObjectHideFlags: 0
@@ -2257,7 +2257,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6615322183260154598}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2280,6 +2280,37 @@ Transform:
   - {fileID: 7564060388202830779}
   m_Father: {fileID: 7960077864912404630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3718706020059848191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4901102078725564128}
+  m_Layer: 8
+  m_Name: FP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4901102078725564128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718706020059848191}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.066, z: 0.626}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7675481320763569758}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3800374582281055785
 GameObject:
   m_ObjectHideFlags: 0
@@ -2289,7 +2320,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 40142152795940367}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index3_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2320,7 +2351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3432036719471768379}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky3_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2351,7 +2382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1709510848258994314}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_wrist_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2377,7 +2408,7 @@ Transform:
   - {fileID: 327476256006810430}
   - {fileID: 933740940705027958}
   m_Father: {fileID: 2685183482167676508}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -42.820526, y: -112.25465, z: 115.19212}
 --- !u!1 &3910162404637729563
 GameObject:
   m_ObjectHideFlags: 0
@@ -2387,7 +2418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2563943689192665666}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_thumb2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2408,7 +2439,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1650698615601950891}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -29.754393, y: 6.010867e-15, z: -6.961326e-15}
 --- !u!1 &3911923071834959180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2418,7 +2449,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1774268677449563425}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_hip_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2440,7 +2471,7 @@ Transform:
   m_Children:
   - {fileID: 950485640654420885}
   m_Father: {fileID: 1271879321589770974}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -82.15348, y: 43.02793, z: 97.86316}
 --- !u!1 &3946770804943748912
 GameObject:
   m_ObjectHideFlags: 0
@@ -2450,7 +2481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7566589214727670428}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Spine2_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2472,7 +2503,7 @@ Transform:
   m_Children:
   - {fileID: 7910118698256360901}
   m_Father: {fileID: 1001852590295033702}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -6.770681, y: 2.3902166, z: 1.4435179}
 --- !u!1 &3974249658235168456
 GameObject:
   m_ObjectHideFlags: 0
@@ -2482,7 +2513,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7647902919149531731}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2514,7 +2545,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2578833612728201857}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2536,7 +2567,7 @@ Transform:
   m_Children:
   - {fileID: 6048392750792589740}
   m_Father: {fileID: 3460772148016161475}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.49126604, y: 1.8057568, z: 15.214335}
 --- !u!1 &4028160148006618898
 GameObject:
   m_ObjectHideFlags: 0
@@ -2546,7 +2577,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2363414571673609932}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_thumb2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2577,7 +2608,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1254263651353946632}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2609,7 +2640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2961404126474003575}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2641,7 +2672,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1048125453503244964}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2673,7 +2704,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2319732312461414000}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index3_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2694,7 +2725,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5778809512242740002}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 33.127678}
 --- !u!1 &4187394194067603665
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,7 +2735,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7874085317995255149}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:NeckA_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2726,7 +2757,7 @@ Transform:
   m_Children:
   - {fileID: 6774064004577389378}
   m_Father: {fileID: 765912606719605479}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -17.121609, z: 0}
 --- !u!1 &4194113360307015070
 GameObject:
   m_ObjectHideFlags: 0
@@ -2736,7 +2767,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4705825754773405035}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Spine2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2758,7 +2789,7 @@ Transform:
   m_Children:
   - {fileID: 8194905641209790586}
   m_Father: {fileID: 2106589274155949779}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -7.2859836, y: -16.12009, z: 1.5179415}
 --- !u!1 &4216105052320268586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2768,7 +2799,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7910118698256360901}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Chest_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2800,7 +2831,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5293858025481407919}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2822,7 +2853,7 @@ Transform:
   m_Children:
   - {fileID: 4142063035447325719}
   m_Father: {fileID: 4834788976470323872}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 42.871193}
 --- !u!1 &4335934448134194890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2832,7 +2863,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7090800334102578513}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Center_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2864,7 +2895,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5310933693410158824}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2896,7 +2927,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2474505266161278078}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2918,7 +2949,7 @@ Transform:
   m_Children:
   - {fileID: 7503562311558963452}
   m_Father: {fileID: 3394033764782733417}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -3.0766606, y: 1.3261011, z: 50.870136}
 --- !u!1 &4583507696802759439
 GameObject:
   m_ObjectHideFlags: 0
@@ -2928,7 +2959,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3313520496819863252}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2960,7 +2991,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3120517656478211176}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2992,7 +3023,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3238742388151486406}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3024,7 +3055,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5391994340298403666}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3046,7 +3077,7 @@ Transform:
   m_Children:
   - {fileID: 4817503484858044243}
   m_Father: {fileID: 8392145507006465517}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.49126622, y: 1.8057574, z: 23.287008}
 --- !u!1 &4666323661604480240
 GameObject:
   m_ObjectHideFlags: 0
@@ -3056,7 +3087,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9095379833858374454}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_toe_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3087,7 +3118,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3024639508757323367}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Head_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3119,7 +3150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3394033764782733417}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3141,7 +3172,7 @@ Transform:
   m_Children:
   - {fileID: 2474505266161278078}
   m_Father: {fileID: 1882395544269166696}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 2.2236788, y: -4.119326, z: 21.207039}
 --- !u!1 &4695462038259508385
 GameObject:
   m_ObjectHideFlags: 0
@@ -3151,7 +3182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2754378470582320274}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3183,7 +3214,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 72257092322837746}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3205,7 +3236,7 @@ Transform:
   m_Children:
   - {fileID: 2546693549428685958}
   m_Father: {fileID: 6623194647089739636}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -4.8701982, y: -18.624432, z: 41.717354}
 --- !u!1 &4808161175007384091
 GameObject:
   m_ObjectHideFlags: 0
@@ -3215,7 +3246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1582943209703104569}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3247,7 +3278,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 885290776528664897}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Head_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3268,7 +3299,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5228982324422266997}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.25890204, y: -35.360836, z: -1.1948414}
 --- !u!1 &4843077778913927149
 GameObject:
   m_ObjectHideFlags: 0
@@ -3278,7 +3309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 933740940705027958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_thumb0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3300,7 +3331,7 @@ Transform:
   m_Children:
   - {fileID: 7841652884425315019}
   m_Father: {fileID: 1709510848258994314}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45.23765, y: 37.34272, z: -23.257252}
 --- !u!1 &4849017769507954293
 GameObject:
   m_ObjectHideFlags: 0
@@ -3310,7 +3341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8689178341396723225}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_thumb0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3342,7 +3373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7122199580414778255}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3374,7 +3405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4992330081544712018}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_toe_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3406,7 +3437,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8046473134301445079}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3428,7 +3459,7 @@ Transform:
   m_Children:
   - {fileID: 7265897849200501910}
   m_Father: {fileID: 3071224401564574459}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -63.947876, y: -39.0115, z: 34.148094}
 --- !u!1 &4979402354678974920
 GameObject:
   m_ObjectHideFlags: 0
@@ -3438,7 +3469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6966909398112901945}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_hand_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3460,7 +3491,7 @@ Transform:
   m_Children:
   - {fileID: 3442541799900060437}
   m_Father: {fileID: 2337372227295929869}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 34.850082, y: 75.13135, z: -76.861946}
 --- !u!1 &5027890864719099230
 GameObject:
   m_ObjectHideFlags: 0
@@ -3470,7 +3501,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5778809512242740002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index3_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3502,7 +3533,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4999358364042395551}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3524,7 +3555,7 @@ Transform:
   m_Children:
   - {fileID: 4185374355041553431}
   m_Father: {fileID: 7265897849200501910}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 11.940816, y: -2.4764712, z: 25.09893}
 --- !u!1 &5200211433202156174
 GameObject:
   m_ObjectHideFlags: 0
@@ -3534,7 +3565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1530098523187968987}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index3_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3555,7 +3586,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 91910307192890954}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 33.127678}
 --- !u!1 &5271574364012414156
 GameObject:
   m_ObjectHideFlags: 0
@@ -3565,7 +3596,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7822307637743431495}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3597,7 +3628,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1625023417894194472}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_elbow_PV_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3629,7 +3660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7841652884425315019}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_thumb1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3651,7 +3682,7 @@ Transform:
   m_Children:
   - {fileID: 8416876927748310112}
   m_Father: {fileID: 933740940705027958}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 1.5191733, y: -10.16718, z: 32.669804}
 --- !u!1 &5315992037085784065
 GameObject:
   m_ObjectHideFlags: 0
@@ -3661,7 +3692,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6623194647089739636}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3693,7 +3724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5164660178357932794}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3725,7 +3756,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7825013983495427489}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_clav_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3747,7 +3778,7 @@ Transform:
   m_Children:
   - {fileID: 8435814042354226099}
   m_Father: {fileID: 8194905641209790586}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 167.98662, z: 90}
 --- !u!1 &5360432245734169179
 GameObject:
   m_ObjectHideFlags: 0
@@ -3757,7 +3788,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3633118986852943128}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3789,7 +3820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2522820044094804510}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Chest_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3823,7 +3854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1364499260915714735}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3855,7 +3886,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4172921403427339016}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring3_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3887,7 +3918,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3145559113586338635}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_hand_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3909,7 +3940,7 @@ Transform:
   m_Children:
   - {fileID: 6810823278466358023}
   m_Father: {fileID: 3355174851023411214}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 58.26423, y: 68.69938, z: -126.30918}
 --- !u!1 &5758372760616610730
 GameObject:
   m_ObjectHideFlags: 0
@@ -3919,7 +3950,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1430711479382233985}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_thumb1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3951,7 +3982,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3810913852883907461}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3973,7 +4004,7 @@ Transform:
   m_Children:
   - {fileID: 5164660178357932794}
   m_Father: {fileID: 7122199580414778255}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45.33182}
 --- !u!1 &5806602683503146170
 GameObject:
   m_ObjectHideFlags: 0
@@ -3983,7 +4014,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6048392750792589740}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky3_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4014,7 +4045,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7503562311558963452}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle3_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4045,7 +4076,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4248255496723238054}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Spine1_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4077,7 +4108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4122399735882213535}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_leg_IK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4109,9 +4140,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7675481320763569758}
   - component: {fileID: 4225973275930600416}
-  m_Layer: 0
+  - component: {fileID: 7476787227233853925}
+  - component: {fileID: 8634634932675981929}
+  - component: {fileID: 7490738315461757789}
+  - component: {fileID: 4185231218882762575}
+  - component: {fileID: 5532582558576811808}
+  m_Layer: 8
   m_Name: Skibidi
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4124,7 +4160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5964326734261881387}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.208706, y: 0.023418069, z: -44.373142}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4132,6 +4168,7 @@ Transform:
   - {fileID: 7517283005041333209}
   - {fileID: 1247640747127029033}
   - {fileID: 868485485267547603}
+  - {fileID: 4901102078725564128}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4225973275930600416
@@ -4156,6 +4193,235 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &7476787227233853925
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964326734261881387}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 2, z: 0.8}
+  m_Center: {x: 0, y: 1, z: 0.1}
+--- !u!195 &8634634932675981929
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964326734261881387}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &7490738315461757789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964326734261881387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934ee3d466cd48a4294d4a3fcd1a088e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAttackSystem
+  aiType: 0
+  attackType: 2
+  detectionRange: 15
+  detectionAreaSize: {x: 15, y: 10, z: 15}
+  detectionAreaOffset: {x: 0, y: 0, z: 0}
+  detectionLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  detectionInterval: 0.2
+  useBoxDetection: 0
+  tagPriorities:
+  - tag: Player
+    priority: 10
+  enemyTags:
+  - Enemy
+  - Boss
+  aimHeightOffset: 1.2
+  useTargetAimPoint: 1
+  aimPointName: AimPoint
+  attackDamage: 10
+  attackRate: 0.3
+  attackRange: 2.5
+  requireLineOfSight: 1
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attackAnimationDelay: 1.1
+  triggerAnimationBeforeDelay: 1
+  aoeRadius: 5
+  aoeDamageFalloff: 0
+  aoeFalloffCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -0.7
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.3
+      inSlope: -0.7
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  coneAngle: 45
+  coneRange: 10
+  laserWidth: 0.5
+  laserRange: 15
+  laserPierceTargets: 1
+  laserMaxTargets: 5
+  shotgunPellets: 8
+  shotgunSpread: 30
+  shotgunRange: 8
+  shotgunDamagePerPellet: 5
+  shotgunDetectAllInCone: 1
+  shotgunPelletRadius: 0.3
+  useProjectile: 0
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 4901102078725564128}
+  projectileSpeed: 20
+  muzzleFlashEffect: {fileID: 0}
+  hitEffect: {fileID: 0}
+  aoeEffect: {fileID: 0}
+  laserEffect: {fileID: 0}
+  effectDuration: 1
+  animator: {fileID: 4225973275930600416}
+  drawGizmos: 1
+  showDebugLogs: 1
+  stickyTargeting: 1
+  onlyChangeForHigherPriority: 1
+--- !u!114 &4185231218882762575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964326734261881387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b686db539a7083c41a943bee9096116a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyNavMesh
+  detectionRadius: 15
+  detectionLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  detectionInterval: 0.2
+  tagPriorities:
+  - tag: Player
+    priority: 10
+  optimalDistance: 2
+  distanceTolerance: 0.5
+  moveSpeed: 3.5
+  stoppingDistance: 0.5
+  rotationSpeed: 5
+  angularSpeed: 120
+  acceleration: 8
+  maintainDistance: 0
+  stickyTargeting: 1
+  enableIdleMovement: 1
+  idleMoveInterval: 10
+  idleMoveIntervalVariance: 1
+  idleArcAngle: 30
+  idleMinDistance: 1
+  idleMaxDistance: 3
+  drawGizmos: 1
+  animator: {fileID: 4225973275930600416}
+--- !u!114 &5532582558576811808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964326734261881387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77de98e250d0aca4396b4a05613f0c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
+  maxHealth: 100
+  currentHealth: 0
+  destroyOnDeath: 1
+  deathAnimationDelay: 0
+  destroyDelay: 3
+  fireDeathEventImmediately: 1
+  enableRegeneration: 0
+  tagsToRegenerate: []
+  regenerationRate: 5
+  regenerationDelay: 3
+  baseMaxHealth: 100
+  healthMultiplier: 1
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4225973275930600416}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Death
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDeathSequenceStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAboutToDestroy:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5986342932976236943
 GameObject:
   m_ObjectHideFlags: 0
@@ -4165,7 +4431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 942838212494617497}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle3_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4197,7 +4463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1486762499548132629}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4229,7 +4495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7844905983094671141}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_thumb1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4261,7 +4527,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1650698615601950891}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_thumb1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4283,7 +4549,7 @@ Transform:
   m_Children:
   - {fileID: 2563943689192665666}
   m_Father: {fileID: 3429465775599739298}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 1.5191733, y: -10.16718, z: 32.669804}
 --- !u!1 &6128392552154918059
 GameObject:
   m_ObjectHideFlags: 0
@@ -4293,7 +4559,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4158582793328683947}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_ring3_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4324,7 +4590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4817503484858044243}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky3_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4355,7 +4621,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7417651891129465967}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_toe_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4386,7 +4652,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 950485640654420885}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_knee_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4408,7 +4674,7 @@ Transform:
   m_Children:
   - {fileID: 6516865988175354782}
   m_Father: {fileID: 1774268677449563425}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -7.567058e-14, y: -1.4163258e-13, z: 82.49329}
 --- !u!1 &6287810642233923637
 GameObject:
   m_ObjectHideFlags: 0
@@ -4418,7 +4684,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8416876927748310112}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_thumb2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4439,7 +4705,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7841652884425315019}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -29.754393, y: 0, z: 0}
 --- !u!1 &6329266374366134455
 GameObject:
   m_ObjectHideFlags: 0
@@ -4449,7 +4715,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3740480991553318908}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_elbow_PV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4480,7 +4746,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3267568585437456477}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_knee_PV_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4513,7 +4779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 868485485267547603}
   - component: {fileID: 2028044214019104434}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Skibidi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4665,7 +4931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5083112365198409548}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_thumb1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4697,7 +4963,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 742109596262950560}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_clav_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4718,7 +4984,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9140830656395718058}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -19.9999, z: 0}
 --- !u!1 &6631875036822823254
 GameObject:
   m_ObjectHideFlags: 0
@@ -4728,7 +4994,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327909947108143806}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring3_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4759,7 +5025,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2106589274155949779}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Spine1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4781,7 +5047,7 @@ Transform:
   m_Children:
   - {fileID: 4705825754773405035}
   m_Father: {fileID: 8947440246778756518}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.9947362, y: 42.68473, z: 2.7559366}
 --- !u!1 &6675976373571981698
 GameObject:
   m_ObjectHideFlags: 0
@@ -4791,7 +5057,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8933476569941422585}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_knee_PV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4822,7 +5088,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2417596062241325412}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Spine1_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4844,7 +5110,7 @@ Transform:
   m_Children:
   - {fileID: 1001852590295033702}
   m_Father: {fileID: 4248255496723238054}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.410563, y: 42.56126, z: 2.4517827}
 --- !u!1 &6896966778647483675
 GameObject:
   m_ObjectHideFlags: 0
@@ -4854,7 +5120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4834788976470323872}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4876,7 +5142,7 @@ Transform:
   m_Children:
   - {fileID: 5293858025481407919}
   m_Father: {fileID: 5668670782444415271}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 2.2236784, y: -4.1193256, z: 66.538864}
 --- !u!1 &6907113271822616942
 GameObject:
   m_ObjectHideFlags: 0
@@ -4886,7 +5152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4767887558093746230}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle3_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4918,7 +5184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5005480736895229676}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_shoulder_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4940,7 +5206,7 @@ Transform:
   m_Children:
   - {fileID: 2685183482167676508}
   m_Father: {fileID: 5634570560526252542}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -3.3734736, y: 17.50777, z: -26.995796}
 --- !u!1 &6996388837042807240
 GameObject:
   m_ObjectHideFlags: 0
@@ -4950,7 +5216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2258526500802448413}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_leg_IK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4981,7 +5247,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 91910307192890954}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index2_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5003,7 +5269,7 @@ Transform:
   m_Children:
   - {fileID: 1530098523187968987}
   m_Father: {fileID: 5470812651008575661}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 51.559376}
 --- !u!1 &7194828461422829378
 GameObject:
   m_ObjectHideFlags: 0
@@ -5013,7 +5279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2497070173373510858}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Pelv_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5045,7 +5311,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 271556768066771794}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5077,7 +5343,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3167196462124854066}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_clav_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5108,7 +5374,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6335961950408280538}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5130,7 +5396,7 @@ Transform:
   m_Children:
   - {fileID: 53868513912130612}
   m_Father: {fileID: 3120517656478211176}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 14.99981}
 --- !u!1 &7309731553285676954
 GameObject:
   m_ObjectHideFlags: 0
@@ -5140,7 +5406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1882395544269166696}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5162,7 +5428,7 @@ Transform:
   m_Children:
   - {fileID: 3394033764782733417}
   m_Father: {fileID: 3071224401564574459}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -56.40788, y: -11.802372, z: 4.9686656}
 --- !u!1 &7329925156957618025
 GameObject:
   m_ObjectHideFlags: 0
@@ -5172,7 +5438,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6890027430015668282}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_elbow_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5194,7 +5460,7 @@ Transform:
   m_Children:
   - {fileID: 3071224401564574459}
   m_Father: {fileID: 8435814042354226099}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.0039715436, y: 0.0009294214, z: -108.16269}
 --- !u!1 &7336069084485310666
 GameObject:
   m_ObjectHideFlags: 0
@@ -5204,7 +5470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6247350016724052111}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:NeckA_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5226,7 +5492,7 @@ Transform:
   m_Children:
   - {fileID: 5228982324422266997}
   m_Father: {fileID: 8194905641209790586}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -17.121548, z: 0}
 --- !u!1 &7377619197937363471
 GameObject:
   m_ObjectHideFlags: 0
@@ -5236,7 +5502,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8019048132395787896}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_thumb0_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5268,7 +5534,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3442541799900060437}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_arm_IK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5299,7 +5565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 285721288364567167}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5331,7 +5597,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3740301865680235213}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5363,7 +5629,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1991321882797949475}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_knee_PV_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5395,7 +5661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2000361561024175516}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_middle1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5427,7 +5693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1476984815313991211}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_knee_PV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5458,7 +5724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6052697439722040927}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_thumb2_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5489,7 +5755,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 404051101837556047}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5511,7 +5777,7 @@ Transform:
   m_Children:
   - {fileID: 5470812651008575661}
   m_Father: {fileID: 1709510848258994314}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -42.744957, y: 7.31898, z: -9.781638}
 --- !u!1 &8014734800192373748
 GameObject:
   m_ObjectHideFlags: 0
@@ -5521,7 +5787,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3429465775599739298}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_thumb0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5543,7 +5809,7 @@ Transform:
   m_Children:
   - {fileID: 1650698615601950891}
   m_Father: {fileID: 3071224401564574459}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45.23765, y: 37.34272, z: -23.257252}
 --- !u!1 &8055415925639428903
 GameObject:
   m_ObjectHideFlags: 0
@@ -5553,7 +5819,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7265897849200501910}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5575,7 +5841,7 @@ Transform:
   m_Children:
   - {fileID: 4999358364042395551}
   m_Father: {fileID: 8046473134301445079}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -17.202309, y: -12.9050255, z: 46.177658}
 --- !u!1 &8081272865207222542
 GameObject:
   m_ObjectHideFlags: 0
@@ -5585,7 +5851,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3828208059938450609}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_foot_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5608,7 +5874,7 @@ Transform:
   - {fileID: 2258526500802448413}
   - {fileID: 4992330081544712018}
   m_Father: {fileID: 711705756841035799}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -4.721302, z: 0}
 --- !u!1 &8166619305016440436
 GameObject:
   m_ObjectHideFlags: 0
@@ -5618,7 +5884,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8194905641209790586}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Chest_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5642,7 +5908,7 @@ Transform:
   - {fileID: 6247350016724052111}
   - {fileID: 7825013983495427489}
   m_Father: {fileID: 4705825754773405035}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 30.486671, z: 0}
 --- !u!1 &8169505345354740779
 GameObject:
   m_ObjectHideFlags: 0
@@ -5652,7 +5918,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 765912606719605479}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:NeckA_ctrl_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5684,7 +5950,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1247640747127029033}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:Root_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5716,7 +5982,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4280056713480466753}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_elbow_PV_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5748,7 +6014,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 53868513912130612}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index2_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5780,7 +6046,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7949599014331738740}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index1_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5812,7 +6078,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7025761759261468851}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky0_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5834,7 +6100,7 @@ Transform:
   m_Children:
   - {fileID: 8392145507006465517}
   m_Father: {fileID: 1709510848258994314}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -58.766045, y: -63.070503, z: 60.344547}
 --- !u!1 &8484625788225388520
 GameObject:
   m_ObjectHideFlags: 0
@@ -5844,7 +6110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2131670830571940270}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5866,7 +6132,7 @@ Transform:
   m_Children:
   - {fileID: 647165416226568492}
   m_Father: {fileID: 3740301865680235213}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -19.638828, y: 4.132906, z: 26.888115}
 --- !u!1 &8498017042560574551
 GameObject:
   m_ObjectHideFlags: 0
@@ -5876,7 +6142,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7971328318611057689}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_pinky0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5908,7 +6174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4185374355041553431}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_ring3_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5939,7 +6205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4142063035447325719}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_middle3_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5970,7 +6236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8458396200062148016}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index3_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5991,7 +6257,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5634595883459230624}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.0000014867453, y: 0, z: 0}
 --- !u!1 &8801811041307266202
 GameObject:
   m_ObjectHideFlags: 0
@@ -6001,7 +6267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8392145507006465517}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_pinky1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6023,7 +6289,7 @@ Transform:
   m_Children:
   - {fileID: 5391994340298403666}
   m_Father: {fileID: 7025761759261468851}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.76256406, y: 1.1945057, z: 72.65527}
 --- !u!1 &8810986953360124936
 GameObject:
   m_ObjectHideFlags: 0
@@ -6033,7 +6299,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6987523826440426155}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_thumb0_jntgrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6065,7 +6331,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5470812651008575661}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_index1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6087,7 +6353,7 @@ Transform:
   m_Children:
   - {fileID: 91910307192890954}
   m_Father: {fileID: 404051101837556047}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.00000026282197, y: -8.212999, z: 32.15778}
 --- !u!1 &8928164294560464822
 GameObject:
   m_ObjectHideFlags: 0
@@ -6097,7 +6363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4027767267972462276}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_wrist_loc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6123,7 +6389,7 @@ Transform:
   - {fileID: 7765782363462416086}
   - {fileID: 6812133516276461946}
   m_Father: {fileID: 1545367187934685481}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -5.1264133, y: 62.239597, z: 92.44585}
 --- !u!1 &8964932670258849452
 GameObject:
   m_ObjectHideFlags: 0
@@ -6133,7 +6399,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5634570560526252542}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:L_clav_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6155,7 +6421,7 @@ Transform:
   m_Children:
   - {fileID: 5005480736895229676}
   m_Father: {fileID: 8194905641209790586}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 19.999897, y: -12.013362, z: 89.99999}
 --- !u!1 &9141537153912092702
 GameObject:
   m_ObjectHideFlags: 0
@@ -6165,7 +6431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3071224401564574459}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_wrist_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6191,7 +6457,7 @@ Transform:
   - {fileID: 8046473134301445079}
   - {fileID: 3429465775599739298}
   m_Father: {fileID: 6890027430015668282}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -49.994377, y: -48.075893, z: 23.347235}
 --- !u!1 &9177535185086088871
 GameObject:
   m_ObjectHideFlags: 0
@@ -6201,7 +6467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4011637169183859723}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index1_jntCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6233,7 +6499,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6789026899401749640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pantallona_Rig:R_index1_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6255,4 +6521,4 @@ Transform:
   m_Children:
   - {fileID: 5634595883459230624}
   m_Father: {fileID: 4694532127342519741}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -8.212997, z: 17.15797}

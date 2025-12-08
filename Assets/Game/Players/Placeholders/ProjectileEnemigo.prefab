@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8305974312793684440}
   - component: {fileID: 6244198019231352859}
   - component: {fileID: 4401313584942300641}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: ProjectileCylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,8 +126,8 @@ GameObject:
   - component: {fileID: -8366150419895513915}
   - component: {fileID: 4747854280799613821}
   - component: {fileID: 7516713658741023385}
-  m_Layer: 10
-  m_Name: Projectile
+  m_Layer: 6
+  m_Name: ProjectileEnemigo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -234,12 +234,4 @@ MonoBehaviour:
   hitEffectS: {fileID: 8829521091523956314, guid: 28fb8a4f0550d9b4ca6d541971d1a514, type: 3}
   tagJugador: Player
   tagAliado: Ally
-  tagEnemigo: Enemy
   tagEscudo: Shield
-  tagsIgnoradosPorAliados:
-  - Player
-  - Ally
-  - Shield
-  tagsIgnoradosPorEnemigos:
-  - Enemy
-  - Boss

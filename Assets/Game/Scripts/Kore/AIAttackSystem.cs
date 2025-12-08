@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -64,6 +65,12 @@ public class AIAttackSystem : MonoBehaviour
     [SerializeField] private bool requireLineOfSight = true;
     [SerializeField] private LayerMask obstacleLayer;
 
+    [Header("Sincronización con Animación")]
+    [Tooltip("Delay antes de ejecutar el ataque/spawn del proyectil para sincronizar con la animación")]
+    [SerializeField] private float attackAnimationDelay = 0f;
+    [Tooltip("Si es true, el trigger de animación se activa antes del delay. Si es false, se activa junto con el ataque")]
+    [SerializeField] private bool triggerAnimationBeforeDelay = true;
+
     [Header("Configuración: Area of Effect")]
     [SerializeField] private float aoeRadius = 5f;
     [SerializeField] private bool aoeDamageFalloff = true;
@@ -123,11 +130,16 @@ public class AIAttackSystem : MonoBehaviour
     private Transform cachedAimPoint;
     private Transform lastTargetChecked;
 
+    // Control de coroutine de ataque
+    private Coroutine attackCoroutine;
+    private bool isAttacking = false;
+
     // Propiedades públicas
     public Transform CurrentTarget => currentTarget;
     public int CurrentPriority => currentPriority;
     public bool HasTarget => currentTarget != null;
-    public bool CanAttack => attackTimer <= 0f;
+    public bool CanAttack => attackTimer <= 0f && !isAttacking;
+    public float AttackAnimationDelay => attackAnimationDelay;
 
     private void Start()
     {
@@ -238,6 +250,7 @@ public class AIAttackSystem : MonoBehaviour
     private void DetectTargets()
     {
         detectedObjects.Clear();
+
         Collider[] colliders;
 
         if (useBoxDetection)
@@ -427,6 +440,66 @@ public class AIAttackSystem : MonoBehaviour
     {
         attackTimer = 1f / attackRate;
 
+        // Si hay delay de animación, usar coroutine
+        if (attackAnimationDelay > 0f)
+        {
+            attackCoroutine = StartCoroutine(PerformAttackWithDelay());
+        }
+        else
+        {
+            // Sin delay, ejecutar inmediatamente
+            ExecuteAttack();
+        }
+    }
+
+    private IEnumerator PerformAttackWithDelay()
+    {
+        isAttacking = true;
+
+        // Guardar referencia al objetivo actual por si cambia durante el delay
+        Transform targetAtStart = currentTarget;
+        Vector3 targetPositionAtStart = currentTarget != null ? GetTargetAimPosition() : Vector3.zero;
+
+        // Trigger de animación antes del delay si está configurado así
+        if (triggerAnimationBeforeDelay && animator != null)
+        {
+            animator.SetTrigger("Shoot");
+        }
+
+        // Esperar el delay de animación
+        yield return new WaitForSeconds(attackAnimationDelay);
+
+        // Verificar que el objetivo sigue siendo válido
+        if (currentTarget == null)
+        {
+            // Si perdimos el objetivo, intentar usar el objetivo original si sigue vivo
+            if (targetAtStart != null)
+            {
+                HealthSystem health = targetAtStart.GetComponent<HealthSystem>();
+                if (health != null && !health.IsDead)
+                {
+                    // Usar la posición guardada para el ataque
+                    ExecuteAttackAtPosition(targetAtStart, targetPositionAtStart);
+                }
+            }
+        }
+        else
+        {
+            ExecuteAttack();
+        }
+
+        // Trigger de animación después del delay si está configurado así
+        if (!triggerAnimationBeforeDelay && animator != null)
+        {
+            animator.SetTrigger("Shoot");
+        }
+
+        isAttacking = false;
+        attackCoroutine = null;
+    }
+
+    private void ExecuteAttack()
+    {
         if (muzzleFlashEffect != null && firePoint != null)
         {
             GameObject flash = Instantiate(muzzleFlashEffect, firePoint.position, firePoint.rotation);
@@ -459,9 +532,57 @@ public class AIAttackSystem : MonoBehaviour
             }
         }
 
-        if (animator != null)
+        // Solo disparar animación aquí si no hay delay
+        if (attackAnimationDelay <= 0f && animator != null)
         {
             animator.SetTrigger("Shoot");
+        }
+    }
+
+    /// <summary>
+    /// Ejecuta el ataque hacia una posición específica (usado cuando el objetivo cambió durante el delay)
+    /// </summary>
+    private void ExecuteAttackAtPosition(Transform originalTarget, Vector3 targetPosition)
+    {
+        if (muzzleFlashEffect != null && firePoint != null)
+        {
+            GameObject flash = Instantiate(muzzleFlashEffect, firePoint.position, firePoint.rotation);
+            Destroy(flash, effectDuration);
+        }
+
+        if (useProjectile)
+        {
+            SpawnProjectileAtPosition(targetPosition);
+        }
+        else
+        {
+            // Para ataques sin proyectil, intentar aplicar daño al objetivo original
+            if (originalTarget != null)
+            {
+                switch (attackType)
+                {
+                    case AttackType.SingleTarget:
+                        ApplyDamage(originalTarget, attackDamage);
+                        if (hitEffect != null)
+                        {
+                            GameObject hit = Instantiate(hitEffect, targetPosition, Quaternion.identity);
+                            Destroy(hit, effectDuration);
+                        }
+                        break;
+                    case AttackType.AreaOfEffect:
+                        AreaOfEffectAttackAtPosition(targetPosition);
+                        break;
+                    case AttackType.Cone:
+                        ConeAttack(); // Usa la dirección actual
+                        break;
+                    case AttackType.Laser:
+                        LaserAttack(); // Usa la dirección actual
+                        break;
+                    case AttackType.Shotgun:
+                        ShotgunAttack(); // Usa la dirección actual
+                        break;
+                }
+            }
         }
     }
 
@@ -489,6 +610,11 @@ public class AIAttackSystem : MonoBehaviour
         if (currentTarget == null) return;
 
         Vector3 explosionCenter = GetTargetAimPosition();
+        AreaOfEffectAttackAtPosition(explosionCenter);
+    }
+
+    private void AreaOfEffectAttackAtPosition(Vector3 explosionCenter)
+    {
         Collider[] hitColliders = Physics.OverlapSphere(explosionCenter, aoeRadius, detectionLayer);
 
         int targetsHit = 0;
@@ -568,7 +694,7 @@ public class AIAttackSystem : MonoBehaviour
 
         if (showDebugLogs)
         {
-            Debug.Log($"{gameObject.name} ataque en Cono - {targetsHit} objetivos alcanzados");
+            Debug.Log($"{gameObject.name} ataque Cono - {targetsHit} objetivos alcanzados");
         }
     }
 
@@ -580,11 +706,12 @@ public class AIAttackSystem : MonoBehaviour
         Vector3 targetAimPos = GetTargetAimPosition();
         Vector3 attackDirection = (targetAimPos - attackOrigin).normalized;
 
-        List<Transform> hitTargets = new List<Transform>();
-        RaycastHit[] hits = Physics.RaycastAll(attackOrigin, attackDirection, laserRange, detectionLayer);
+        RaycastHit[] hits = Physics.SphereCastAll(attackOrigin, laserWidth, attackDirection, laserRange, detectionLayer);
 
-        // Ordenar por distancia
         System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        int targetsHit = 0;
+        HashSet<Transform> hitTargets = new HashSet<Transform>();
 
         foreach (RaycastHit hit in hits)
         {
@@ -594,39 +721,36 @@ public class AIAttackSystem : MonoBehaviour
             if (hitTargets.Contains(hit.transform))
                 continue;
 
-            if (!laserPierceTargets && hitTargets.Count > 0)
+            if (!laserPierceTargets && targetsHit > 0)
                 break;
 
-            if (hitTargets.Count >= laserMaxTargets)
+            if (targetsHit >= laserMaxTargets)
                 break;
 
             if (ApplyDamage(hit.transform, attackDamage))
             {
                 hitTargets.Add(hit.transform);
+                targetsHit++;
 
                 if (hitEffect != null)
                 {
-                    GameObject hitFx = Instantiate(hitEffect, hit.point, Quaternion.identity);
-                    Destroy(hitFx, effectDuration);
+                    Vector3 hitPos = GetAimPositionFor(hit.transform);
+                    GameObject hitObj = Instantiate(hitEffect, hitPos, Quaternion.identity);
+                    Destroy(hitObj, effectDuration);
                 }
             }
         }
 
         if (laserEffect != null)
         {
+            Vector3 endPoint = attackOrigin + attackDirection * laserRange;
             GameObject laser = Instantiate(laserEffect, attackOrigin, Quaternion.LookRotation(attackDirection));
-            LineRenderer lr = laser.GetComponent<LineRenderer>();
-            if (lr != null)
-            {
-                lr.SetPosition(0, attackOrigin);
-                lr.SetPosition(1, attackOrigin + attackDirection * laserRange);
-            }
             Destroy(laser, effectDuration);
         }
 
         if (showDebugLogs)
         {
-            Debug.Log($"{gameObject.name} ataque Láser - {hitTargets.Count} objetivos alcanzados");
+            Debug.Log($"{gameObject.name} ataque Laser - {targetsHit} objetivos alcanzados");
         }
     }
 
@@ -641,43 +765,13 @@ public class AIAttackSystem : MonoBehaviour
         Dictionary<Transform, int> targetHits = new Dictionary<Transform, int>();
         HashSet<Transform> allTargetsInCone = new HashSet<Transform>();
 
-        if (shotgunDetectAllInCone)
-        {
-            Collider[] potentialTargets = Physics.OverlapSphere(attackOrigin, shotgunRange, detectionLayer);
-
-            foreach (Collider col in potentialTargets)
-            {
-                if (col.transform == transform || col.transform.IsChildOf(transform))
-                    continue;
-
-                Vector3 targetPos = GetAimPositionFor(col.transform);
-                Vector3 directionToTarget = (targetPos - attackOrigin).normalized;
-                float angle = Vector3.Angle(baseDirection, directionToTarget);
-
-                if (angle <= shotgunSpread / 2f)
-                {
-                    float distance = Vector3.Distance(attackOrigin, targetPos);
-                    if (distance <= shotgunRange)
-                    {
-                        if (Physics.Raycast(attackOrigin, directionToTarget, out RaycastHit obstacleCheck, distance, obstacleLayer))
-                        {
-                            if (obstacleCheck.transform != col.transform && !obstacleCheck.transform.IsChildOf(col.transform))
-                                continue;
-                        }
-
-                        allTargetsInCone.Add(col.transform);
-                    }
-                }
-            }
-        }
-
         for (int i = 0; i < shotgunPellets; i++)
         {
-            float randomAngleH = Random.Range(-shotgunSpread / 2f, shotgunSpread / 2f);
-            float randomAngleV = Random.Range(-shotgunSpread / 2f, shotgunSpread / 2f);
+            float randomYaw = Random.Range(-shotgunSpread / 2f, shotgunSpread / 2f);
+            float randomPitch = Random.Range(-shotgunSpread / 2f, shotgunSpread / 2f);
 
-            Quaternion spread = Quaternion.Euler(randomAngleV, randomAngleH, 0);
-            Vector3 pelletDirection = spread * baseDirection;
+            Quaternion spreadRotation = Quaternion.Euler(randomPitch, randomYaw, 0);
+            Vector3 pelletDirection = spreadRotation * baseDirection;
 
             RaycastHit[] hits = Physics.SphereCastAll(attackOrigin, shotgunPelletRadius, pelletDirection, shotgunRange, detectionLayer);
 
@@ -773,6 +867,31 @@ public class AIAttackSystem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spawn proyectil hacia una posición específica (usado cuando el objetivo cambió durante el delay)
+    /// </summary>
+    private void SpawnProjectileAtPosition(Vector3 targetPosition)
+    {
+        Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position + Vector3.up * aimHeightOffset;
+        Vector3 direction = (targetPosition - spawnPos).normalized;
+
+        GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
+
+        Projectile projScript = projectile.GetComponent<Projectile>();
+        if (projScript != null)
+        {
+            projScript.Initialize(direction, projectileSpeed, attackDamage, gameObject);
+        }
+        else
+        {
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = direction * projectileSpeed;
+            }
+        }
+    }
+
     #endregion
 
     #region Utilidades Públicas
@@ -807,6 +926,27 @@ public class AIAttackSystem : MonoBehaviour
     public Vector3 GetCurrentAimPosition()
     {
         return GetTargetAimPosition();
+    }
+
+    /// <summary>
+    /// Cancela el ataque en progreso si hay uno
+    /// </summary>
+    public void CancelAttack()
+    {
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+            isAttacking = false;
+        }
+    }
+
+    /// <summary>
+    /// Establece el delay de animación en runtime
+    /// </summary>
+    public void SetAttackAnimationDelay(float delay)
+    {
+        attackAnimationDelay = Mathf.Max(0f, delay);
     }
 
     #endregion
@@ -921,4 +1061,10 @@ public class AIAttackSystem : MonoBehaviour
     }
 
     #endregion
+
+    private void OnDisable()
+    {
+        // Limpiar coroutine si el objeto se desactiva
+        CancelAttack();
+    }
 }

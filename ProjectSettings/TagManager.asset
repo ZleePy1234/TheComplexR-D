@@ -17,6 +17,7 @@ TagManager:
   - Enemy
   - Shield
   - PostProcessingManager
+  - Ally
   layers:
   - Default
   - TransparentFX
@@ -24,11 +25,11 @@ TagManager:
   - Player
   - Water
   - UI
-  - Projectile
+  - ProjectileEnemigo
   - WallLayer
-  - 
-  - 
-  - 
+  - Enemigo
+  - Shield
+  - ProjectileAliado
   - 
   - 
   - 

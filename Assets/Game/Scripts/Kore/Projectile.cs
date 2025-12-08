@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -13,16 +14,37 @@ public class Projectile : MonoBehaviour
     [SerializeField] private GameObject hitEffectN;
     [SerializeField] private GameObject hitEffectS;
 
-    [Header("Tags")]
+    [Header("Tags de Identificación")]
     [SerializeField] private string tagJugador = "Player";
     [SerializeField] private string tagAliado = "Ally";
+    [SerializeField] private string tagEnemigo = "Enemy";
     [SerializeField] private string tagEscudo = "Shield";
+
+    [Header("Tags a Ignorar - Proyectiles Aliados")]
+    [Tooltip("Tags que los proyectiles del Player y Aliados atravesarán sin colisionar")]
+    [SerializeField]
+    private List<string> tagsIgnoradosPorAliados = new List<string>
+    {
+        "Player",
+        "Ally",
+        "Shield"
+    };
+
+    [Header("Tags a Ignorar - Proyectiles Enemigos")]
+    [Tooltip("Tags que los proyectiles de Enemigos atravesarán sin colisionar")]
+    [SerializeField]
+    private List<string> tagsIgnoradosPorEnemigos = new List<string>
+    {
+        "Enemy",
+        "Boss"
+    };
 
     private Vector3 direction;
     private GameObject owner;
     private Rigidbody rb;
     private bool hasHit = false;
     private bool esProyectilAliado = false;
+    private List<string> tagsAIgnorar = new List<string>();
 
     private void Awake()
     {
@@ -36,10 +58,20 @@ public class Projectile : MonoBehaviour
         damage = dmg;
         owner = ownerObject;
 
-        // Determinar si es proyectil aliado (del jugador o de un aliado)
+        // Determinar si es proyectil aliado y configurar tags a ignorar
         if (owner != null)
         {
             esProyectilAliado = owner.CompareTag(tagJugador) || owner.CompareTag(tagAliado);
+
+            // Asignar la lista de tags a ignorar según el tipo de disparador
+            if (esProyectilAliado)
+            {
+                tagsAIgnorar = new List<string>(tagsIgnoradosPorAliados);
+            }
+            else
+            {
+                tagsAIgnorar = new List<string>(tagsIgnoradosPorEnemigos);
+            }
         }
 
         if (rb != null)
@@ -48,6 +80,26 @@ public class Projectile : MonoBehaviour
         }
 
         Destroy(gameObject, lifetime);
+    }
+
+    /// <summary>
+    /// Inicialización extendida que permite especificar tags adicionales a ignorar
+    /// </summary>
+    public void Initialize(Vector3 dir, float spd, float dmg, GameObject ownerObject, List<string> tagsAdicionalesAIgnorar)
+    {
+        Initialize(dir, spd, dmg, ownerObject);
+
+        // Agregar tags adicionales a la lista
+        if (tagsAdicionalesAIgnorar != null)
+        {
+            foreach (string tag in tagsAdicionalesAIgnorar)
+            {
+                if (!tagsAIgnorar.Contains(tag))
+                {
+                    tagsAIgnorar.Add(tag);
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -59,67 +111,94 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Verifica si el proyectil debe ignorar la colisión con este objeto
+    /// </summary>
+    private bool DebeIgnorarColision(GameObject objeto)
+    {
+        // Siempre ignorar al dueño del proyectil
+        if (owner != null && (objeto.transform == owner.transform || objeto.transform.IsChildOf(owner.transform)))
+            return true;
+
+        // Verificar si el tag del objeto está en la lista de tags a ignorar
+        foreach (string tag in tagsAIgnorar)
+        {
+            if (objeto.CompareTag(tag))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Verifica si el objeto está en las capas que el proyectil puede golpear
+    /// </summary>
+    private bool EstaEnCapaValida(GameObject objeto)
+    {
+        return ((1 << objeto.layer) & hitLayers) != 0;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (hasHit) return;
 
-        // Ignorar al dueño del proyectil
-        if (owner != null && (other.transform == owner.transform || other.transform.IsChildOf(owner.transform)))
-            return;
-
-        // Si es proyectil aliado, ignorar el escudo
-        if (esProyectilAliado && other.CompareTag(tagEscudo))
+        // Verificar si debe ignorar esta colisión
+        if (DebeIgnorarColision(other.gameObject))
             return;
 
         // Verificar si está en las capas que puede golpear
-        if (((1 << other.gameObject.layer) & hitLayers) == 0)
+        if (!EstaEnCapaValida(other.gameObject))
             return;
 
-        HandleHit(other);
+        HandleHit(other, other.transform.position);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        ContactPoint contact = collision.contacts[0];
-
         if (hasHit) return;
 
-        // Ignorar al dueño del proyectil
-        if (owner != null && (collision.transform == owner.transform || collision.transform.IsChildOf(owner.transform)))
-            return;
-
-        // Si es proyectil aliado, ignorar el escudo
-        if (esProyectilAliado && collision.gameObject.CompareTag(tagEscudo))
+        // Verificar si debe ignorar esta colisión
+        if (DebeIgnorarColision(collision.gameObject))
             return;
 
         // Verificar si está en las capas que puede golpear
-        if (((1 << collision.gameObject.layer) & hitLayers) == 0)
+        if (!EstaEnCapaValida(collision.gameObject))
             return;
 
+        ContactPoint contact = collision.contacts[0];
+
         // Efectos visuales
-        if (!collision.gameObject.CompareTag(tagEscudo))
+        SpawnHitEffect(collision.gameObject, contact.point, contact.normal);
+
+        HandleHit(collision.collider, contact.point);
+    }
+
+    private void SpawnHitEffect(GameObject objetoGolpeado, Vector3 punto, Vector3 normal)
+    {
+        GameObject effectToSpawn = null;
+
+        // Determinar qué efecto usar
+        if (objetoGolpeado.CompareTag(tagEscudo))
         {
-            if (hitEffectN != null)
-            {
-                GameObject effect = Instantiate(hitEffectN, contact.point, Quaternion.identity);
-                effect.transform.rotation = Quaternion.LookRotation(contact.normal);
-                Destroy(effect, 1);
-            }
+            effectToSpawn = hitEffectS;
         }
         else
         {
-            if (hitEffectS != null)
-            {
-                GameObject effect = Instantiate(hitEffectS, contact.point, Quaternion.identity);
-                effect.transform.rotation = Quaternion.LookRotation(contact.normal);
-                Destroy(effect, 1);
-            }
+            effectToSpawn = hitEffectN;
         }
 
-        HandleHit(collision.collider);
+        // Instanciar el efecto
+        if (effectToSpawn != null)
+        {
+            GameObject effect = Instantiate(effectToSpawn, punto, Quaternion.identity);
+            effect.transform.rotation = Quaternion.LookRotation(normal);
+            Destroy(effect, 1f);
+        }
     }
 
-    private void HandleHit(Collider hitCollider)
+    private void HandleHit(Collider hitCollider, Vector3 hitPoint)
     {
         hasHit = true;
 
@@ -148,4 +227,51 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    #region Métodos Públicos de Utilidad
+
+    /// <summary>
+    /// Agrega un tag a la lista de tags a ignorar en runtime
+    /// </summary>
+    public void AgregarTagAIgnorar(string tag)
+    {
+        if (!string.IsNullOrEmpty(tag) && !tagsAIgnorar.Contains(tag))
+        {
+            tagsAIgnorar.Add(tag);
+        }
+    }
+
+    /// <summary>
+    /// Remueve un tag de la lista de tags a ignorar en runtime
+    /// </summary>
+    public void RemoverTagAIgnorar(string tag)
+    {
+        tagsAIgnorar.Remove(tag);
+    }
+
+    /// <summary>
+    /// Verifica si el proyectil está ignorando un tag específico
+    /// </summary>
+    public bool EstaIgnorandoTag(string tag)
+    {
+        return tagsAIgnorar.Contains(tag);
+    }
+
+    /// <summary>
+    /// Obtiene el dueño del proyectil
+    /// </summary>
+    public GameObject GetOwner()
+    {
+        return owner;
+    }
+
+    /// <summary>
+    /// Verifica si es un proyectil aliado
+    /// </summary>
+    public bool EsProyectilAliado()
+    {
+        return esProyectilAliado;
+    }
+
+    #endregion
 }

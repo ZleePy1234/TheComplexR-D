@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,7 +14,12 @@ public class HealthSystem : MonoBehaviour
 
     [Header("Configuración de Muerte")]
     [SerializeField] private bool destroyOnDeath = true;
+    [Tooltip("Delay antes de iniciar el proceso de muerte (para sincronizar con animaciones)")]
+    [SerializeField] private float deathAnimationDelay = 0f;
+    [Tooltip("Delay adicional después de la animación antes de destruir el GameObject")]
     [SerializeField] private float destroyDelay = 0f;
+    [Tooltip("Si es true, dispara el evento OnDeath inmediatamente. Si es false, lo dispara después del deathAnimationDelay")]
+    [SerializeField] private bool fireDeathEventImmediately = true;
 
     [Header("Regeneración de Vida")]
     [SerializeField] private bool enableRegeneration = false;
@@ -31,20 +37,31 @@ public class HealthSystem : MonoBehaviour
     public UnityEvent<float> OnDamageTaken;
     public UnityEvent<float> OnHealthChanged;
     public UnityEvent OnDeath;
+    [Tooltip("Se dispara cuando inicia la secuencia de muerte (antes del delay de animación)")]
+    public UnityEvent OnDeathSequenceStarted;
+    [Tooltip("Se dispara justo antes de destruir el GameObject")]
+    public UnityEvent OnAboutToDestroy;
     public UnityEvent OnRevive;
     public UnityEvent<float> OnMaxHealthChanged;
 
     public float MaxHealth => maxHealth;
     public float CurrentHealth => currentHealth;
     public bool IsDead { get; private set; }
+    public bool IsInDeathSequence { get; private set; }
     public float HealthPercentage => maxHealth > 0 ? currentHealth / maxHealth : 0f;
     public float HealthMultiplier => healthMultiplier;
+    public float DeathAnimationDelay => deathAnimationDelay;
+    public float DestroyDelay => destroyDelay;
+
+    // Control de coroutine de muerte
+    private Coroutine deathCoroutine;
 
     private void Awake()
     {
         baseMaxHealth = maxHealth;
         currentHealth = maxHealth;
         IsDead = false;
+        IsInDeathSequence = false;
         CheckIfCanRegenerate();
     }
 
@@ -203,14 +220,68 @@ public class HealthSystem : MonoBehaviour
         if (IsDead) return;
 
         IsDead = true;
-        OnDeath?.Invoke();
+        IsInDeathSequence = true;
 
         Debug.Log($"{gameObject.name} ha muerto");
 
+        // Siempre disparar el evento de inicio de secuencia de muerte
+        OnDeathSequenceStarted?.Invoke();
+
+        // Si hay delay de animación, usar coroutine
+        if (deathAnimationDelay > 0f || destroyDelay > 0f)
+        {
+            // Si está configurado para disparar inmediatamente
+            if (fireDeathEventImmediately)
+            {
+                OnDeath?.Invoke();
+            }
+
+            deathCoroutine = StartCoroutine(DeathSequence());
+        }
+        else
+        {
+            // Sin delays, ejecutar inmediatamente
+            OnDeath?.Invoke();
+
+            if (destroyOnDeath)
+            {
+                OnAboutToDestroy?.Invoke();
+                Destroy(gameObject);
+            }
+
+            IsInDeathSequence = false;
+        }
+    }
+
+    private IEnumerator DeathSequence()
+    {
+        // Esperar el delay de animación de muerte
+        if (deathAnimationDelay > 0f)
+        {
+            yield return new WaitForSeconds(deathAnimationDelay);
+        }
+
+        // Disparar evento de muerte después del delay si está configurado así
+        if (!fireDeathEventImmediately)
+        {
+            OnDeath?.Invoke();
+        }
+
+        // Esperar el delay adicional antes de destruir
+        if (destroyDelay > 0f)
+        {
+            yield return new WaitForSeconds(destroyDelay);
+        }
+
+        // Destruir el GameObject si está configurado
         if (destroyOnDeath)
         {
-            Destroy(gameObject, destroyDelay);
+            OnAboutToDestroy?.Invoke();
+            Destroy(gameObject);
         }
+
+        IsInDeathSequence = false;
+        deathCoroutine = null;
     }
 
     /// Mata instantáneamente a la unidad
@@ -219,10 +290,36 @@ public class HealthSystem : MonoBehaviour
         TakeDamage(currentHealth);
     }
 
+    /// <summary>
+    /// Mata instantáneamente sin delays (útil para limpiar escenas)
+    /// </summary>
+    public void KillImmediate()
+    {
+        if (IsDead) return;
+
+        // Cancelar cualquier secuencia de muerte en progreso
+        CancelDeathSequence();
+
+        IsDead = true;
+        currentHealth = 0;
+
+        OnDeath?.Invoke();
+
+        if (destroyOnDeath)
+        {
+            OnAboutToDestroy?.Invoke();
+            Destroy(gameObject);
+        }
+    }
+
     /// Revive la unidad con vida completa
     public void Revive()
     {
+        // Cancelar cualquier secuencia de muerte en progreso
+        CancelDeathSequence();
+
         IsDead = false;
+        IsInDeathSequence = false;
         currentHealth = maxHealth;
         timeSinceLastDamage = 0f;
         OnHealthChanged?.Invoke(currentHealth);
@@ -234,13 +331,62 @@ public class HealthSystem : MonoBehaviour
     /// Revive la unidad con un porcentaje específico de vida
     public void Revive(float healthPercentage)
     {
+        // Cancelar cualquier secuencia de muerte en progreso
+        CancelDeathSequence();
+
         IsDead = false;
+        IsInDeathSequence = false;
         currentHealth = maxHealth * Mathf.Clamp01(healthPercentage);
         timeSinceLastDamage = 0f;
         OnHealthChanged?.Invoke(currentHealth);
         OnRevive?.Invoke();
 
         Debug.Log($"{gameObject.name} ha sido revivido con {healthPercentage * 100}% de vida");
+    }
+
+    /// <summary>
+    /// Cancela la secuencia de muerte en progreso (útil para revivir durante la animación)
+    /// </summary>
+    public void CancelDeathSequence()
+    {
+        if (deathCoroutine != null)
+        {
+            StopCoroutine(deathCoroutine);
+            deathCoroutine = null;
+        }
+        IsInDeathSequence = false;
+    }
+
+    #endregion
+
+    #region Configuración de Delays
+
+    /// <summary>
+    /// Establece el delay de animación de muerte en runtime
+    /// </summary>
+    public void SetDeathAnimationDelay(float delay)
+    {
+        deathAnimationDelay = Mathf.Max(0f, delay);
+    }
+
+    /// <summary>
+    /// Establece el delay de destrucción en runtime
+    /// </summary>
+    public void SetDestroyDelay(float delay)
+    {
+        destroyDelay = Mathf.Max(0f, delay);
+    }
+
+    /// <summary>
+    /// Establece el delay total (animación + destrucción) distribuyendo automáticamente
+    /// </summary>
+    public void SetTotalDeathDelay(float totalDelay, float animationPortion = 0.7f)
+    {
+        totalDelay = Mathf.Max(0f, totalDelay);
+        animationPortion = Mathf.Clamp01(animationPortion);
+
+        deathAnimationDelay = totalDelay * animationPortion;
+        destroyDelay = totalDelay * (1f - animationPortion);
     }
 
     #endregion
@@ -271,5 +417,19 @@ public class HealthSystem : MonoBehaviour
         return HealthPercentage <= percentage;
     }
 
+    /// <summary>
+    /// Obtiene el tiempo total que tardará la muerte (desde que muere hasta que se destruye)
+    /// </summary>
+    public float GetTotalDeathDuration()
+    {
+        return deathAnimationDelay + destroyDelay;
+    }
+
     #endregion
+
+    private void OnDisable()
+    {
+        // Limpiar coroutine si el objeto se desactiva
+        CancelDeathSequence();
+    }
 }

@@ -991,7 +991,9 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
+  deathAnimationDelay: 0
   destroyDelay: 0
+  fireDeathEventImmediately: 1
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
@@ -1005,6 +1007,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeathSequenceStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAboutToDestroy:
     m_PersistentCalls:
       m_Calls: []
   OnRevive:
@@ -2812,7 +2820,9 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
+  deathAnimationDelay: 0
   destroyDelay: 0
+  fireDeathEventImmediately: 1
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
@@ -2826,6 +2836,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeathSequenceStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAboutToDestroy:
     m_PersistentCalls:
       m_Calls: []
   OnRevive:
@@ -3414,7 +3430,9 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
+  deathAnimationDelay: 0
   destroyDelay: 0
+  fireDeathEventImmediately: 1
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
@@ -3428,6 +3446,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeathSequenceStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAboutToDestroy:
     m_PersistentCalls:
       m_Calls: []
   OnRevive:
@@ -5175,6 +5199,18 @@ PrefabInstance:
       propertyPath: m_BaseOffset
       value: 3.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1008145927963347955, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1200007217408887262, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1200007217408887262, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1222478255070863787, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: m_Name
       value: Drones
@@ -5203,13 +5239,49 @@ PrefabInstance:
       propertyPath: m_BaseOffset
       value: 3.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2180468364538300612, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2180468364538300612, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426740309068592744, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426740309068592744, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2466224310888005361, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2557752286558145172, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2795905361878302223, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2820226176415165139, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2820226176415165139, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099673456165026324, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099673456165026324, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3497040754056819648, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: destroyOnDeath
@@ -5226,6 +5298,14 @@ PrefabInstance:
     - target: {fileID: 3537095945675520549, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: destroyOnDeath
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821005828101785465, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821005828101785465, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4434799092204020326, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: destroyOnDeath
@@ -5250,6 +5330,22 @@ PrefabInstance:
     - target: {fileID: 5186337292850216891, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: destroyOnDeath
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068405385417057669, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068405385417057669, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174870231670874695, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6174870231670874695, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6259599389882201585, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5299,6 +5395,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6492827697171596951, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6600977825480217964, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: m_Height
       value: 2.94
@@ -5315,6 +5415,10 @@ PrefabInstance:
       propertyPath: jugador
       value: 
       objectReference: {fileID: 1038850064}
+    - target: {fileID: 6817001399966287590, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
+      propertyPath: playerStats
+      value: 
+      objectReference: {fileID: 94623085}
     - target: {fileID: 6817001399966287590, guid: 93f731baf50eba74b8e712635be8671e, type: 3}
       propertyPath: radioOrbita
       value: 1.5
@@ -7218,7 +7322,9 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
+  deathAnimationDelay: 0
   destroyDelay: 0
+  fireDeathEventImmediately: 1
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
@@ -7232,6 +7338,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeathSequenceStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAboutToDestroy:
     m_PersistentCalls:
       m_Calls: []
   OnRevive:
@@ -9541,7 +9653,9 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
+  deathAnimationDelay: 0
   destroyDelay: 0
+  fireDeathEventImmediately: 1
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
@@ -9555,6 +9669,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeathSequenceStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAboutToDestroy:
     m_PersistentCalls:
       m_Calls: []
   OnRevive:
@@ -9651,7 +9771,9 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   destroyOnDeath: 1
+  deathAnimationDelay: 0
   destroyDelay: 0
+  fireDeathEventImmediately: 1
   enableRegeneration: 0
   tagsToRegenerate: []
   regenerationRate: 5
@@ -9665,6 +9787,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeathSequenceStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAboutToDestroy:
     m_PersistentCalls:
       m_Calls: []
   OnRevive:
