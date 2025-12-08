@@ -76,6 +76,12 @@ public class Drones : MonoBehaviour
     public GameObject prefabEfectoTeletransporte;
     public GameObject prefabEfectoDesaparicion;
 
+    [Header("Animación de Movimiento")]
+    [Tooltip("Nombre del parámetro bool en el Animator para controlar idle/movimiento")]
+    public string parametroMovimiento = "IsMoving";
+    [Tooltip("Velocidad mínima para considerar que el drone se está moviendo")]
+    public float umbralVelocidadMovimiento = 0.1f;
+
     private List<float> angulosIniciales = new List<float>();
     private List<Transform> dronesActivos = new List<Transform>();
     private List<List<Transform>> todasLasListas = new List<List<Transform>>();
@@ -94,6 +100,9 @@ public class Drones : MonoBehaviour
 
     // NavMesh
     private Dictionary<Transform, NavMeshAgent> dronesNavMeshAgents = new Dictionary<Transform, NavMeshAgent>();
+
+    // Animators de los drones
+    private Dictionary<Transform, Animator> dronesAnimators = new Dictionary<Transform, Animator>();
 
     // Habilidades especiales
     private Dictionary<TipoDron, float> tiemposUltimaHabilidad = new Dictionary<TipoDron, float>();
@@ -116,12 +125,36 @@ public class Drones : MonoBehaviour
         habilidadesEnCooldown[TipoDron.Atacante] = false;
         habilidadesEnCooldown[TipoDron.Defensor] = false;
 
+        // PRIMERO: Desactivar todos los drones de todas las listas
+        DesactivarTodosLosDronesInicial();
+
         // Inicializar sistemas ANTES de cambiar lista para que los efectos funcionen
         InicializarHealthSystems();
         InicializarNavMeshAgents();
+        InicializarAnimators();
 
         // Ahora sí cambiar a la lista activa (esto llamará InicializarOrbitas con los efectos)
         CambiarListaActiva(listaActiva);
+    }
+
+    /// <summary>
+    /// Desactiva todos los drones al inicio del juego (antes de inicializar sistemas)
+    /// </summary>
+    void DesactivarTodosLosDronesInicial()
+    {
+        // Desactivar TODOS los drones de TODAS las listas
+        foreach (var drone in dronesLista1)
+        {
+            if (drone != null) drone.gameObject.SetActive(false);
+        }
+        foreach (var drone in dronesLista2)
+        {
+            if (drone != null) drone.gameObject.SetActive(false);
+        }
+        foreach (var drone in dronesLista3)
+        {
+            if (drone != null) drone.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -150,6 +183,27 @@ public class Drones : MonoBehaviour
                     agent.autoBraking = false;
 
                     dronesNavMeshAgents[drone] = agent;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Inicializa los Animators de todos los drones
+    /// </summary>
+    void InicializarAnimators()
+    {
+        foreach (var lista in todasLasListas)
+        {
+            foreach (var drone in lista)
+            {
+                if (drone != null)
+                {
+                    Animator animator = drone.GetComponent<Animator>();
+                    if (animator != null)
+                    {
+                        dronesAnimators[drone] = animator;
+                    }
                 }
             }
         }
@@ -302,6 +356,41 @@ public class Drones : MonoBehaviour
 
         ActualizarDronesEnRevivir();
         ActualizarCooldownHabilidad();
+        ActualizarAnimacionesMovimiento();
+    }
+
+    /// <summary>
+    /// Actualiza el parámetro de animación de movimiento para todos los drones activos
+    /// </summary>
+    void ActualizarAnimacionesMovimiento()
+    {
+        List<Transform> dronesRealmenteActivos = ObtenerDronesRealmenteActivos();
+
+        foreach (Transform drone in dronesRealmenteActivos)
+        {
+            if (drone == null) continue;
+
+            // Verificar si tiene Animator
+            if (!dronesAnimators.ContainsKey(drone)) continue;
+
+            Animator animator = dronesAnimators[drone];
+            if (animator == null) continue;
+
+            // Obtener velocidad del NavMeshAgent
+            bool estaMoviendose = false;
+
+            if (dronesNavMeshAgents.ContainsKey(drone))
+            {
+                NavMeshAgent agent = dronesNavMeshAgents[drone];
+                if (agent != null && agent.enabled)
+                {
+                    estaMoviendose = agent.velocity.magnitude > umbralVelocidadMovimiento;
+                }
+            }
+
+            // Actualizar el parámetro del Animator
+            animator.SetBool(parametroMovimiento, estaMoviendose);
+        }
     }
 
     /// <summary>
@@ -886,25 +975,48 @@ public class Drones : MonoBehaviour
     {
         TiendaMejoras tienda = FindFirstObjectByType<TiendaMejoras>();
 
-        foreach (var drone in dronesActivos)
-        {
-            if (drone != null)
-            {
-                drone.gameObject.SetActive(true);
-
-                // Activar NavMeshAgent
-                if (dronesNavMeshAgents.ContainsKey(drone))
-                {
-                    dronesNavMeshAgents[drone].enabled = true;
-                }
-            }
-        }
-
-        // Aplicar límite de drones comprados si existe el sistema de mejoras
-        // IMPORTANTE: Esto se hace ANTES de inicializar órbitas
+        // Si hay tienda, usar su sistema de límites
         if (tienda != null)
         {
+            // Primero activar todos los de la lista
+            foreach (var drone in dronesActivos)
+            {
+                if (drone != null)
+                {
+                    drone.gameObject.SetActive(true);
+
+                    // Activar NavMeshAgent
+                    if (dronesNavMeshAgents.ContainsKey(drone))
+                    {
+                        dronesNavMeshAgents[drone].enabled = true;
+                    }
+                }
+            }
+
+            // Luego aplicar límite según mejoras compradas
             tienda.AplicarLimiteDronesAListaActiva(listaActiva);
+        }
+        else
+        {
+            // Sin tienda: solo activar el PRIMER drone de la lista (configuración por defecto)
+            if (dronesActivos.Count > 0 && dronesActivos[0] != null)
+            {
+                dronesActivos[0].gameObject.SetActive(true);
+
+                if (dronesNavMeshAgents.ContainsKey(dronesActivos[0]))
+                {
+                    dronesNavMeshAgents[dronesActivos[0]].enabled = true;
+                }
+            }
+
+            // Asegurar que los demás estén desactivados
+            for (int i = 1; i < dronesActivos.Count; i++)
+            {
+                if (dronesActivos[i] != null)
+                {
+                    dronesActivos[i].gameObject.SetActive(false);
+                }
+            }
         }
     }
 
