@@ -30485,7 +30485,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1420697743479091932, guid: 636326d50859d3d44bec7a570d523e19, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -22.000366
+      value: -22.00035
       objectReference: {fileID: 0}
     - target: {fileID: 3449690375610829889, guid: 636326d50859d3d44bec7a570d523e19, type: 3}
       propertyPath: m_Name
@@ -59089,7 +59089,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 929573442}
-  m_VersionIndex: 64
+  m_VersionIndex: 94
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
