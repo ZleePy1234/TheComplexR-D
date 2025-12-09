@@ -30,7 +30,7 @@ public class MainMenuScript : MonoBehaviour
 	public async Task LoadNextLevelAsync()
 	{
 		int current = SceneManager.GetActiveScene().buildIndex;
-		int next = current + 1;
+		int next = 2;
 		int total = SceneManager.sceneCountInBuildSettings;
 
 		if (next >= total)
@@ -61,7 +61,7 @@ public class MainMenuScript : MonoBehaviour
 	}
     public async Task LoadTutorialAsync()
 	{
-		int next = 0;
+		int next = 1;
 
 		AsyncOperation op = SceneManager.LoadSceneAsync(next);
 		op.allowSceneActivation = true;
