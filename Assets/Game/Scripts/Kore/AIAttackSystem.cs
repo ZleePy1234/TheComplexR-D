@@ -118,6 +118,9 @@ public class AIAttackSystem : MonoBehaviour
     [SerializeField] private bool stickyTargeting = true;
     [SerializeField] private bool onlyChangeForHigherPriority = true;
 
+    [Header("Tag del Jugador (para PlayerStats)")]
+    [SerializeField] private string playerTag = "Player";
+
     // Variables privadas
     private Transform currentTarget;
     private int currentPriority = -1;
@@ -835,6 +838,18 @@ public class AIAttackSystem : MonoBehaviour
 
     private bool ApplyDamage(Transform target, float damage)
     {
+        // Primero verificar si es el jugador (usa PlayerStats)
+        if (target.CompareTag(playerTag))
+        {
+            PlayerStats playerStats = target.GetComponent<PlayerStats>();
+            if (playerStats != null)
+            {
+                playerStats.DamagePlayer(Mathf.RoundToInt(damage));
+                return true;
+            }
+        }
+
+        // Para otros objetivos, usar HealthSystem
         HealthSystem health = target.GetComponent<HealthSystem>();
         if (health != null && !health.IsDead)
         {

@@ -18,6 +18,7 @@ TagManager:
   - Shield
   - PostProcessingManager
   - Ally
+  - Drone
   layers:
   - Default
   - TransparentFX

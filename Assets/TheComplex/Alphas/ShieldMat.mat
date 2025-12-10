@@ -85,9 +85,9 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _BackC: {r: 0, g: 0.51435345, b: 6.063988, a: 1}
-    - _FColor: {r: 6.241984, g: 0, b: 0.13027449, a: 1}
-    - _FrontC: {r: 0, g: 8.031374, b: 0.09759691, a: 1}
+    - _BackC: {r: 0, g: 0.51435345, b: 6.063988, a: 0.5019608}
+    - _FColor: {r: 6.241984, g: 0, b: 0.13027449, a: 0.5019608}
+    - _FrontC: {r: 0, g: 8.031374, b: 0.09759691, a: 0.49411765}
     - _SphereCenter: {r: 0, g: 0, b: 0, a: 0}
     - _VertexAmount: {r: 0.05, g: 0.05, b: 0.05, a: 0}
   m_BuildTextureStacks: []

@@ -127,10 +127,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4185231218882762575, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5964326734261881387, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
       propertyPath: m_Name
       value: Skibidi
       objectReference: {fileID: 0}
+    - target: {fileID: 7490738315461757789, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
+      propertyPath: effectDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7490738315461757789, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
+      propertyPath: muzzleFlashEffect
+      value: 
+      objectReference: {fileID: 7169034359275535183, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
     - target: {fileID: 7675481320763569758, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.9544923
@@ -188,6 +200,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4957006711389018230, guid: 150f2e66bb139c644a9d971a31931691, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7807080993158418727, guid: 150f2e66bb139c644a9d971a31931691, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.5719059
@@ -233,6 +249,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 150f2e66bb139c644a9d971a31931691, type: 3}
+--- !u!1001 &825737624
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.44151
+      objectReference: {fileID: 0}
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -35.69981
+      objectReference: {fileID: 0}
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 294290891393679062, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7169034359275535183, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
+      propertyPath: m_Name
+      value: Scream
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
 --- !u!1 &887211849
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,6 +816,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GunHead
       objectReference: {fileID: 0}
+    - target: {fileID: 4012513758813385128, guid: b1c67a7e0a23e0243a81a841cf4c87a4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8703325703485028910, guid: b1c67a7e0a23e0243a81a841cf4c87a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.9965544
@@ -800,3 +877,4 @@ SceneRoots:
   - {fileID: 230556095}
   - {fileID: 2095387740}
   - {fileID: 1912384518}
+  - {fileID: 825737624}
