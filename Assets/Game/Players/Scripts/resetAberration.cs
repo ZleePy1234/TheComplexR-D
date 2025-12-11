@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class HUD_PostProcess : MonoBehaviour
+public class resetAberration : MonoBehaviour
 {
     private VolumeProfile volume;
     void Awake()

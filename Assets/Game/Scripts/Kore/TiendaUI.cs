@@ -120,6 +120,7 @@ public class TiendaUI : MonoBehaviour
 
         if (ui_PostProcesser != null)
             ui_PostProcesser.ShopToggle();
+            ui_PostProcesser.HudToggle();
 
         // Pausar el juego
         Time.timeScale = 0f;
@@ -148,6 +149,7 @@ public class TiendaUI : MonoBehaviour
 
         if (ui_PostProcesser != null)
             ui_PostProcesser.ShopToggle();
+            ui_PostProcesser.HudToggle();
 
         // Reanudar el juego
         Time.timeScale = 1f;

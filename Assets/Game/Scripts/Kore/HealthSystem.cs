@@ -55,14 +55,21 @@ public class HealthSystem : MonoBehaviour
 
     // Control de coroutine de muerte
     private Coroutine deathCoroutine;
+    private GameManager gameManager;
 
     private void Awake()
     {
+        gameManager = GameObject.FindWithTag("EndManager")?.GetComponent<GameManager>();
         baseMaxHealth = maxHealth;
         currentHealth = maxHealth;
         IsDead = false;
         IsInDeathSequence = false;
         CheckIfCanRegenerate();
+    }
+
+    public void AddPoints()
+    {
+        gameManager.enemiesKilled++;
     }
 
     private void Update()
@@ -280,7 +287,6 @@ public class HealthSystem : MonoBehaviour
         {
             OnAboutToDestroy?.Invoke();
             Destroy(gameObject);
-            gameManager.enemiesKilled++;
         }
 
         IsInDeathSequence = false;

@@ -36,6 +36,7 @@ public class PlayerStats : MonoBehaviour
         
         if (HUDprofile != null && HUDprofile.TryGet(out ChromaticAberration chroma))
         {
+            chroma.intensity.value = 0.1f;
             chromaOriginalIntensity = chroma.intensity.value;
         }
     }
