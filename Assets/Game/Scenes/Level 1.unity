@@ -40755,11 +40755,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!4 &1038850064 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8893324406399708928, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
-  m_PrefabInstance: {fileID: 5488039203039545410}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1039256519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71567,7 +71562,7 @@ PrefabInstance:
     - target: {fileID: 2739933514307863384, guid: 76966160998547c44abb398a70921121, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
-      objectReference: {fileID: 1038850064}
+      objectReference: {fileID: 1838178761223465516}
     - target: {fileID: 6159847281491701506, guid: 76966160998547c44abb398a70921121, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.8599997
