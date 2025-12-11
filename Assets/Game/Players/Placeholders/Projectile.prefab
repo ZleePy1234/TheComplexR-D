@@ -240,6 +240,4 @@ MonoBehaviour:
   - Player
   - Ally
   - Shield
-  tagsIgnoradosPorEnemigos:
-  - Enemy
-  - Boss
+  tagsIgnoradosPorEnemigos: []

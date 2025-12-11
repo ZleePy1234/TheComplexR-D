@@ -234,4 +234,8 @@ MonoBehaviour:
   hitEffectS: {fileID: 8829521091523956314, guid: 28fb8a4f0550d9b4ca6d541971d1a514, type: 3}
   tagJugador: Player
   tagAliado: Ally
+  tagEnemigo: Enemy
   tagEscudo: Shield
+  tagsIgnoradosPorAliados: []
+  tagsIgnoradosPorEnemigos:
+  - Enemy

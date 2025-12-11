@@ -127,22 +127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4185231218882762575, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
-      propertyPath: stoppingDistance
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5964326734261881387, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
       propertyPath: m_Name
       value: Skibidi
       objectReference: {fileID: 0}
-    - target: {fileID: 7490738315461757789, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
-      propertyPath: effectDuration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7490738315461757789, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
-      propertyPath: muzzleFlashEffect
-      value: 
-      objectReference: {fileID: 7169034359275535183, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
     - target: {fileID: 7675481320763569758, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.9544923
@@ -199,10 +187,6 @@ PrefabInstance:
     - target: {fileID: 4957006711389018230, guid: 150f2e66bb139c644a9d971a31931691, type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 4957006711389018230, guid: 150f2e66bb139c644a9d971a31931691, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7807080993158418727, guid: 150f2e66bb139c644a9d971a31931691, type: 3}
       propertyPath: m_LocalPosition.x
@@ -815,10 +799,6 @@ PrefabInstance:
     - target: {fileID: 4012513758813385128, guid: b1c67a7e0a23e0243a81a841cf4c87a4, type: 3}
       propertyPath: m_Name
       value: GunHead
-      objectReference: {fileID: 0}
-    - target: {fileID: 4012513758813385128, guid: b1c67a7e0a23e0243a81a841cf4c87a4, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8703325703485028910, guid: b1c67a7e0a23e0243a81a841cf4c87a4, type: 3}
       propertyPath: m_LocalPosition.x

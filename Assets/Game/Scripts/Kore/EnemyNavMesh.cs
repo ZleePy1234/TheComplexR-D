@@ -75,6 +75,10 @@ public class EnemyNavMesh : MonoBehaviour
     [Header("Animación")]
     [SerializeField] private Animator animator;
 
+    private bool isSystemActive = true;
+
+    public bool IsSystemActive => isSystemActive;
+
     // NavMesh
     private NavMeshAgent agent;
 
@@ -114,7 +118,19 @@ public class EnemyNavMesh : MonoBehaviour
 
     private void Update()
     {
+
         if (agent == null) return;
+
+        if (!isSystemActive)
+        {
+            agent.isStopped = true;
+
+            if (animator != null)
+            {
+                animator.SetBool("Moviendo", false);
+            }
+            return;
+        }
 
         detectionTimer += Time.deltaTime;
         if (detectionTimer >= detectionInterval)
@@ -525,7 +541,37 @@ public class EnemyNavMesh : MonoBehaviour
         {
             isIdleMoving = false;
         }
-    }       
+    }
+
+    public void StopMovementSystem()
+    {
+        isSystemActive = false;
+
+        if (agent == null) return;
+
+        // Detener agente completamente
+        agent.isStopped = true;
+        agent.ResetPath();
+        agent.velocity = Vector3.zero;
+
+        // Cancelar movimiento idle
+        isIdleMoving = false;
+        idleTimer = 0f;
+
+        // Limpiar objetivo
+        ClearTarget();
+
+        // Resetear timer de detección
+        detectionTimer = 0f;
+
+        // Actualizar animación
+        if (animator != null)
+        {
+            animator.SetBool("Moviendo", false);
+        }
+
+        Debug.Log($"{gameObject.name}: Sistema de movimiento detenido completamente");
+    }
 
     #endregion
 

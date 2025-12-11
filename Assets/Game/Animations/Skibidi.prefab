@@ -4392,7 +4392,6 @@ MonoBehaviour:
     priority: 10
   enemyTags:
   - Enemy
-  - Boss
   aimHeightOffset: 1.2
   useTargetAimPoint: 1
   aimPointName: AimPoint
@@ -4447,11 +4446,11 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 4901102078725564128}
   projectileSpeed: 20
-  muzzleFlashEffect: {fileID: 0}
+  muzzleFlashEffect: {fileID: 7169034359275535183, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
   hitEffect: {fileID: 0}
   aoeEffect: {fileID: 0}
   laserEffect: {fileID: 0}
-  effectDuration: 1
+  effectDuration: 2
   animator: {fileID: 4225973275930600416}
   drawGizmos: 1
   showDebugLogs: 1
@@ -4481,7 +4480,7 @@ MonoBehaviour:
   optimalDistance: 2
   distanceTolerance: 0.5
   moveSpeed: 3.5
-  stoppingDistance: 0.5
+  stoppingDistance: 2
   rotationSpeed: 5
   angularSpeed: 120
   acceleration: 8
@@ -4552,9 +4551,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4185231218882762575}
-        m_TargetAssemblyTypeName: EnemyNavMesh, Assembly-CSharp
-        m_MethodName: ClearTarget
+      - m_Target: {fileID: 7490738315461757789}
+        m_TargetAssemblyTypeName: AIAttackSystem, Assembly-CSharp
+        m_MethodName: StopAttackSystem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4564,9 +4563,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7490738315461757789}
-        m_TargetAssemblyTypeName: AIAttackSystem, Assembly-CSharp
-        m_MethodName: CancelAttack
+      - m_Target: {fileID: 4185231218882762575}
+        m_TargetAssemblyTypeName: EnemyNavMesh, Assembly-CSharp
+        m_MethodName: StopMovementSystem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

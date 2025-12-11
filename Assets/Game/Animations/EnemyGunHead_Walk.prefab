@@ -1401,7 +1401,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 4389581374306382859}
         m_TargetAssemblyTypeName: AIAttackSystem, Assembly-CSharp
-        m_MethodName: CancelAttack
+        m_MethodName: StopAttackSystem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1413,7 +1413,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6346680516840688832}
         m_TargetAssemblyTypeName: EnemyNavMesh, Assembly-CSharp
-        m_MethodName: ClearTarget
+        m_MethodName: StopMovementSystem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1525,7 +1525,6 @@ MonoBehaviour:
     priority: 10
   enemyTags:
   - Enemy
-  - Boss
   aimHeightOffset: 1.2
   useTargetAimPoint: 1
   aimPointName: AimPoint

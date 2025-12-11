@@ -144,6 +144,10 @@ public class AIAttackSystem : MonoBehaviour
     public bool CanAttack => attackTimer <= 0f && !isAttacking;
     public float AttackAnimationDelay => attackAnimationDelay;
 
+    private bool isSystemActive = true;
+
+    public bool IsSystemActive => isSystemActive;
+
     private void Start()
     {
         if (aiType == AIType.Enemy)
@@ -182,6 +186,8 @@ public class AIAttackSystem : MonoBehaviour
 
     private void Update()
     {
+        if (!isSystemActive) return;
+
         detectionTimer += Time.deltaTime;
         if (attackTimer > 0)
             attackTimer -= Time.deltaTime;
@@ -962,6 +968,26 @@ public class AIAttackSystem : MonoBehaviour
     public void SetAttackAnimationDelay(float delay)
     {
         attackAnimationDelay = Mathf.Max(0f, delay);
+    }
+
+    public void StopAttackSystem()
+    {
+        isSystemActive = false;
+
+        // Cancelar ataque en progreso
+        CancelAttack();
+
+        // Limpiar objetivo
+        ClearTarget();
+
+        // Resetear timers
+        attackTimer = 0f;
+        detectionTimer = 0f;
+
+        if (showDebugLogs)
+        {
+            Debug.Log($"{gameObject.name}: Sistema de ataque detenido completamente");
+        }
     }
 
     #endregion
