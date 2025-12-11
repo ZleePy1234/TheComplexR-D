@@ -3,22 +3,21 @@ using UnityEngine.InputSystem;
 
 /// <summary>
 /// Objeto interactuable de la tienda en el mundo del juego.
-/// Cuando el jugador se acerca y presiona la tecla de interacci�n, abre la tienda.
+/// Cuando el jugador se acerca y presiona la tecla de interaccion, abre la tienda.
 /// </summary>
 public class TiendaInteractuable : MonoBehaviour
 {
     [Header("Referencias")]
     public TiendaUI tiendaUI;
-    public TiendaMejoras tiendaMejoras;
 
-    [Header("Configuraci�n de Interacci�n")]
+    [Header("Configuracion de Interaccion")]
     public float radioInteraccion = 3f;
     public Key teclaInteraccion = Key.E;
     public LayerMask capaJugador;
     public string tagJugador = "Player";
 
-    [Header("UI de Interacci�n")]
-    public GameObject indicadorInteraccion; // Texto o icono que muestra "Presiona E para abrir"
+    [Header("UI de Interaccion")]
+    public GameObject indicadorInteraccion;
     public Canvas canvasIndicador;
 
     [Header("Efectos")]
@@ -28,16 +27,12 @@ public class TiendaInteractuable : MonoBehaviour
 
     private Transform jugador;
     private bool jugadorEnRango = false;
-    private bool tiendaYaUsada = false; // Para saber si ya se generaron las opciones de esta zona
 
     void Start()
     {
         // Buscar referencias
         if (tiendaUI == null)
             tiendaUI = FindFirstObjectByType<TiendaUI>();
-
-        if (tiendaMejoras == null)
-            tiendaMejoras = FindFirstObjectByType<TiendaMejoras>();
 
         // Buscar jugador
         GameObject jugadorObj = GameObject.FindGameObjectWithTag(tagJugador);
@@ -101,59 +96,30 @@ public class TiendaInteractuable : MonoBehaviour
     }
 
     /// <summary>
-    /// Abre la tienda
+    /// Abre o cierra la tienda
     /// </summary>
     public void Interactuar()
     {
-        if (tiendaUI == null || tiendaMejoras == null) return;
+        if (tiendaUI == null) return;
 
-        // Si es la primera vez que se abre en esta zona, generar opciones
-        if (!tiendaYaUsada)
-        {
-            tiendaMejoras.GenerarOpcionesParaZona();
-            tiendaYaUsada = true;
-        }
-
-        if(tiendaUI.tiendaAbierta == true)
+        // Toggle tienda
+        if (tiendaUI.tiendaAbierta)
         {
             tiendaUI.CerrarTienda();
         }
         else
         {
-            tiendaUI.AbrirTienda();
+            tiendaUI.AbrirTienda(); // Esto ahora genera nuevas opciones automaticamente
         }
 
         // Efectos
         if (sonidoInteraccion != null && audioSource != null)
             audioSource.PlayOneShot(sonidoInteraccion);
-
-        Debug.Log("Tienda abierta");
-    }
-
-    /// <summary>
-    /// Resetear la tienda para una nueva zona (llamar cuando el jugador avance de zona)
-    /// </summary>
-    public void ResetearParaNuevaZona()
-    {
-        tiendaYaUsada = false;
-        Debug.Log("Tienda reseteada para nueva zona");
-    }
-
-    /// <summary>
-    /// Forzar la generaci�n de nuevas opciones (para cuando se avanza de zona)
-    /// </summary>
-    public void GenerarNuevasOpciones()
-    {
-        if (tiendaMejoras != null)
-        {
-            tiendaMejoras.GenerarOpcionesParaZona();
-            tiendaYaUsada = true;
-        }
     }
 
     void OnDrawGizmosSelected()
     {
-        // Visualizar radio de interacci�n
+        // Visualizar radio de interaccion
         Gizmos.color = new Color(0, 1, 0, 0.3f);
         Gizmos.DrawWireSphere(transform.position, radioInteraccion);
     }

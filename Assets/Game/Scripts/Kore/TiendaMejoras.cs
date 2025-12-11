@@ -283,13 +283,12 @@ public class TiendaMejoras : MonoBehaviour
     #region Sistema de Opciones Aleatorias
 
     /// <summary>
-    /// Genera 3 opciones aleatorias para la zona actual
-    /// Solo se llama cuando avanzas de zona
+    /// Genera 3 opciones aleatorias. Se llama cada vez que se abre la tienda.
     /// </summary>
-    public void GenerarOpcionesParaZona()
+    public void GenerarNuevasOpciones()
     {
         opcionesActuales.Clear();
-        opcionesCompradas.Clear(); // Resetear compras para la nueva zona
+        opcionesCompradas.Clear();
 
         List<ConfiguracionMejora> mejorasDisponibles = ObtenerMejorasDisponibles();
 
@@ -313,10 +312,18 @@ public class TiendaMejoras : MonoBehaviour
         for (int i = 0; i < cantidadOpciones; i++)
         {
             opcionesActuales.Add(mejorasDisponibles[i]);
-            opcionesCompradas.Add(false); // Ninguna comprada inicialmente
+            opcionesCompradas.Add(false);
         }
 
-        Debug.Log($"Zona {zonaActual}: Generadas {cantidadOpciones} opciones");
+        Debug.Log($"Tienda: Generadas {cantidadOpciones} opciones nuevas");
+    }
+
+    /// <summary>
+    /// Mantener compatibilidad con código anterior
+    /// </summary>
+    public void GenerarOpcionesParaZona()
+    {
+        GenerarNuevasOpciones();
     }
 
     List<ConfiguracionMejora> ObtenerMejorasDisponibles()

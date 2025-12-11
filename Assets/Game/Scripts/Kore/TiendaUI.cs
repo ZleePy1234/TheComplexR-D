@@ -109,7 +109,7 @@ public class TiendaUI : MonoBehaviour
     #region Control de Tienda
 
     /// <summary>
-    /// Abre la tienda (NO regenera opciones, solo actualiza UI)
+    /// Abre la tienda y genera nuevas opciones
     /// </summary>
     public void AbrirTienda()
     {
@@ -117,21 +117,30 @@ public class TiendaUI : MonoBehaviour
 
         tiendaAbierta = true;
 
-        ui_PostProcesser.ShopToggle();
+        // Mostrar panel
+        if (panelTienda != null)
+            panelTienda.SetActive(true);
 
-        // Pausar el juego (opcional - puedes quitarlo si prefieres que no pause)
+        if (ui_PostProcesser != null)
+            ui_PostProcesser.ShopToggle();
+
+        // Pausar el juego
         Time.timeScale = 0f;
+
+        // Generar nuevas opciones cada vez que se abre
+        if (tiendaMejoras != null)
+            tiendaMejoras.GenerarNuevasOpciones();
 
         // Sonido
         if (sonidoAbrir != null && audioSource != null)
             audioSource.PlayOneShot(sonidoAbrir);
 
-        // Solo actualizar UI, NO regenerar opciones
+        // Actualizar UI
         ActualizarUI();
     }
 
     /// <summary>
-    /// Cierra la tienda y contin�a el juego
+    /// Cierra la tienda y continua el juego
     /// </summary>
     public void CerrarTienda()
     {
@@ -139,7 +148,12 @@ public class TiendaUI : MonoBehaviour
 
         tiendaAbierta = false;
 
-        ui_PostProcesser.ShopToggle();
+        // Ocultar panel
+        if (panelTienda != null)
+            panelTienda.SetActive(false);
+
+        if (ui_PostProcesser != null)
+            ui_PostProcesser.ShopToggle();
 
         // Reanudar el juego
         Time.timeScale = 1f;
@@ -151,10 +165,6 @@ public class TiendaUI : MonoBehaviour
 
     void ContinuarJuego()
     {
-        // Avanzar zona
-        if (tiendaMejoras != null)
-            tiendaMejoras.AvanzarZona();
-
         CerrarTienda();
     }
 

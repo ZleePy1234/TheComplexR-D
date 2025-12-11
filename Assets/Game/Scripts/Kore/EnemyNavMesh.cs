@@ -525,7 +525,7 @@ public class EnemyNavMesh : MonoBehaviour
         {
             isIdleMoving = false;
         }
-    }
+    }       
 
     #endregion
 

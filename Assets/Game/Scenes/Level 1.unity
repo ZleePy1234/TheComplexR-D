@@ -159,6 +159,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3235082498185733897, guid: 34adc7e95d56d6b4fbbf5dd500ad1e80, type: 3}
   m_PrefabInstance: {fileID: 1635524450}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5098675 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6062187748446201282, guid: 636326d50859d3d44bec7a570d523e19, type: 3}
+  m_PrefabInstance: {fileID: 1051761617941935286}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5098681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5098675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d44fff0528febf4daa296a612ce3330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HUDDrones
+  sistemaDrones: {fileID: 0}
+  textoTipoDrone: {fileID: 1555067679}
+  textoCantidadDrones: {fileID: 445151351}
+  fillCooldown: {fileID: 50161833}
 --- !u!1 &5817735 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2606558029841837943, guid: 8d71db47b13fb884181b0bb1785590f0, type: 3}
@@ -2837,6 +2858,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1396120106}
   m_SourcePrefab: {fileID: 100100000, guid: ca6e547c7c4e7284a878e7b63ee224ca, type: 3}
+--- !u!114 &50161833 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9218748615948627351, guid: 636326d50859d3d44bec7a570d523e19, type: 3}
+  m_PrefabInstance: {fileID: 1051761617941935286}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &51750372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17158,6 +17190,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2090003211}
   m_SourcePrefab: {fileID: 100100000, guid: 802511cd86d39b146b87edcae33abdf9, type: 3}
+--- !u!4 &417782818 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8225862390014460665, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+  m_PrefabInstance: {fileID: 5488039203039545410}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &418901086 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3235082498185733897, guid: 34adc7e95d56d6b4fbbf5dd500ad1e80, type: 3}
@@ -17819,6 +17856,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 83efd3063f08f2444b8f9913d7618bb2, type: 3}
   m_PrefabInstance: {fileID: 295925781}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &445151351 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8500837270937980929, guid: 636326d50859d3d44bec7a570d523e19, type: 3}
+  m_PrefabInstance: {fileID: 1051761617941935286}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &446617949
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60916,6 +60964,17 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &1555067679 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 396961294683755145, guid: 636326d50859d3d44bec7a570d523e19, type: 3}
+  m_PrefabInstance: {fileID: 1051761617941935286}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1559143782 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 671699817196651817, guid: 802511cd86d39b146b87edcae33abdf9, type: 3}
@@ -85526,7 +85585,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6062187748446201282, guid: 636326d50859d3d44bec7a570d523e19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5098681}
   m_SourcePrefab: {fileID: 100100000, guid: 636326d50859d3d44bec7a570d523e19, type: 3}
 --- !u!20 &1492597436331282664 stripped
 Camera:
@@ -85708,6 +85770,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069f5af65af7b9b41a63b0bfa37b3200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &5175343461946692691 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 286937023811320651, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+  m_PrefabInstance: {fileID: 5488039203039545410}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4575004724527470286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2a4ce39916b5b49a6126e7ceeb5fa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerWeapon
 --- !u!20 &5376593677607686010 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 1724039909814980111, guid: 636326d50859d3d44bec7a570d523e19, type: 3}
@@ -86938,8 +87011,28 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7297918362874500521, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+      propertyPath: puntoBuff
+      value: 
+      objectReference: {fileID: 417782818}
+    - target: {fileID: 7297918362874500521, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+      propertyPath: playerWeapon
+      value: 
+      objectReference: {fileID: 5175343461946692691}
+    - target: {fileID: 7297918362874500521, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+      propertyPath: particulaBuffDano
+      value: 
+      objectReference: {fileID: 1200209803049161079, guid: ec1b05579f9d8fa4cb58d5aa669505df, type: 3}
+    - target: {fileID: 7297918362874500521, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
       propertyPath: velocidadRotacion
       value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297918362874500521, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+      propertyPath: puntoParticulasMuerte
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297918362874500521, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+      propertyPath: prefabParticulasMuerte
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7317939542429928348, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
       propertyPath: m_Layer

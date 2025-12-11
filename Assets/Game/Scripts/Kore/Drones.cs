@@ -141,7 +141,7 @@ public class Drones : MonoBehaviour
         InicializarNavMeshAgents();
         InicializarAnimators();
 
-        // Ahora si cambiar a la lista activa (esto llamara InicializarOrbitas con los efectos)
+        // Ahora s� cambiar a la lista activa (esto llamar� InicializarOrbitas con los efectos)
         CambiarListaActiva(listaActiva);
     }
 
@@ -183,7 +183,7 @@ public class Drones : MonoBehaviour
                         Debug.LogWarning($"Se agreg� NavMeshAgent a {drone.name}. Configura el radio y altura en el Inspector.");
                     }
 
-                    // Configuracion inicial del agente
+                    // Configuraci�n inicial del agente
                     agent.speed = velocidadBusqueda;
                     agent.angularSpeed = 120f;
                     agent.acceleration = 5f;
@@ -291,7 +291,7 @@ public class Drones : MonoBehaviour
     }
 
     /// <summary>
-    /// Verifica si todos los drones activos estan muertos y cambia a modo orbita
+    /// Verifica si todos los drones activos est�n muertos y cambia a modo �rbita
     /// </summary>
     void VerificarTodosDronesMuertos()
     {
@@ -299,7 +299,7 @@ public class Drones : MonoBehaviour
 
         foreach (Transform drone in dronesActivos)
         {
-            // Solo verificar drones que estan realmente activos (desbloqueados)
+            // Solo verificar drones que est�n realmente activos (desbloqueados)
             if (drone != null && drone.gameObject.activeInHierarchy && dronesHealthSystems.ContainsKey(drone))
             {
                 if (!dronesHealthSystems[drone].IsDead)
@@ -319,11 +319,11 @@ public class Drones : MonoBehaviour
     }
 
     /// <summary>
-    /// Calcula la posicion objetivo en la orbita para un drone especifico
+    /// Calcula la posici�n objetivo en la �rbita para un drone espec�fico
     /// </summary>
     void CalcularPosicionOrbitaParaDrone(Transform drone, int indice)
     {
-        // Contar solo drones activos para calcular el angulo correctamente
+        // Contar solo drones activos para calcular el �ngulo correctamente
         int dronesActivosCount = ObtenerCantidadDronesActivos();
         float anguloInicial = (360f / dronesActivosCount) * indice;
         float anguloRad = anguloInicial * Mathf.Deg2Rad;
@@ -395,7 +395,7 @@ public class Drones : MonoBehaviour
     }
 
     /// <summary>
-    /// Actualiza el parametro de animacion de movimiento para todos los drones activos
+    /// Actualiza el par�metro de animaci�n de movimiento para todos los drones activos
     /// </summary>
     void ActualizarAnimacionesMovimiento()
     {
@@ -423,13 +423,13 @@ public class Drones : MonoBehaviour
                 }
             }
 
-            // Actualizar el parametro del Animator
+            // Actualizar el par�metro del Animator
             animator.SetBool(parametroMovimiento, estaMoviendose);
         }
     }
 
     /// <summary>
-    /// Mueve gradualmente los drones muertos hacia su posicion en la orbita
+    /// Mueve gradualmente los drones muertos hacia su posici�n en la �rbita
     /// </summary>
     void ActualizarDronesRegresandoOrbita()
     {
@@ -445,7 +445,7 @@ public class Drones : MonoBehaviour
                 continue;
             }
 
-            // Movimiento manual mientras esta muerto (sin NavMesh)
+            // Movimiento manual mientras est� muerto (sin NavMesh)
             Vector3 posicionObjetivo = posicionesObjetivoOrbita[drone];
             drone.position = Vector3.MoveTowards(
                 drone.position,
@@ -453,14 +453,14 @@ public class Drones : MonoBehaviour
                 velocidadRetornoOrbita * Time.deltaTime
             );
 
-            // Si llego a la orbita, empieza a orbitar
+            // Si lleg� a la �rbita, empieza a orbitar
             if (Vector3.Distance(drone.position, posicionObjetivo) < 0.1f)
             {
                 dronesParaRemover.Add(drone);
             }
         }
 
-        // Remover drones que ya llegaron a la orbita
+        // Remover drones que ya llegaron a la �rbita
         foreach (Transform drone in dronesParaRemover)
         {
             dronesRegresandoOrbita.Remove(drone);
@@ -468,7 +468,7 @@ public class Drones : MonoBehaviour
     }
 
     /// <summary>
-    /// Actualiza el temporizador de drones que deben revivir y regresar a orbita
+    /// Actualiza el temporizador de drones que deben revivir y regresar a �rbita
     /// </summary>
     void ActualizarDronesEnRevivir()
     {
@@ -594,7 +594,7 @@ public class Drones : MonoBehaviour
     #region Habilidades Especiales
 
     /// <summary>
-    /// Activa la habilidad especial segun el tipo de dron activo
+    /// Activa la habilidad especial seg�n el tipo de dron activo
     /// </summary>
     public void ActivarHabilidadEspecial()
     {
@@ -629,7 +629,7 @@ public class Drones : MonoBehaviour
             return;
         }
 
-        // Seleccionar un dron aleatorio que esta vivo Y activo (desbloqueado)
+        // Seleccionar un dron aleatorio que est� vivo Y activo (desbloqueado)
         List<Transform> dronesVivos = new List<Transform>();
         foreach (Transform drone in dronesActivos)
         {
@@ -724,7 +724,7 @@ public class Drones : MonoBehaviour
     {
         Debug.Log("Habilidad de Atacante a�n no implementada.");
 
-        // Aqui ira la logica de la habilidad de ataque
+        // Aqu� ir� la l�gica de la habilidad de ataque
         // Por ahora solo activamos el cooldown para probar
         habilidadesEnCooldown[TipoDron.Atacante] = true;
         tiemposUltimaHabilidad[TipoDron.Atacante] = Time.time;
@@ -766,7 +766,7 @@ public class Drones : MonoBehaviour
     }
 
     /// <summary>
-    /// Destruye el escudo despues del tiempo especificado
+    /// Destruye el escudo despu�s del tiempo especificado
     /// </summary>
     IEnumerator DestruirEscudoDespuesDeTiempo()
     {
@@ -866,7 +866,7 @@ public class Drones : MonoBehaviour
             posicionesObjetivoOrbita.Clear();
         }
 
-        // Configurar velocidad de NavMeshAgents segun el modo - SOLO para drones activos
+        // Configurar velocidad de NavMeshAgents seg�n el modo - SOLO para drones activos
         foreach (var drone in dronesActivos)
         {
             if (drone != null && drone.gameObject.activeInHierarchy && dronesNavMeshAgents.ContainsKey(drone))
@@ -946,7 +946,7 @@ public class Drones : MonoBehaviour
                     continue;
                 }
 
-                // Si el drone esta regresando a orbita, no actualizar su posicion aqui
+                // Si el drone est� regresando a �rbita, no actualizar su posici�n aqu�
                 if (dronesRegresandoOrbita.ContainsKey(drone))
                     continue;
 
@@ -973,7 +973,7 @@ public class Drones : MonoBehaviour
             return;
         }
 
-        // Instanciar efectos de DESAPARICION en los drones actuales antes de desactivarlos
+        // Instanciar efectos de DESAPARICI�N en los drones actuales antes de desactivarlos
         if (prefabEfectoDesaparicion != null)
         {
             foreach (Transform drone in dronesActivos)
@@ -1030,7 +1030,7 @@ public class Drones : MonoBehaviour
     {
         TiendaMejoras tienda = FindFirstObjectByType<TiendaMejoras>();
 
-        // Si hay tienda, usar su sistema de limites
+        // Si hay tienda, usar su sistema de l�mites
         if (tienda != null)
         {
             // Primero activar todos los de la lista
@@ -1048,12 +1048,12 @@ public class Drones : MonoBehaviour
                 }
             }
 
-            // Luego aplicar limite segun mejoras compradas
+            // Luego aplicar l�mite seg�n mejoras compradas
             tienda.AplicarLimiteDronesAListaActiva(listaActiva);
         }
         else
         {
-            // Sin tienda: solo activar el PRIMER drone de la lista (configuracion por defecto)
+            // Sin tienda: solo activar el PRIMER drone de la lista (configuraci�n por defecto)
             if (dronesActivos.Count > 0 && dronesActivos[0] != null)
             {
                 dronesActivos[0].gameObject.SetActive(true);
@@ -1064,7 +1064,7 @@ public class Drones : MonoBehaviour
                 }
             }
 
-            // Asegurar que los demas estan desactivados
+            // Asegurar que los dem�s est�n desactivados
             for (int i = 1; i < dronesActivos.Count; i++)
             {
                 if (dronesActivos[i] != null)
@@ -1108,7 +1108,7 @@ public class Drones : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtiene el indice de un drone dentro de los drones realmente activos
+    /// Obtiene el �ndice de un drone dentro de los drones realmente activos
     /// </summary>
     private int ObtenerIndiceEnDronesActivos(Transform drone)
     {
@@ -1155,7 +1155,7 @@ public class Drones : MonoBehaviour
             );
             Vector3 posicionFinal = centroDeRotacion.position + posicionOrbita;
 
-            // Teletransportar el drone a su posicion
+            // Teletransportar el drone a su posici�n
             if (dronesNavMeshAgents.ContainsKey(drone))
             {
                 NavMeshAgent agent = dronesNavMeshAgents[drone];
@@ -1169,7 +1169,7 @@ public class Drones : MonoBehaviour
                 drone.position = posicionFinal;
             }
 
-            // Instanciar efecto de APARICION (teletransporte) - SIEMPRE si el drone esta activo
+            // Instanciar efecto de APARICI�N (teletransporte) - SIEMPRE si el drone est� activo
             if (prefabEfectoTeletransporte != null && drone.gameObject.activeInHierarchy)
             {
                 Instantiate(prefabEfectoTeletransporte, posicionFinal, Quaternion.identity);
@@ -1178,7 +1178,7 @@ public class Drones : MonoBehaviour
     }
 
     /// <summary>
-    /// Posiciona un drone activo en su orbita
+    /// Posiciona un drone activo en su �rbita
     /// </summary>
     void PosicionarObjetoActivo(Transform drone, int indiceEnActivos, float angulo, int totalDronesActivos)
     {
@@ -1244,7 +1244,7 @@ public class Drones : MonoBehaviour
         if (indice >= dronesActivos.Count || dronesActivos[indice] == null)
             return;
 
-        // Verificar si el drone esta realmente activo
+        // Verificar si el drone est� realmente activo
         if (!dronesActivos[indice].gameObject.activeInHierarchy)
             return;
 
@@ -1387,7 +1387,7 @@ public class Drones : MonoBehaviour
             Transform drone = dronesRealmenteActivos[i];
             if (drone == null) continue;
 
-            // Verificar si el drone esta muerto o regresando a orbita
+            // Verificar si el drone est� muerto o regresando a �rbita
             if (dronesHealthSystems.ContainsKey(drone))
             {
                 if (dronesHealthSystems[drone].IsDead)
@@ -1437,7 +1437,7 @@ public class Drones : MonoBehaviour
                 {
                     NavMeshAgent agent = dronesNavMeshAgents[drone];
 
-                    // Si llego a su destino aleatorio, generar uno nuevo
+                    // Si lleg� a su destino aleatorio, generar uno nuevo
                     if (agent.enabled && !agent.pathPending && agent.remainingDistance <= distanciaParaLlegarADestino)
                     {
                         if (i < posicionesLibresObjetivo.Count)
@@ -1469,7 +1469,7 @@ public class Drones : MonoBehaviour
             posicionAleatoria2D.y
         );
 
-        // Asegurar que la posicion esta en el NavMesh
+        // Asegurar que la posici�n est� en el NavMesh
         NavMeshHit hit;
         if (NavMesh.SamplePosition(posicionAleatoria, out hit, radioMovimientoLibre, NavMesh.AllAreas))
         {
@@ -1478,4 +1478,92 @@ public class Drones : MonoBehaviour
 
         return posicionAleatoria;
     }
+
+
+    #region Metodos Publicos para HUD
+
+    /// <summary>
+    /// Obtiene el tipo de dron actualmente activo
+    /// </summary>
+    public TipoDron ObtenerTipoDronActual()
+    {
+        return tipoActual;
+    }
+
+    /// <summary>
+    /// Obtiene el cooldown total de una habilidad segun el tipo de dron
+    /// </summary>
+    public float ObtenerCooldownHabilidad(TipoDron tipo)
+    {
+        switch (tipo)
+        {
+            case TipoDron.Buscador:
+                return cooldownHabilidadBuscador;
+            case TipoDron.Atacante:
+                return cooldownHabilidadAtacante;
+            case TipoDron.Defensor:
+                return cooldownHabilidadDefensor;
+            default:
+                return 0f;
+        }
+    }
+
+    /// <summary>
+    /// Verifica si la habilidad de un tipo de dron esta en cooldown
+    /// </summary>
+    public bool HabilidadEnCooldown(TipoDron tipo)
+    {
+        if (habilidadesEnCooldown.ContainsKey(tipo))
+            return habilidadesEnCooldown[tipo];
+        return false;
+    }
+
+    /// <summary>
+    /// Obtiene el tiempo restante del cooldown de una habilidad
+    /// </summary>
+    public float ObtenerTiempoRestanteCooldown(TipoDron tipo)
+    {
+        if (!habilidadesEnCooldown.ContainsKey(tipo) || !habilidadesEnCooldown[tipo])
+            return 0f;
+
+        float cooldownTotal = ObtenerCooldownHabilidad(tipo);
+        float tiempoTranscurrido = Time.time - tiemposUltimaHabilidad[tipo];
+        float tiempoRestante = cooldownTotal - tiempoTranscurrido;
+
+        return Mathf.Max(0f, tiempoRestante);
+    }
+
+    /// <summary>
+    /// Obtiene el progreso del cooldown (0 = recien usado, 1 = listo)
+    /// </summary>
+    public float ObtenerProgresoCooldown(TipoDron tipo)
+    {
+        if (!HabilidadEnCooldown(tipo))
+            return 1f;
+
+        float cooldownTotal = ObtenerCooldownHabilidad(tipo);
+        if (cooldownTotal <= 0f)
+            return 1f;
+
+        float tiempoRestante = ObtenerTiempoRestanteCooldown(tipo);
+        return 1f - (tiempoRestante / cooldownTotal);
+    }
+
+    /// <summary>
+    /// Obtiene el numero de lista activa (0 = Buscador, 1 = Atacante, 2 = Defensor)
+    /// </summary>
+    public int ObtenerListaActiva()
+    {
+        return listaActiva;
+    }
+
+    /// <summary>
+    /// Obtiene el total de drones en la lista activa (desbloqueados, independiente de si estan vivos)
+    /// </summary>
+    public int ObtenerTotalDronesEnLista()
+    {
+        return dronesActivos.Count;
+    }
+
+    #endregion
 }
