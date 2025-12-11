@@ -1496,8 +1496,8 @@ MonoBehaviour:
   idleArcAngle: 25
   idleMinDistance: 1
   idleMaxDistance: 3
-  drawGizmos: 1
   animator: {fileID: 3828625309326825554}
+  drawGizmos: 1
 --- !u!114 &4389581374306382859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1537,6 +1537,9 @@ MonoBehaviour:
     m_Bits: 0
   attackAnimationDelay: 0.4
   triggerAnimationBeforeDelay: 1
+  stopMovementOnAttack: 1
+  stopMovementDuration: 2
+  enemyNavMesh: {fileID: 6346680516840688832}
   aoeRadius: 5
   aoeDamageFalloff: 1
   aoeFalloffCurve:

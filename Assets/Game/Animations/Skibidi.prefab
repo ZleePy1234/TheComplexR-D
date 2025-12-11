@@ -4404,6 +4404,9 @@ MonoBehaviour:
     m_Bits: 0
   attackAnimationDelay: 1.1
   triggerAnimationBeforeDelay: 1
+  stopMovementOnAttack: 1
+  stopMovementDuration: 3
+  enemyNavMesh: {fileID: 4185231218882762575}
   aoeRadius: 5
   aoeDamageFalloff: 0
   aoeFalloffCurve:
@@ -4450,7 +4453,7 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   aoeEffect: {fileID: 0}
   laserEffect: {fileID: 0}
-  effectDuration: 2
+  effectDuration: 1.5
   animator: {fileID: 4225973275930600416}
   drawGizmos: 1
   showDebugLogs: 1
@@ -4492,8 +4495,8 @@ MonoBehaviour:
   idleArcAngle: 30
   idleMinDistance: 1
   idleMaxDistance: 3
-  drawGizmos: 1
   animator: {fileID: 4225973275930600416}
+  drawGizmos: 1
 --- !u!114 &5532582558576811808
 MonoBehaviour:
   m_ObjectHideFlags: 0

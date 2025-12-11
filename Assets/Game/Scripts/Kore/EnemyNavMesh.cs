@@ -4,8 +4,8 @@ using UnityEngine.AI;
 
 /// <summary>
 /// Sistema de IA para enemigos usando NavMesh.
-/// Detecta y persigue objetivos basándose en prioridades de tags.
-/// Mantiene distancia óptima del objetivo.
+/// Detecta y persigue objetivos basandose en prioridades de tags.
+/// Mantiene distancia optima del objetivo.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyNavMesh : MonoBehaviour
@@ -14,11 +14,11 @@ public class EnemyNavMesh : MonoBehaviour
     public class TagPriority
     {
         public string tag;
-        [Tooltip("Mayor número = Mayor prioridad")]
+        [Tooltip("Mayor numero = Mayor prioridad")]
         public int priority;
     }
 
-    [Header("Configuración de Detección")]
+    [Header("Configuracion de Deteccion")]
     [SerializeField] private float detectionRadius = 15f;
     [SerializeField] private LayerMask detectionLayer = -1;
     [SerializeField] private float detectionInterval = 0.2f;
@@ -32,7 +32,7 @@ public class EnemyNavMesh : MonoBehaviour
         new TagPriority { tag = "Ally", priority = 1 }
     };
 
-    [Header("Configuración de Movimiento")]
+    [Header("Configuracion de Movimiento")]
     [SerializeField] private float optimalDistance = 5f;
     [SerializeField] private float distanceTolerance = 1f;
     [SerializeField] private float moveSpeed = 3.5f;
@@ -47,33 +47,37 @@ public class EnemyNavMesh : MonoBehaviour
     [SerializeField] private bool maintainDistance = true;
     [SerializeField] private bool stickyTargeting = true;
 
-    [Header("Movimiento Orgánico")]
+    [Header("Movimiento Organico")]
     [SerializeField] private bool enableIdleMovement = true;
     [SerializeField] private float idleMoveInterval = 2f;
     [SerializeField] private float idleMoveIntervalVariance = 1f;
-    [Tooltip("Ángulo máximo de movimiento desde la posición actual (±grados)")]
+    [Tooltip("Angulo maximo de movimiento desde la posicion actual (grados)")]
     [SerializeField] private float idleArcAngle = 45f;
     [SerializeField] private float idleMinDistance = 1f;
     [SerializeField] private float idleMaxDistance = 3f;
 
+    [Header("Animacion")]
+    [SerializeField] private Animator animator;
+
     [Header("Debug")]
     [SerializeField] private bool drawGizmos = true;
 
-    // Sistema de detección
+    // Sistema de deteccion
     private Transform currentTarget;
     private int currentPriority = -1;
     private float detectionTimer;
     private Dictionary<string, int> priorityDict;
     private Collider[] detectionBuffer = new Collider[50];
 
-    // Movimiento orgánico
+    // Movimiento organico
     private float idleTimer;
     private float currentIdleInterval;
     private Vector3 idleTargetPosition;
     private bool isIdleMoving;
 
-    [Header("Animación")]
-    [SerializeField] private Animator animator;
+    // Pausa de movimiento (para ataques)
+    private bool isMovementPaused = false;
+    private float pauseTimer = 0f;
 
     private bool isSystemActive = true;
 
@@ -82,7 +86,7 @@ public class EnemyNavMesh : MonoBehaviour
     // NavMesh
     private NavMeshAgent agent;
 
-    // Propiedades públicas
+    // Propiedades publicas
     public Transform CurrentTarget => currentTarget;
     public int CurrentPriority => currentPriority;
     public bool HasTarget => currentTarget != null;
@@ -118,7 +122,6 @@ public class EnemyNavMesh : MonoBehaviour
 
     private void Update()
     {
-
         if (agent == null) return;
 
         if (!isSystemActive)
@@ -130,6 +133,40 @@ public class EnemyNavMesh : MonoBehaviour
                 animator.SetBool("Moviendo", false);
             }
             return;
+        }
+
+        // Manejar pausa de movimiento
+        if (isMovementPaused)
+        {
+            pauseTimer -= Time.deltaTime;
+            if (pauseTimer <= 0f)
+            {
+                isMovementPaused = false;
+                agent.isStopped = false;
+            }
+            else
+            {
+                agent.isStopped = true;
+                agent.velocity = Vector3.zero;
+
+                if (animator != null)
+                {
+                    animator.SetBool("Moviendo", false);
+                }
+
+                // Seguir mirando al objetivo mientras esta pausado
+                if (currentTarget != null)
+                {
+                    Vector3 lookDirection = (currentTarget.position - transform.position).normalized;
+                    lookDirection.y = 0;
+                    if (lookDirection.magnitude > 0.01f)
+                    {
+                        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                    }
+                }
+                return;
+            }
         }
 
         detectionTimer += Time.deltaTime;
@@ -169,7 +206,7 @@ public class EnemyNavMesh : MonoBehaviour
         }
     }
 
-    #region Detección de Objetivos
+    #region Deteccion de Objetivos
 
     private void DetectTargets()
     {
@@ -260,7 +297,7 @@ public class EnemyNavMesh : MonoBehaviour
             }
             else if (distanceToTarget < minDistance)
             {
-                // Alejarse - buscar punto válido
+                // Alejarse - buscar punto valido
                 isIdleMoving = false;
                 Vector3 retreatPos = CalculateRetreatOrStrafePosition();
 
@@ -278,7 +315,7 @@ public class EnemyNavMesh : MonoBehaviour
             }
             else
             {
-                // En rango óptimo
+                // En rango optimo
                 if (enableIdleMovement)
                 {
                     UpdateIdleMovement();
@@ -302,15 +339,15 @@ public class EnemyNavMesh : MonoBehaviour
         Vector3 directionFromTarget = (transform.position - currentTarget.position).normalized;
         Vector3 rightDirection = Vector3.Cross(Vector3.up, directionFromTarget).normalized;
 
-        // Prioridades: atrás, diagonales, laterales
+        // Prioridades: atras, diagonales, laterales
         Vector3[] directions = {
-            directionFromTarget,                                    // Atrás
-            (directionFromTarget + rightDirection).normalized,      // Atrás-derecha
-            (directionFromTarget - rightDirection).normalized,      // Atrás-izquierda
+            directionFromTarget,                                    // Atras
+            (directionFromTarget + rightDirection).normalized,      // Atras-derecha
+            (directionFromTarget - rightDirection).normalized,      // Atras-izquierda
             rightDirection,                                         // Derecha
             -rightDirection,                                        // Izquierda
-            (directionFromTarget + rightDirection * 2).normalized,  // Más lateral derecha
-            (directionFromTarget - rightDirection * 2).normalized   // Más lateral izquierda
+            (directionFromTarget + rightDirection * 2).normalized,  // Mas lateral derecha
+            (directionFromTarget - rightDirection * 2).normalized   // Mas lateral izquierda
         };
 
         float[] distances = { optimalDistance, optimalDistance * 0.8f, optimalDistance * 0.6f };
@@ -342,7 +379,7 @@ public class EnemyNavMesh : MonoBehaviour
 
     #endregion
 
-    #region Movimiento Orgánico
+    #region Movimiento Organico
 
     private void UpdateIdleMovement()
     {
@@ -362,7 +399,7 @@ public class EnemyNavMesh : MonoBehaviour
 
         idleTimer += Time.deltaTime;
 
-        // Verificar si llegó al punto idle
+        // Verificar si llego al punto idle
         if (isIdleMoving && agent.remainingDistance <= agent.stoppingDistance + 0.1f)
         {
             isIdleMoving = false;
@@ -389,13 +426,13 @@ public class EnemyNavMesh : MonoBehaviour
 
     private Vector3 CalculateIdlePosition()
     {
-        // Ángulo actual del enemigo respecto al jugador
+        // Angulo actual del enemigo respecto al jugador
         Vector3 directionToEnemy = (transform.position - currentTarget.position).normalized;
         float currentAngle = Mathf.Atan2(directionToEnemy.x, directionToEnemy.z) * Mathf.Rad2Deg;
 
         for (int i = 0; i < 10; i++)
         {
-            // Solo moverse en un arco limitado desde la posición actual
+            // Solo moverse en un arco limitado desde la posicion actual
             float angleOffset = Random.Range(-idleArcAngle, idleArcAngle);
             float angle = (currentAngle + angleOffset) * Mathf.Deg2Rad;
 
@@ -446,11 +483,48 @@ public class EnemyNavMesh : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtiene la prioridad de un tag específico
+    /// Obtiene la prioridad de un tag especifico
     /// </summary>
     public int GetTagPriority(string tag)
     {
         return priorityDict.TryGetValue(tag, out int priority) ? priority : -1;
+    }
+
+    /// <summary>
+    /// Pausa el movimiento por un tiempo determinado (usado por AIAttackSystem)
+    /// </summary>
+    public void PauseMovement(float duration)
+    {
+        isMovementPaused = true;
+        pauseTimer = duration;
+
+        if (agent != null)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+        }
+    }
+
+    /// <summary>
+    /// Reanuda el movimiento inmediatamente
+    /// </summary>
+    public void ResumeMovement()
+    {
+        isMovementPaused = false;
+        pauseTimer = 0f;
+
+        if (agent != null)
+        {
+            agent.isStopped = false;
+        }
+    }
+
+    /// <summary>
+    /// Verifica si el movimiento esta pausado
+    /// </summary>
+    public bool IsMovementPaused()
+    {
+        return isMovementPaused;
     }
 
     /// <summary>
@@ -463,7 +537,7 @@ public class EnemyNavMesh : MonoBehaviour
     }
 
     /// <summary>
-    /// Verifica si está en rango óptimo del objetivo
+    /// Verifica si esta en rango optimo del objetivo
     /// </summary>
     public bool IsInOptimalRange()
     {
@@ -475,7 +549,7 @@ public class EnemyNavMesh : MonoBehaviour
     }
 
     /// <summary>
-    /// Fuerza la detección inmediata
+    /// Fuerza la deteccion inmediata
     /// </summary>
     public void ForceDetection()
     {
@@ -507,7 +581,7 @@ public class EnemyNavMesh : MonoBehaviour
     }
 
     /// <summary>
-    /// Cambia la distancia óptima dinámicamente
+    /// Cambia la distancia optima dinamicamente
     /// </summary>
     public void SetOptimalDistance(float distance, float tolerance)
     {
@@ -516,7 +590,7 @@ public class EnemyNavMesh : MonoBehaviour
     }
 
     /// <summary>
-    /// Cambia el radio de detección
+    /// Cambia el radio de deteccion
     /// </summary>
     public void SetDetectionRadius(float radius)
     {
@@ -532,7 +606,7 @@ public class EnemyNavMesh : MonoBehaviour
     }
 
     /// <summary>
-    /// Activa o desactiva el movimiento orgánico
+    /// Activa o desactiva el movimiento organico
     /// </summary>
     public void SetIdleMovement(bool enable)
     {
@@ -561,10 +635,10 @@ public class EnemyNavMesh : MonoBehaviour
         // Limpiar objetivo
         ClearTarget();
 
-        // Resetear timer de detección
+        // Resetear timer de deteccion
         detectionTimer = 0f;
 
-        // Actualizar animación
+        // Actualizar animacion
         if (animator != null)
         {
             animator.SetBool("Moviendo", false);

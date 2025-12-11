@@ -8,7 +8,7 @@ public class AIAttackSystem : MonoBehaviour
     public class TagPriority
     {
         public string tag;
-        [Tooltip("Mayor número = Mayor prioridad (solo para enemigos)")]
+        [Tooltip("Mayor numero = Mayor prioridad (solo para enemigos)")]
         public int priority;
     }
 
@@ -21,10 +21,10 @@ public class AIAttackSystem : MonoBehaviour
     public enum AttackType
     {
         SingleTarget,    // Ataque a un solo objetivo
-        AreaOfEffect,    // Daño en área alrededor del objetivo
-        Cone,            // Daño en cono desde el atacante
-        Laser,           // Daño en línea recta (rayo láser)
-        Shotgun          // Daño tipo escopeta (múltiples rayos en cono)
+        AreaOfEffect,    // Dano en area alrededor del objetivo
+        Cone,            // Dano en cono desde el atacante
+        Laser,           // Dano en linea recta (rayo laser)
+        Shotgun          // Dano tipo escopeta (multiples rayos en cono)
     }
 
     [Header("Tipo de IA")]
@@ -33,7 +33,7 @@ public class AIAttackSystem : MonoBehaviour
     [Header("Tipo de Ataque")]
     [SerializeField] private AttackType attackType = AttackType.SingleTarget;
 
-    [Header("Configuración de Detección")]
+    [Header("Configuracion de Deteccion")]
     [SerializeField] private float detectionRange = 15f;
     [SerializeField] private Vector3 detectionAreaSize = new Vector3(15f, 10f, 15f);
     [SerializeField] private Vector3 detectionAreaOffset = Vector3.zero;
@@ -53,40 +53,47 @@ public class AIAttackSystem : MonoBehaviour
     [Header("Tags Objetivos (Solo Aliados)")]
     [SerializeField] private List<string> enemyTags = new List<string> { "Enemy", "Boss" };
 
-    [Header("Configuración de Apuntado")]
+    [Header("Configuracion de Apuntado")]
     [SerializeField] private float aimHeightOffset = 1.2f;
     [SerializeField] private bool useTargetAimPoint = true;
     [SerializeField] private string aimPointName = "AimPoint";
 
-    [Header("Configuración de Ataque Base")]
+    [Header("Configuracion de Ataque Base")]
     [SerializeField] private float attackDamage = 10f;
     [SerializeField] private float attackRate = 1f;
     [SerializeField] private float attackRange = 10f;
     [SerializeField] private bool requireLineOfSight = true;
     [SerializeField] private LayerMask obstacleLayer;
 
-    [Header("Sincronización con Animación")]
-    [Tooltip("Delay antes de ejecutar el ataque/spawn del proyectil para sincronizar con la animación")]
+    [Header("Sincronizacion con Animacion")]
+    [Tooltip("Delay antes de ejecutar el ataque/spawn del proyectil para sincronizar con la animacion")]
     [SerializeField] private float attackAnimationDelay = 0f;
-    [Tooltip("Si es true, el trigger de animación se activa antes del delay. Si es false, se activa junto con el ataque")]
+    [Tooltip("Si es true, el trigger de animacion se activa antes del delay. Si es false, se activa junto con el ataque")]
     [SerializeField] private bool triggerAnimationBeforeDelay = true;
 
-    [Header("Configuración: Area of Effect")]
+    [Header("Pausa de Movimiento al Atacar")]
+    [Tooltip("Si es true, el enemigo se detiene mientras ataca")]
+    [SerializeField] private bool stopMovementOnAttack = true;
+    [Tooltip("Tiempo que el enemigo permanece detenido despues de atacar")]
+    [SerializeField] private float stopMovementDuration = 1f;
+    [SerializeField] private EnemyNavMesh enemyNavMesh;
+
+    [Header("Configuracion: Area of Effect")]
     [SerializeField] private float aoeRadius = 5f;
     [SerializeField] private bool aoeDamageFalloff = true;
     [SerializeField] private AnimationCurve aoeFalloffCurve = AnimationCurve.Linear(0, 1, 1, 0.3f);
 
-    [Header("Configuración: Cono")]
+    [Header("Configuracion: Cono")]
     [SerializeField] private float coneAngle = 45f;
     [SerializeField] private float coneRange = 10f;
 
-    [Header("Configuración: Laser")]
+    [Header("Configuracion: Laser")]
     [SerializeField] private float laserWidth = 0.5f;
     [SerializeField] private float laserRange = 15f;
     [SerializeField] private bool laserPierceTargets = true;
     [SerializeField] private int laserMaxTargets = 5;
 
-    [Header("Configuración: Escopeta")]
+    [Header("Configuracion: Escopeta")]
     [SerializeField] private int shotgunPellets = 8;
     [SerializeField] private float shotgunSpread = 30f;
     [SerializeField] private float shotgunRange = 8f;
@@ -114,7 +121,7 @@ public class AIAttackSystem : MonoBehaviour
     [SerializeField] private bool drawGizmos = true;
     [SerializeField] private bool showDebugLogs = true;
 
-    [Header("Configuración de Targeting")]
+    [Header("Configuracion de Targeting")]
     [SerializeField] private bool stickyTargeting = true;
     [SerializeField] private bool onlyChangeForHigherPriority = true;
 
@@ -137,7 +144,7 @@ public class AIAttackSystem : MonoBehaviour
     private Coroutine attackCoroutine;
     private bool isAttacking = false;
 
-    // Propiedades públicas
+    // Propiedades publicas
     public Transform CurrentTarget => currentTarget;
     public int CurrentPriority => currentPriority;
     public bool HasTarget => currentTarget != null;
@@ -181,6 +188,12 @@ public class AIAttackSystem : MonoBehaviour
             }
         }
 
+        // Buscar EnemyNavMesh si no esta asignado
+        if (enemyNavMesh == null && stopMovementOnAttack)
+        {
+            enemyNavMesh = GetComponent<EnemyNavMesh>();
+        }
+
         attackTimer = 0f;
     }
 
@@ -207,16 +220,16 @@ public class AIAttackSystem : MonoBehaviour
     #region Sistema de Apuntado
 
     /// <summary>
-    /// Obtiene la posición de apuntado del objetivo actual
+    /// Obtiene la posicion de apuntado del objetivo actual
     /// </summary>
     private Vector3 GetTargetAimPosition()
     {
         if (currentTarget == null) return Vector3.zero;
 
-        // Buscar punto de apuntado específico en el objetivo
+        // Buscar punto de apuntado especifico en el objetivo
         if (useTargetAimPoint)
         {
-            // Cache del AimPoint para evitar búsquedas repetidas
+            // Cache del AimPoint para evitar busquedas repetidas
             if (lastTargetChecked != currentTarget)
             {
                 lastTargetChecked = currentTarget;
@@ -234,7 +247,7 @@ public class AIAttackSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtiene la posición de apuntado de un transform específico
+    /// Obtiene la posicion de apuntado de un transform especifico
     /// </summary>
     private Vector3 GetAimPositionFor(Transform target)
     {
@@ -254,7 +267,7 @@ public class AIAttackSystem : MonoBehaviour
 
     #endregion
 
-    #region Detección
+    #region Deteccion
 
     private void DetectTargets()
     {
@@ -449,7 +462,13 @@ public class AIAttackSystem : MonoBehaviour
     {
         attackTimer = 1f / attackRate;
 
-        // Si hay delay de animación, usar coroutine
+        // Pausar movimiento al atacar
+        if (stopMovementOnAttack && enemyNavMesh != null)
+        {
+            enemyNavMesh.PauseMovement(stopMovementDuration);
+        }
+
+        // Si hay delay de animacion, usar coroutine
         if (attackAnimationDelay > 0f)
         {
             attackCoroutine = StartCoroutine(PerformAttackWithDelay());
@@ -469,16 +488,16 @@ public class AIAttackSystem : MonoBehaviour
         Transform targetAtStart = currentTarget;
         Vector3 targetPositionAtStart = currentTarget != null ? GetTargetAimPosition() : Vector3.zero;
 
-        // Trigger de animación antes del delay si está configurado así
+        // Trigger de animacion antes del delay si esta configurado asi
         if (triggerAnimationBeforeDelay && animator != null)
         {
             animator.SetTrigger("Shoot");
         }
 
-        // Esperar el delay de animación
+        // Esperar el delay de animacion
         yield return new WaitForSeconds(attackAnimationDelay);
 
-        // Verificar que el objetivo sigue siendo válido
+        // Verificar que el objetivo sigue siendo valido
         if (currentTarget == null)
         {
             // Si perdimos el objetivo, intentar usar el objetivo original si sigue vivo
@@ -487,7 +506,7 @@ public class AIAttackSystem : MonoBehaviour
                 HealthSystem health = targetAtStart.GetComponent<HealthSystem>();
                 if (health != null && !health.IsDead)
                 {
-                    // Usar la posición guardada para el ataque
+                    // Usar la posicion guardada para el ataque
                     ExecuteAttackAtPosition(targetAtStart, targetPositionAtStart);
                 }
             }
@@ -497,7 +516,7 @@ public class AIAttackSystem : MonoBehaviour
             ExecuteAttack();
         }
 
-        // Trigger de animación después del delay si está configurado así
+        // Trigger de animacion despues del delay si esta configurado asi
         if (!triggerAnimationBeforeDelay && animator != null)
         {
             animator.SetTrigger("Shoot");
@@ -541,7 +560,7 @@ public class AIAttackSystem : MonoBehaviour
             }
         }
 
-        // Solo disparar animación aquí si no hay delay
+        // Solo disparar animacion aqui si no hay delay
         if (attackAnimationDelay <= 0f && animator != null)
         {
             animator.SetTrigger("Shoot");
@@ -549,7 +568,7 @@ public class AIAttackSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Ejecuta el ataque hacia una posición específica (usado cuando el objetivo cambió durante el delay)
+    /// Ejecuta el ataque hacia una posicion especifica (usado cuando el objetivo cambio durante el delay)
     /// </summary>
     private void ExecuteAttackAtPosition(Transform originalTarget, Vector3 targetPosition)
     {
@@ -565,7 +584,7 @@ public class AIAttackSystem : MonoBehaviour
         }
         else
         {
-            // Para ataques sin proyectil, intentar aplicar daño al objetivo original
+            // Para ataques sin proyectil, intentar aplicar dano al objetivo original
             if (originalTarget != null)
             {
                 switch (attackType)
@@ -582,13 +601,13 @@ public class AIAttackSystem : MonoBehaviour
                         AreaOfEffectAttackAtPosition(targetPosition);
                         break;
                     case AttackType.Cone:
-                        ConeAttack(); // Usa la dirección actual
+                        ConeAttack(); // Usa la direccion actual
                         break;
                     case AttackType.Laser:
-                        LaserAttack(); // Usa la dirección actual
+                        LaserAttack(); // Usa la direccion actual
                         break;
                     case AttackType.Shotgun:
-                        ShotgunAttack(); // Usa la dirección actual
+                        ShotgunAttack(); // Usa la direccion actual
                         break;
                 }
             }
@@ -610,7 +629,7 @@ public class AIAttackSystem : MonoBehaviour
 
         if (showDebugLogs)
         {
-            Debug.Log($"{gameObject.name} atacó a {currentTarget.name} con {attackDamage} de daño [SingleTarget]");
+            Debug.Log($"{gameObject.name} ataco a {currentTarget.name} con {attackDamage} de dano [SingleTarget]");
         }
     }
 
@@ -889,7 +908,7 @@ public class AIAttackSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawn proyectil hacia una posición específica (usado cuando el objetivo cambió durante el delay)
+    /// Spawn proyectil hacia una posicion especifica (usado cuando el objetivo cambio durante el delay)
     /// </summary>
     private void SpawnProjectileAtPosition(Vector3 targetPosition)
     {
@@ -915,7 +934,7 @@ public class AIAttackSystem : MonoBehaviour
 
     #endregion
 
-    #region Utilidades Públicas
+    #region Utilidades Publicas
 
     public void ForceDetection()
     {
@@ -942,7 +961,7 @@ public class AIAttackSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtiene la posición actual de apuntado (útil para otros sistemas)
+    /// Obtiene la posicion actual de apuntado (util para otros sistemas)
     /// </summary>
     public Vector3 GetCurrentAimPosition()
     {
@@ -963,7 +982,7 @@ public class AIAttackSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Establece el delay de animación en runtime
+    /// Establece el delay de animacion en runtime
     /// </summary>
     public void SetAttackAnimationDelay(float delay)
     {

@@ -33980,14 +33980,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skibidi
       objectReference: {fileID: 0}
-    - target: {fileID: 7490738315461757789, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
-      propertyPath: effectDuration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7490738315461757789, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
-      propertyPath: muzzleFlashEffect
-      value: 
-      objectReference: {fileID: 7169034359275535183, guid: e96833cd5e0822f4ea6a7efdd8fd5375, type: 3}
     - target: {fileID: 7675481320763569758, guid: a313d21df9551b74296b9182e58e8d16, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.375427
@@ -81279,6 +81271,10 @@ PrefabInstance:
       propertyPath: OnRevive.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1513021894931102403, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+      propertyPath: enemyTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1556073149209304329, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -81338,6 +81334,10 @@ PrefabInstance:
     - target: {fileID: 1998294323542571533, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
       propertyPath: m_Size.y
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052403148540343697, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+      propertyPath: enemyTags.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2107848030722459843, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
       propertyPath: m_Layer
@@ -82031,6 +82031,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5434493166996676101, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+      propertyPath: enemyTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5471326459806687100, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -82211,6 +82215,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7297918362874500521, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
+      propertyPath: jugador
+      value: 
+      objectReference: {fileID: 982919454}
     - target: {fileID: 7297918362874500521, guid: e18a585b9c378c348801bf5ca46e9bc4, type: 3}
       propertyPath: puntoBuff
       value: 

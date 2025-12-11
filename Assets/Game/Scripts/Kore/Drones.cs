@@ -119,6 +119,10 @@ public class Drones : MonoBehaviour
 
     [SerializeField] private PlayerStats playerStats;
 
+    [SerializeField] private GameObject particulaBuffDano;
+    [SerializeField] private Transform puntoBuff;
+    [SerializeField] private PlayerWeapon playerWeapon;
+
     void Start()
     {
         todasLasListas.Add(dronesLista1);
@@ -724,8 +728,10 @@ public class Drones : MonoBehaviour
     {
         Debug.Log("Habilidad de Atacante a�n no implementada.");
 
-        // Aqu� ir� la l�gica de la habilidad de ataque
-        // Por ahora solo activamos el cooldown para probar
+        playerWeapon.ActivarBuffDano();
+        GameObject particulas = Instantiate(particulaBuffDano, puntoBuff.position, puntoBuff.rotation, puntoBuff);
+        Destroy(particulas, 10f);
+
         habilidadesEnCooldown[TipoDron.Atacante] = true;
         tiemposUltimaHabilidad[TipoDron.Atacante] = Time.time;
     }
