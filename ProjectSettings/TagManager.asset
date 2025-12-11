@@ -19,6 +19,7 @@ TagManager:
   - PostProcessingManager
   - Ally
   - Drone
+  - EndManager
   layers:
   - Default
   - TransparentFX

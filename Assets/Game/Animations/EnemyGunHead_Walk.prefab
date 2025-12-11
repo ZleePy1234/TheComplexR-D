@@ -1399,6 +1399,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4389581374306382859}
+        m_TargetAssemblyTypeName: AIAttackSystem, Assembly-CSharp
+        m_MethodName: CancelAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6346680516840688832}
+        m_TargetAssemblyTypeName: EnemyNavMesh, Assembly-CSharp
+        m_MethodName: ClearTarget
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDeathSequenceStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -1505,7 +1529,7 @@ MonoBehaviour:
   aimHeightOffset: 1.2
   useTargetAimPoint: 1
   aimPointName: AimPoint
-  attackDamage: 10
+  attackDamage: 15
   attackRate: 0.5
   attackRange: 7
   requireLineOfSight: 1
@@ -1566,6 +1590,7 @@ MonoBehaviour:
   showDebugLogs: 1
   stickyTargeting: 1
   onlyChangeForHigherPriority: 1
+  playerTag: Player
 --- !u!65 &533084849986347384
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1599,8 +1624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882d05ea22244034c96e87f3df4e4bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropEnemigo
-  prefabDrop: {fileID: 0}
-  puntoSpawn: {fileID: 0}
+  prefabDrop: {fileID: 2146829038464251395, guid: fe571258beb204244bdacdbc58bc3904, type: 3}
+  puntoSpawn: {fileID: 3687801328699996388}
   probabilidadDrop: 100
   offsetSpawn: {x: 0, y: 0, z: 0}
 --- !u!1 &4351558698664480695

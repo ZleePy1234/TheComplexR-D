@@ -4396,7 +4396,7 @@ MonoBehaviour:
   aimHeightOffset: 1.2
   useTargetAimPoint: 1
   aimPointName: AimPoint
-  attackDamage: 10
+  attackDamage: 18
   attackRate: 0.3
   attackRange: 2.5
   requireLineOfSight: 1
@@ -4457,6 +4457,7 @@ MonoBehaviour:
   showDebugLogs: 1
   stickyTargeting: 1
   onlyChangeForHigherPriority: 1
+  playerTag: Player
 --- !u!114 &4185231218882762575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4551,6 +4552,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4185231218882762575}
+        m_TargetAssemblyTypeName: EnemyNavMesh, Assembly-CSharp
+        m_MethodName: ClearTarget
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7490738315461757789}
+        m_TargetAssemblyTypeName: AIAttackSystem, Assembly-CSharp
+        m_MethodName: CancelAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDeathSequenceStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -4575,8 +4600,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882d05ea22244034c96e87f3df4e4bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropEnemigo
-  prefabDrop: {fileID: 0}
-  puntoSpawn: {fileID: 0}
+  prefabDrop: {fileID: 2146829038464251395, guid: fe571258beb204244bdacdbc58bc3904, type: 3}
+  puntoSpawn: {fileID: 868485485267547603}
   probabilidadDrop: 100
   offsetSpawn: {x: 0, y: 0, z: 0}
 --- !u!1 &5986342932976236943

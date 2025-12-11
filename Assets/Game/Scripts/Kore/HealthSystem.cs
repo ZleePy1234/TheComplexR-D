@@ -4,24 +4,24 @@ using UnityEngine.Events;
 
 /// <summary>
 /// Sistema de vida para cualquier entidad del juego.
-/// Incluye regeneración, eventos y métodos para modificar stats desde la tienda.
+/// Incluye regeneraciï¿½n, eventos y mï¿½todos para modificar stats desde la tienda.
 /// </summary>
 public class HealthSystem : MonoBehaviour
 {
-    [Header("Configuración de Vida")]
+    [Header("Configuraciï¿½n de Vida")]
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float currentHealth;
 
-    [Header("Configuración de Muerte")]
+    [Header("Configuraciï¿½n de Muerte")]
     [SerializeField] private bool destroyOnDeath = true;
     [Tooltip("Delay antes de iniciar el proceso de muerte (para sincronizar con animaciones)")]
     [SerializeField] private float deathAnimationDelay = 0f;
-    [Tooltip("Delay adicional después de la animación antes de destruir el GameObject")]
+    [Tooltip("Delay adicional despuï¿½s de la animaciï¿½n antes de destruir el GameObject")]
     [SerializeField] private float destroyDelay = 0f;
-    [Tooltip("Si es true, dispara el evento OnDeath inmediatamente. Si es false, lo dispara después del deathAnimationDelay")]
+    [Tooltip("Si es true, dispara el evento OnDeath inmediatamente. Si es false, lo dispara despuï¿½s del deathAnimationDelay")]
     [SerializeField] private bool fireDeathEventImmediately = true;
 
-    [Header("Regeneración de Vida")]
+    [Header("Regeneraciï¿½n de Vida")]
     [SerializeField] private bool enableRegeneration = false;
     [SerializeField] private string[] tagsToRegenerate;
     [SerializeField] private float regenerationRate = 5f;
@@ -37,7 +37,7 @@ public class HealthSystem : MonoBehaviour
     public UnityEvent<float> OnDamageTaken;
     public UnityEvent<float> OnHealthChanged;
     public UnityEvent OnDeath;
-    [Tooltip("Se dispara cuando inicia la secuencia de muerte (antes del delay de animación)")]
+    [Tooltip("Se dispara cuando inicia la secuencia de muerte (antes del delay de animaciï¿½n)")]
     public UnityEvent OnDeathSequenceStarted;
     [Tooltip("Se dispara justo antes de destruir el GameObject")]
     public UnityEvent OnAboutToDestroy;
@@ -78,10 +78,10 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    #region Métodos de Modificación de Stats (Para Tienda)
+    #region Mï¿½todos de Modificaciï¿½n de Stats (Para Tienda)
 
     /// <summary>
-    /// Establece el multiplicador de vida máxima
+    /// Establece el multiplicador de vida mï¿½xima
     /// </summary>
     public void SetHealthMultiplier(float multiplier)
     {
@@ -98,7 +98,7 @@ public class HealthSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Establece la vida máxima base
+    /// Establece la vida mï¿½xima base
     /// </summary>
     public void SetBaseMaxHealth(float newBaseHealth)
     {
@@ -118,19 +118,19 @@ public class HealthSystem : MonoBehaviour
         OnMaxHealthChanged?.Invoke(maxHealth);
         OnHealthChanged?.Invoke(currentHealth);
 
-        Debug.Log($"{gameObject.name}: Vida máxima actualizada a {maxHealth} (base: {baseMaxHealth}, multiplicador: {healthMultiplier:F2})");
+        Debug.Log($"{gameObject.name}: Vida mï¿½xima actualizada a {maxHealth} (base: {baseMaxHealth}, multiplicador: {healthMultiplier:F2})");
     }
 
     /// <summary>
-    /// Obtiene la vida máxima base (sin multiplicadores)
+    /// Obtiene la vida mï¿½xima base (sin multiplicadores)
     /// </summary>
     public float GetBaseMaxHealth() => baseMaxHealth;
 
     #endregion
 
-    #region Regeneración
+    #region Regeneraciï¿½n
 
-    /// Verifica si este objeto tiene un tag que permite regeneración
+    /// Verifica si este objeto tiene un tag que permite regeneraciï¿½n
     private void CheckIfCanRegenerate()
     {
         if (!enableRegeneration || tagsToRegenerate == null || tagsToRegenerate.Length == 0)
@@ -163,9 +163,9 @@ public class HealthSystem : MonoBehaviour
 
     #endregion
 
-    #region Daño y Curación
+    #region Daï¿½o y Curaciï¿½n
 
-    /// Recibe daño y reduce la vida actual    
+    /// Recibe daï¿½o y reduce la vida actual    
     public void TakeDamage(float damage)
     {
         if (IsDead) return;
@@ -179,7 +179,7 @@ public class HealthSystem : MonoBehaviour
         OnDamageTaken?.Invoke(damage);
         OnHealthChanged?.Invoke(currentHealth);
 
-        Debug.Log($"{gameObject.name} recibió {damage} de daño. Vida restante: {currentHealth}/{maxHealth}");
+        Debug.Log($"{gameObject.name} recibiï¿½ {damage} de daï¿½o. Vida restante: {currentHealth}/{maxHealth}");
 
         if (currentHealth <= 0)
         {
@@ -201,7 +201,7 @@ public class HealthSystem : MonoBehaviour
         Debug.Log($"{gameObject.name} curado por {amount}. Vida actual: {currentHealth}/{maxHealth}");
     }
 
-    /// Establece la vida al máximo    
+    /// Establece la vida al mï¿½ximo    
     public void FullHeal()
     {
         if (IsDead) return;
@@ -212,13 +212,13 @@ public class HealthSystem : MonoBehaviour
 
     #endregion
 
-    #region Muerte y Resurrección
+    #region Muerte y Resurrecciï¿½n
 
     /// Ejecuta la muerte de la unidad    
     private void Die()
     {
         if (IsDead) return;
-
+        
         IsDead = true;
         IsInDeathSequence = true;
 
@@ -227,10 +227,10 @@ public class HealthSystem : MonoBehaviour
         // Siempre disparar el evento de inicio de secuencia de muerte
         OnDeathSequenceStarted?.Invoke();
 
-        // Si hay delay de animación, usar coroutine
+        // Si hay delay de animaciï¿½n, usar coroutine
         if (deathAnimationDelay > 0f || destroyDelay > 0f)
         {
-            // Si está configurado para disparar inmediatamente
+            // Si estï¿½ configurado para disparar inmediatamente
             if (fireDeathEventImmediately)
             {
                 OnDeath?.Invoke();
@@ -246,6 +246,7 @@ public class HealthSystem : MonoBehaviour
             if (destroyOnDeath)
             {
                 OnAboutToDestroy?.Invoke();
+                
                 Destroy(gameObject);
             }
 
@@ -255,13 +256,14 @@ public class HealthSystem : MonoBehaviour
 
     private IEnumerator DeathSequence()
     {
-        // Esperar el delay de animación de muerte
+        GameManager gameManager = GameObject.FindWithTag("EndManager")?.GetComponent<GameManager>();
+        // Esperar el delay de animaciï¿½n de muerte
         if (deathAnimationDelay > 0f)
         {
             yield return new WaitForSeconds(deathAnimationDelay);
         }
 
-        // Disparar evento de muerte después del delay si está configurado así
+        // Disparar evento de muerte despuï¿½s del delay si estï¿½ configurado asï¿½
         if (!fireDeathEventImmediately)
         {
             OnDeath?.Invoke();
@@ -273,25 +275,26 @@ public class HealthSystem : MonoBehaviour
             yield return new WaitForSeconds(destroyDelay);
         }
 
-        // Destruir el GameObject si está configurado
+        // Destruir el GameObject si estï¿½ configurado
         if (destroyOnDeath)
         {
             OnAboutToDestroy?.Invoke();
             Destroy(gameObject);
+            gameManager.enemiesKilled++;
         }
 
         IsInDeathSequence = false;
         deathCoroutine = null;
     }
 
-    /// Mata instantáneamente a la unidad
+    /// Mata instantï¿½neamente a la unidad
     public void Kill()
     {
         TakeDamage(currentHealth);
     }
 
     /// <summary>
-    /// Mata instantáneamente sin delays (útil para limpiar escenas)
+    /// Mata instantï¿½neamente sin delays (ï¿½til para limpiar escenas)
     /// </summary>
     public void KillImmediate()
     {
@@ -328,7 +331,7 @@ public class HealthSystem : MonoBehaviour
         Debug.Log($"{gameObject.name} ha sido revivido");
     }
 
-    /// Revive la unidad con un porcentaje específico de vida
+    /// Revive la unidad con un porcentaje especï¿½fico de vida
     public void Revive(float healthPercentage)
     {
         // Cancelar cualquier secuencia de muerte en progreso
@@ -345,7 +348,7 @@ public class HealthSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Cancela la secuencia de muerte en progreso (útil para revivir durante la animación)
+    /// Cancela la secuencia de muerte en progreso (ï¿½til para revivir durante la animaciï¿½n)
     /// </summary>
     public void CancelDeathSequence()
     {
@@ -359,10 +362,10 @@ public class HealthSystem : MonoBehaviour
 
     #endregion
 
-    #region Configuración de Delays
+    #region Configuraciï¿½n de Delays
 
     /// <summary>
-    /// Establece el delay de animación de muerte en runtime
+    /// Establece el delay de animaciï¿½n de muerte en runtime
     /// </summary>
     public void SetDeathAnimationDelay(float delay)
     {
@@ -370,7 +373,7 @@ public class HealthSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Establece el delay de destrucción en runtime
+    /// Establece el delay de destrucciï¿½n en runtime
     /// </summary>
     public void SetDestroyDelay(float delay)
     {
@@ -378,7 +381,7 @@ public class HealthSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Establece el delay total (animación + destrucción) distribuyendo automáticamente
+    /// Establece el delay total (animaciï¿½n + destrucciï¿½n) distribuyendo automï¿½ticamente
     /// </summary>
     public void SetTotalDeathDelay(float totalDelay, float animationPortion = 0.7f)
     {
@@ -402,7 +405,7 @@ public class HealthSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Verifica si está a vida completa
+    /// Verifica si estï¿½ a vida completa
     /// </summary>
     public bool IsFullHealth()
     {
@@ -410,7 +413,7 @@ public class HealthSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Verifica si la vida está baja (menor al porcentaje especificado)
+    /// Verifica si la vida estï¿½ baja (menor al porcentaje especificado)
     /// </summary>
     public bool IsLowHealth(float percentage = 0.25f)
     {
@@ -418,7 +421,7 @@ public class HealthSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Obtiene el tiempo total que tardará la muerte (desde que muere hasta que se destruye)
+    /// Obtiene el tiempo total que tardarï¿½ la muerte (desde que muere hasta que se destruye)
     /// </summary>
     public float GetTotalDeathDuration()
     {

@@ -1423,6 +1423,7 @@ GameObject:
   - component: {fileID: 1573966557}
   - component: {fileID: 1573966556}
   - component: {fileID: 1573966560}
+  - component: {fileID: 1573966561}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -1536,6 +1537,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1573966561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573966555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3af90d5b01f87704c9cd150d2ff55b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReturnToMain
 --- !u!1 &1660992243
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,7 +1785,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2119691619}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1573966561}
+        m_TargetAssemblyTypeName: ReturnToMain, Assembly-CSharp
+        m_MethodName: StartLoadNextLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2119691619
 MonoBehaviour:
   m_ObjectHideFlags: 0

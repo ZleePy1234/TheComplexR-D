@@ -117,9 +117,6 @@ public class TiendaUI : MonoBehaviour
 
         tiendaAbierta = true;
 
-        // Mostrar panel
-        if (panelTienda != null)
-            panelTienda.SetActive(true);
 
         if (ui_PostProcesser != null)
             ui_PostProcesser.ShopToggle();
@@ -148,9 +145,6 @@ public class TiendaUI : MonoBehaviour
 
         tiendaAbierta = false;
 
-        // Ocultar panel
-        if (panelTienda != null)
-            panelTienda.SetActive(false);
 
         if (ui_PostProcesser != null)
             ui_PostProcesser.ShopToggle();
