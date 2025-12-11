@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Emmisive_Slot
-    second: {fileID: 2100000, guid: e3211954763c4464da8b4ad950680c43, type: 2}
+    second: {fileID: 2100000, guid: cd8516c4daf7b3742afb61ece5bc1881, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

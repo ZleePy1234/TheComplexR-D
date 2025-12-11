@@ -13,6 +13,11 @@ public class MainMenuScript : MonoBehaviour
 	[Tooltip("Optional text to show loading percent")]
 	public TextMeshProUGUI progressText;
 
+
+	public void QuitGame()
+	{
+		Application.Quit();
+	}	
 	public void OpenCredits()
 	{
 		creditsScript.ToggleCredits();
